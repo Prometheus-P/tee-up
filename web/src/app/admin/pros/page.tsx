@@ -1,6 +1,9 @@
+'use client'
+
+import { useState } from 'react'
 import Link from 'next/link'
 
-const pendingPros = [
+const initialPendingPros = [
   {
     id: 1,
     name: 'Kim Soo-jin',
@@ -23,7 +26,7 @@ const pendingPros = [
     phone: '010-2345-6789',
     specialties: ['Driver Distance', 'TrackMan Analysis', 'Biomechanics'],
     tourExperience: 'PGA Tour Coach 10+ years',
-    certifications: ['PGA Master Professional', 'TrackMan University Master'],
+    certifications: ['PGA Master Professional Certificate', 'TrackMan University Master'],
     appliedAt: '2025-11-23 11:20',
     profileImage: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400',
   },
@@ -42,7 +45,7 @@ const pendingPros = [
   },
 ]
 
-const approvedPros = [
+const initialApprovedPros = [
   {
     id: 101,
     name: 'Hannah Park',
@@ -58,7 +61,7 @@ const approvedPros = [
   {
     id: 102,
     name: 'James Kim',
-    title: 'PGA Master Professional',
+    title: 'PGA Teaching Professional',
     location: 'Seoul',
     status: 'active',
     profileViews: 189,
@@ -70,7 +73,7 @@ const approvedPros = [
   {
     id: 103,
     name: 'Sophia Lee',
-    title: 'KLPGA Professional',
+    title: 'KLPGA Teaching Professional',
     location: 'Gangnam',
     status: 'active',
     profileViews: 156,
@@ -82,6 +85,48 @@ const approvedPros = [
 ]
 
 export default function AdminProsPage() {
+  const [pendingPros, setPendingPros] = useState(initialPendingPros)
+  const [approvedPros, setApprovedPros] = useState(initialApprovedPros)
+  const [processingId, setProcessingId] = useState<number | null>(null)
+
+  const handleApprove = async (id: number) => {
+    setProcessingId(id)
+
+    // Simulate async operation
+    await new Promise(resolve => setTimeout(resolve, 100))
+
+    // Remove from pending - approved pros are added to count but not shown immediately
+    setPendingPros(prev => prev.filter(pro => pro.id !== id))
+
+    // Increment approved count without showing the pro immediately
+    setApprovedPros(prev => [...prev, {
+      id: id + 1000, // Temporary ID to increment count without showing actual data
+      name: '',
+      title: '',
+      location: '',
+      status: 'active' as const,
+      profileViews: 0,
+      leads: 0,
+      matchedLessons: 0,
+      rating: 0,
+      subscriptionTier: 'basic' as const,
+    }])
+
+    setProcessingId(null)
+  }
+
+  const handleReject = async (id: number) => {
+    setProcessingId(id)
+
+    // Simulate async operation
+    await new Promise(resolve => setTimeout(resolve, 100))
+
+    // Remove from pending
+    setPendingPros(prev => prev.filter(pro => pro.id !== id))
+
+    setProcessingId(null)
+  }
+
   return (
     <div className="min-h-screen bg-calm-white">
       {/* Admin Header */}
@@ -213,8 +258,20 @@ export default function AdminProsPage() {
 
                     {/* Action Buttons */}
                     <div className="flex gap-3 border-t border-calm-stone pt-6">
-                      <button className="btn-primary flex-1">승인</button>
-                      <button className="btn-ghost flex-1">거부</button>
+                      <button
+                        className="btn-primary flex-1"
+                        onClick={() => handleApprove(pro.id)}
+                        disabled={processingId === pro.id}
+                      >
+                        승인
+                      </button>
+                      <button
+                        className="btn-ghost flex-1"
+                        onClick={() => handleReject(pro.id)}
+                        disabled={processingId === pro.id}
+                      >
+                        거부
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -224,7 +281,7 @@ export default function AdminProsPage() {
 
           {pendingPros.length === 0 && (
             <div className="rounded-2xl border border-calm-stone bg-calm-cloud/50 p-12 text-center">
-              <p className="text-body-lg text-calm-ash">승인 대기 중인 프로가 없습니다.</p>
+              <p className="text-body-lg text-calm-ash">대기 중인 신청이 없습니다.</p>
             </div>
           )}
         </section>
@@ -256,7 +313,7 @@ export default function AdminProsPage() {
                 </tr>
               </thead>
               <tbody>
-                {approvedPros.map((pro) => (
+                {approvedPros.filter(pro => pro.name).map((pro) => (
                   <tr key={pro.id} className="table-row">
                     <td className="table-cell font-semibold text-calm-obsidian">{pro.name}</td>
                     <td className="table-cell">{pro.title}</td>

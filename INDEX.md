@@ -53,6 +53,7 @@
 
 | Document | Purpose | Owner |
 |----------|---------|-------|
+| [SECURITY_AUDIT.md](SECURITY_AUDIT.md) ✨ | Security audit report & best practices | Tech Lead |
 | DEPLOYMENT.md *(planned)* | Deployment checklist & procedures | DevOps |
 | ENVIRONMENT.md *(planned)* | Environment setup (local, staging, production) | DevOps |
 
