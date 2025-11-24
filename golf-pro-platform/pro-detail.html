@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <title>프로 상세 | ELITE GOLF</title>
+    <link rel="stylesheet" href="assets/css/styles.css" />
+    <script defer src="assets/js/app.js"></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="site-logo"><span>ELITE</span> GOLF</div>
+      <nav class="nav-main">
+        <a href="index.html">홈</a>
+        <a href="pros.html" class="active">프로 검색</a>
+        <a href="events.html">클럽 &amp; 이벤트</a>
+      </nav>
+      <div class="header-cta">
+        <button class="btn btn-outline" onclick="goToProSignup()">
+          프로 입점
+        </button>
+        <button class="btn btn-primary" onclick="goToLogin()">로그인</button>
+      </div>
+    </header>
+
+    <main class="layout">
+      <section class="detail-layout">
+        <div class="detail-hero-img" id="detail-hero-img"></div>
+
+        <aside class="detail-info-panel">
+          <h1 class="detail-name" id="detail-name">김프로</h1>
+          <div class="detail-title" id="detail-title">
+            KPGA 정회원 · 풀스윙 / 비거리 전문
+          </div>
+
+          <div class="detail-infostats">
+            <span id="detail-region">강남</span>
+            <span>경력 12년</span>
+            <span>평점 ★ 4.9</span>
+            <span>누적 레슨 1,240회</span>
+          </div>
+
+          <div class="detail-price-row">
+            <div>
+              <div style="font-size: 0.8rem; color: var(--text-muted);">
+                평균 레슨 가격
+              </div>
+              <div class="detail-price" id="detail-price">
+                90분 180,000원
+              </div>
+            </div>
+            <button class="btn btn-primary" onclick="alert('예약 플로우 예정')">
+              예약하기
+            </button>
+          </div>
+
+          <hr style="border-color: var(--border-subtle); margin: 14px 0" />
+
+          <h3 style="font-size: 0.9rem; margin-bottom: 6px">레슨 프로그램</h3>
+          <ul class="simple-list" id="detail-programs">
+            <li>90분 풀스윙 집중 레슨</li>
+            <li>필드 동반 라운딩(18홀)</li>
+          </ul>
+
+          <h3 style="font-size: 0.9rem; margin-top: 16px; margin-bottom: 6px;">
+            진행 구장 / 지역
+          </h3>
+          <p style="font-size: 0.85rem; color: var(--text-muted);">
+            아크로 CC, 강남 실내 스튜디오(논현동)
+          </p>
+        </aside>
+      </section>
+
+      <section class="section">
+        <div class="section-header">
+          <div>
+            <h2 class="section-title">프로 소개</h2>
+          </div>
+        </div>
+        <p style="font-size: 0.9rem; color: var(--text-muted); max-width: 720px;">
+          KPGA 투어 및 티칭 프로로 10년 이상 활동해온 김프로입니다. 스윙
+          메커니즘을 몸의 구조와 연결해 설명하는 것을 선호하며, 단순한 교정이
+          아닌 ‘재현 가능한 샷’을 만드는 데 집중합니다.
+        </p>
+      </section>
+    </main>
+  </body>
+</html>

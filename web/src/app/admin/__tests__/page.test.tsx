@@ -15,6 +15,11 @@ jest.mock('next/navigation', () => ({
 }))
 
 describe('Admin Page Authentication', () => {
+  beforeEach(() => {
+    // Clear sessionStorage before each test
+    sessionStorage.clear()
+  })
+
   describe('Password Protection', () => {
     it('should render login form when not authenticated', () => {
       render(<AdminPage />)
@@ -64,9 +69,13 @@ describe('Admin Page Authentication', () => {
       await user.type(passwordInput, 'admin123')
       await user.click(submitButton)
 
+      // Wait for dashboard to appear (which means sessionStorage was set)
       await waitFor(() => {
-        expect(sessionStorage.getItem('admin_authenticated')).toBe('true')
+        expect(screen.getByText(/admin dashboard/i)).toBeInTheDocument()
       })
+
+      // Verify sessionStorage was set
+      expect(sessionStorage.getItem('admin_authenticated')).toBe('true')
     })
 
     it('should clear error message when user types again', async () => {
@@ -80,23 +89,22 @@ describe('Admin Page Authentication', () => {
       await user.type(passwordInput, 'wrong')
       await user.click(submitButton)
 
+      // Wait for error message
       await waitFor(() => {
         expect(screen.getByText(/incorrect password/i)).toBeInTheDocument()
       })
 
-      // Type again
+      // Clear and type again - error should disappear
       await user.clear(passwordInput)
       await user.type(passwordInput, 'a')
 
-      expect(screen.queryByText(/incorrect password/i)).not.toBeInTheDocument()
+      await waitFor(() => {
+        expect(screen.queryByText(/incorrect password/i)).not.toBeInTheDocument()
+      })
     })
   })
 
   describe('Session Persistence', () => {
-    beforeEach(() => {
-      sessionStorage.clear()
-    })
-
     it('should skip login if already authenticated', () => {
       sessionStorage.setItem('admin_authenticated', 'true')
       render(<AdminPage />)

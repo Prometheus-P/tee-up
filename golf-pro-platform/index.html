@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <title>ELITE GOLF | 프리미엄 골프 프로 매칭</title>
+    <link rel="stylesheet" href="assets/css/styles.css" />
+    <script defer src="assets/js/app.js"></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="site-logo"><span>ELITE</span> GOLF</div>
+      <nav class="nav-main">
+        <a href="index.html" class="active">홈</a>
+        <a href="pros.html">프로 검색</a>
+        <a href="events.html">클럽 &amp; 이벤트</a>
+      </nav>
+      <div class="header-cta">
+        <button class="btn btn-outline" onclick="goToProSignup()">
+          프로 입점
+        </button>
+        <button class="btn btn-primary" onclick="goToLogin()">로그인</button>
+      </div>
+    </header>
+
+    <main class="layout">
+      <section class="hero">
+        <div>
+          <div class="hero-content-eyebrow">PREMIUM GOLF PRO MATCHING</div>
+          <h1 class="hero-title">
+            강남 상위 1%가 선택하는<br />프리미엄 골프 레슨 플랫폼
+          </h1>
+          <p class="hero-subtitle">
+            KPGA·KLPGA 출신 프로와 1:1로 연결되는 하이엔드 레슨. <br />한 번의
+            예약으로, 프로필·스케줄·결제까지.
+          </p>
+          <div class="hero-actions">
+            <button
+              class="btn btn-primary"
+              onclick="window.location.href='pros.html'"
+            >
+              프로 검색하기
+            </button>
+            <button class="btn btn-outline" onclick="goToProSignup()">
+              프로로 등록하기
+            </button>
+          </div>
+          <div class="hero-meta">
+            <span>현재 입점 프로 24명</span>
+            <span>강남·송파·분당 우선 오픈</span>
+          </div>
+        </div>
+        <div class="hero-media"></div>
+      </section>
+
+      <section class="search-strip">
+        <div class="search-field-group">
+          <span class="search-label">지역</span>
+          <select class="search-select" id="search-region">
+            <option value="">전체</option>
+            <option value="강남">강남</option>
+            <option value="송파">송파</option>
+            <option value="분당">분당</option>
+          </select>
+        </div>
+        <div class="search-field-group">
+          <span class="search-label">레슨 분야</span>
+          <select class="search-select" id="search-type">
+            <option value="">전체</option>
+            <option value="full-swing">풀스윙</option>
+            <option value="short-game">쇼트게임</option>
+            <option value="course">코스 매니지먼트</option>
+          </select>
+        </div>
+        <div class="search-field-group">
+          <span class="search-label">레슨 가격</span>
+          <select class="search-select" id="search-price">
+            <option value="">상관 없음</option>
+            <option value="150">~ 150,000원</option>
+            <option value="250">150,000 ~ 250,000원</option>
+            <option value="999">250,000원 이상</option>
+          </select>
+        </div>
+        <button class="btn btn-primary" onclick="goToProsWithFilter()">
+          프로 찾기
+        </button>
+      </section>
+
+      <section class="section">
+        <div class="section-header">
+          <div>
+            <h2 class="section-title">추천 프로</h2>
+            <p class="section-subtitle">
+              첫 화면에 노출되는 상위 레이팅 프로들입니다.
+            </p>
+          </div>
+          <button
+            class="btn btn-outline"
+            onclick="window.location.href='pros.html'"
+          >
+            전체 보기
+          </button>
+        </div>
+        <div class="pro-grid" id="featured-pros"></div>
+      </section>
+    </main>
+  </body>
+</html>

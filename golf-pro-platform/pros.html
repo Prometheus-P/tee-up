@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <title>프로 검색 | ELITE GOLF</title>
+    <link rel="stylesheet" href="assets/css/styles.css" />
+    <script defer src="assets/js/app.js"></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="site-logo"><span>ELITE</span> GOLF</div>
+      <nav class="nav-main">
+        <a href="index.html">홈</a>
+        <a href="pros.html" class="active">프로 검색</a>
+        <a href="events.html">클럽 &amp; 이벤트</a>
+      </nav>
+      <div class="header-cta">
+        <button class="btn btn-outline" onclick="goToProSignup()">
+          프로 입점
+        </button>
+        <button class="btn btn-primary" onclick="goToLogin()">로그인</button>
+      </div>
+    </header>
+
+    <main class="layout">
+      <section class="section">
+        <div class="section-header">
+          <div>
+            <h1 class="section-title">프리미엄 골프 프로 검색</h1>
+            <p class="section-subtitle">
+              지역과 레슨 스타일을 선택하면 맞는 프로만 보여줍니다.
+            </p>
+          </div>
+          <select class="search-select" id="sort-select">
+            <option value="popular">인기순</option>
+            <option value="rating">평점순</option>
+            <option value="priceLow">가격 낮은 순</option>
+            <option value="priceHigh">가격 높은 순</option>
+          </select>
+        </div>
+      </section>
+
+      <section class="section" style="display: grid; grid-template-columns: 260px 1fr; gap: 24px;">
+        <aside class="filter-panel">
+          <h3>필터</h3>
+          <div class="filter-block">
+            <div class="search-label">지역</div>
+            <select class="search-select" id="filter-region">
+              <option value="">전체</option>
+              <option value="강남">강남</option>
+              <option value="송파">송파</option>
+              <option value="분당">분당</option>
+            </select>
+          </div>
+          <div class="filter-block">
+            <div class="search-label">레슨 분야</div>
+            <select class="search-select" id="filter-type">
+              <option value="">전체</option>
+              <option value="full-swing">풀스윙</option>
+              <option value="short-game">쇼트게임</option>
+              <option value="course">코스 매니지먼트</option>
+            </select>
+          </div>
+          <div class="filter-block">
+            <div class="search-label">가격</div>
+            <select class="search-select" id="filter-price">
+              <option value="">전체</option>
+              <option value="150">~ 150,000원</option>
+              <option value="250">150,000 ~ 250,000원</option>
+              <option value="999">250,000원 이상</option>
+            </select>
+          </div>
+          <button class="btn btn-primary" style="width: 100%" onclick="applyFilters()">
+            필터 적용
+          </button>
+        </aside>
+
+        <section>
+          <div class="pro-grid" id="pro-list"></div>
+        </section>
+      </section>
+    </main>
+  </body>
+</html>

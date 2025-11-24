@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <title>마이페이지 | ELITE GOLF</title>
+    <link rel="stylesheet" href="assets/css/styles.css" />
+    <script defer src="assets/js/app.js"></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="site-logo"><span>ELITE</span> GOLF</div>
+      <nav class="nav-main">
+        <a href="index.html">홈</a>
+        <a href="pros.html">프로 검색</a>
+        <a href="mypage.html" class="active">마이페이지</a>
+      </nav>
+      <div class="header-cta">
+        <button class="btn btn-outline" onclick="goToLogin()">로그아웃</button>
+      </div>
+    </header>
+
+    <main class="layout">
+      <section class="section">
+        <h1 class="section-title">나의 예약 현황</h1>
+        <p class="section-subtitle">
+          예약 관리 및 리뷰, 프로 추천을 확인하세요.
+        </p>
+      </section>
+
+      <section class="section">
+        <div class="section-header">
+          <h2 class="section-title">다가오는 예약</h2>
+        </div>
+        <div class="reservation-card">
+          <div>
+            <h3>김프로 · 풀스윙 집중</h3>
+            <p>9/20 (금) 19:00 · 강남 스튜디오</p>
+          </div>
+          <div class="reservation-actions">
+            <button class="btn btn-outline">변경</button>
+            <button class="btn btn-outline">취소</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-header">
+          <h2 class="section-title">나의 관심 프로</h2>
+        </div>
+        <div class="pro-grid" id="favorite-pros"></div>
+      </section>
+    </main>
+  </body>
+</html>
