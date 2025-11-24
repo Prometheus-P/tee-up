@@ -19,14 +19,14 @@ describe('ProfileTemplate - KakaoTalk Integration', () => {
     it('should render KakaoTalk contact button', () => {
       render(<ProfileTemplate data={testProfile} />)
 
-      const kakaoButton = screen.getByRole('link', { name: /카카오톡으로 문의/i })
+      const kakaoButton = screen.getByRole('link', { name: /카카오톡으로.*에게 문의/i })
       expect(kakaoButton).toBeInTheDocument()
     })
 
     it('should have correct KakaoTalk deep link URL', () => {
       render(<ProfileTemplate data={testProfile} />)
 
-      const kakaoButton = screen.getByRole('link', { name: /카카오톡으로 문의/i })
+      const kakaoButton = screen.getByRole('link', { name: /카카오톡으로.*에게 문의/i })
       const href = kakaoButton.getAttribute('href')
 
       // KakaoTalk deep link should follow format: https://pf.kakao.com/_xabc123/chat
@@ -36,7 +36,7 @@ describe('ProfileTemplate - KakaoTalk Integration', () => {
     it('should have KakaoTalk icon or emoji', () => {
       render(<ProfileTemplate data={testProfile} />)
 
-      const kakaoButton = screen.getByRole('link', { name: /카카오톡으로 문의/i })
+      const kakaoButton = screen.getByRole('link', { name: /카카오톡으로.*에게 문의/i })
 
       // Should have KakaoTalk visual indicator (icon or emoji)
       expect(kakaoButton.textContent).toMatch(/💬|카카오톡/)
@@ -45,7 +45,7 @@ describe('ProfileTemplate - KakaoTalk Integration', () => {
     it('should position KakaoTalk button near booking CTA', () => {
       render(<ProfileTemplate data={testProfile} />)
 
-      const kakaoButton = screen.getByRole('link', { name: /카카오톡으로 문의/i })
+      const kakaoButton = screen.getByRole('link', { name: /카카오톡으로.*에게 문의/i })
       const bookingButtons = screen.getAllByRole('button', { name: /레슨 문의/i })
 
       // Both buttons should exist in the document
@@ -58,7 +58,7 @@ describe('ProfileTemplate - KakaoTalk Integration', () => {
     it('should include pro name in deep link for message template', () => {
       render(<ProfileTemplate data={testProfile} />)
 
-      const kakaoButton = screen.getByRole('link', { name: /카카오톡으로 문의/i })
+      const kakaoButton = screen.getByRole('link', { name: /카카오톡으로.*에게 문의/i })
       const href = kakaoButton.getAttribute('href') || ''
 
       // URL should be URL-encoded or include reference to the pro
@@ -70,7 +70,7 @@ describe('ProfileTemplate - KakaoTalk Integration', () => {
     it('should have distinctive styling to differentiate from booking button', () => {
       render(<ProfileTemplate data={testProfile} />)
 
-      const kakaoButton = screen.getByRole('link', { name: /카카오톡으로 문의/i })
+      const kakaoButton = screen.getByRole('link', { name: /카카오톡으로.*에게 문의/i })
 
       // Should have className indicating it's a secondary or alternative CTA
       expect(kakaoButton.className).toBeTruthy()

@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { useState } from 'react'
 import type { ProfileData } from './profile-data'
 import BookingModal from '../components/BookingModal'
+import { KakaoTalkButton } from '../components/KakaoTalkButton'
 
 export function ProfileTemplate({ data }: { data: ProfileData }) {
   const {
@@ -30,16 +31,7 @@ export function ProfileTemplate({ data }: { data: ProfileData }) {
       {/* Floating Sticky CTAs */}
       <div className="fixed bottom-8 right-8 z-50 flex flex-col gap-3 animate-fadeIn">
         {profile.kakaoTalkId && (
-          <a
-            href={`https://pf.kakao.com/${profile.kakaoTalkId}/chat`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group relative overflow-hidden rounded-full border-2 border-[#d4af37] bg-[#1a1f3a]/90 px-8 py-4 text-lg font-bold text-[#d4af37] shadow-2xl backdrop-blur-md transition-all duration-300 hover:scale-105 hover:bg-[#d4af37] hover:text-[#1a1f3a] hover:shadow-[0_0_40px_rgba(212,175,55,0.6)]"
-          >
-            <span className="relative z-10 flex items-center gap-2">
-              💬 카카오톡으로 문의
-            </span>
-          </a>
+          <KakaoTalkButton kakaoTalkId={profile.kakaoTalkId} proName={profile.name} />
         )}
         <button
           onClick={() => setOpen(true)}
