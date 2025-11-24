@@ -41,6 +41,7 @@ export type ProfileData = {
     languages?: string[]
     instagramUsername?: string
     youtubeChannelId?: string
+    kakaoTalkId?: string
   }
   highlights: { label: string; value: string; detail: string }[]
   storySections: StorySection[]
@@ -78,6 +79,7 @@ export const profileLibrary: Record<string, ProfileData> = {
       heroImage: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=1400&q=80',
       instagramUsername: 'elliotkim.golf',
       youtubeChannelId: 'UCE_M8A5yxnLfW0KghEeajjQ',
+      kakaoTalkId: '_xabc123',
     },
     highlights: [
       { label: 'Invitational 우승', value: '8', detail: '아시아 투어 & 유럽 서킷' },

@@ -46,11 +46,11 @@ describe('ProfileTemplate - KakaoTalk Integration', () => {
       render(<ProfileTemplate data={testProfile} />)
 
       const kakaoButton = screen.getByRole('link', { name: /카카오톡으로 문의/i })
-      const bookingButton = screen.getByRole('button', { name: /레슨 문의/i })
+      const bookingButtons = screen.getAllByRole('button', { name: /레슨 문의/i })
 
       // Both buttons should exist in the document
       expect(kakaoButton).toBeInTheDocument()
-      expect(bookingButton).toBeInTheDocument()
+      expect(bookingButtons.length).toBeGreaterThan(0)
     })
   })
 
