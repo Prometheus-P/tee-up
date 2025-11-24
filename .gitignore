@@ -164,8 +164,9 @@ id_rsa*
 *-service-account.json
 service-account-*.json
 
-# Database dumps
+# Database dumps (but keep schema files)
 *.sql
+!supabase/schema.sql
 *.sqlite
 *.db
 
