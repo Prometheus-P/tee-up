@@ -1,4 +1,9 @@
+'use client'
+
+import { useState } from 'react'
 import Link from 'next/link'
+
+type TimePeriod = '7' | '30' | '90'
 
 const kpiMetrics = [
   {
@@ -91,6 +96,8 @@ const revenueData = [
 ]
 
 export default function AdminAnalyticsPage() {
+  const [timePeriod, setTimePeriod] = useState<TimePeriod>('30')
+
   return (
     <div className="min-h-screen bg-calm-white">
       {/* Admin Header */}
@@ -150,7 +157,41 @@ export default function AdminAnalyticsPage() {
       <main className="mx-auto max-w-7xl px-6 py-8">
         {/* KPI Overview */}
         <section className="mb-12">
-          <h2 className="mb-6 text-2xl font-semibold text-calm-obsidian">핵심 성과 지표</h2>
+          <div className="mb-6 flex items-center justify-between">
+            <h2 className="text-2xl font-semibold text-calm-obsidian">핵심 성과 지표</h2>
+            <div className="flex gap-2">
+              <button
+                onClick={() => setTimePeriod('7')}
+                className={`rounded-lg px-4 py-2 text-body-sm font-medium transition-colors ${
+                  timePeriod === '7'
+                    ? 'bg-accent text-white'
+                    : 'bg-calm-cloud text-calm-charcoal hover:bg-calm-stone'
+                }`}
+              >
+                7일
+              </button>
+              <button
+                onClick={() => setTimePeriod('30')}
+                className={`rounded-lg px-4 py-2 text-body-sm font-medium transition-colors ${
+                  timePeriod === '30'
+                    ? 'bg-accent text-white'
+                    : 'bg-calm-cloud text-calm-charcoal hover:bg-calm-stone'
+                }`}
+              >
+                30일
+              </button>
+              <button
+                onClick={() => setTimePeriod('90')}
+                className={`rounded-lg px-4 py-2 text-body-sm font-medium transition-colors ${
+                  timePeriod === '90'
+                    ? 'bg-accent text-white'
+                    : 'bg-calm-cloud text-calm-charcoal hover:bg-calm-stone'
+                }`}
+              >
+                90일
+              </button>
+            </div>
+          </div>
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
             {kpiMetrics.map((metric, idx) => (
               <div key={idx} className="card p-6">
