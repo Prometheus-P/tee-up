@@ -436,8 +436,10 @@ kill -9 <PID>
 ```bash
 # Supabase 연결 테스트
 curl https://your-project.supabase.co/rest/v1/ \
-  -H "apikey: your-anon-key"
+  -H "apikey: $SUPABASE_ANON_KEY"
 ```
+
+> **참고:** `$SUPABASE_ANON_KEY`는 환경 변수에서 읽어옵니다. 직접 키를 입력하지 마세요.
 
 ### 9.3 CORS 에러
 

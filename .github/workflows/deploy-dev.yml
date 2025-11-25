@@ -45,13 +45,26 @@ jobs:
     name: Notify Deployment
     runs-on: ubuntu-latest
     needs: [deploy-frontend, deploy-backend]
+    if: always()
     steps:
+      - name: Determine Status
+        id: status
+        run: |
+          if [[ "${{ needs.deploy-frontend.result }}" == "success" && "${{ needs.deploy-backend.result }}" == "success" ]]; then
+            echo "result=success" >> $GITHUB_OUTPUT
+            echo "emoji=🚀" >> $GITHUB_OUTPUT
+            echo "text=Development 배포 완료!" >> $GITHUB_OUTPUT
+          else
+            echo "result=failure" >> $GITHUB_OUTPUT
+            echo "emoji=🚨" >> $GITHUB_OUTPUT
+            echo "text=Development 배포 실패! Frontend: ${{ needs.deploy-frontend.result }}, Backend: ${{ needs.deploy-backend.result }}" >> $GITHUB_OUTPUT
+          fi
+
       - name: Send Slack Notification
         uses: 8398a7/action-slack@v3
         with:
-          status: ${{ job.status }}
-          text: '🚀 Development 배포 완료!'
+          status: ${{ steps.status.outputs.result }}
+          text: '${{ steps.status.outputs.emoji }} ${{ steps.status.outputs.text }}'
           fields: repo,message,commit,author,workflow
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-        if: always()

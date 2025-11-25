@@ -105,12 +105,31 @@ jobs:
     steps:
       - name: Health Check - Frontend
         run: |
-          sleep 60
-          curl -f https://teeup.kr || exit 1
+          echo "Starting frontend health check..."
+          for i in {1..20}; do
+            if curl -fsS https://teeup.kr > /dev/null; then
+              echo "Frontend is healthy ✅"
+              exit 0
+            fi
+            echo "Frontend not ready yet (attempt ${i}/20). Retrying in 15 seconds..."
+            sleep 15
+          done
+          echo "Frontend failed to become healthy within the expected time ❌"
+          exit 1
 
       - name: Health Check - Backend
         run: |
-          curl -f https://api.teeup.kr/health || exit 1
+          echo "Starting backend health check..."
+          for i in {1..20}; do
+            if curl -fsS https://api.teeup.kr/health > /dev/null; then
+              echo "Backend is healthy ✅"
+              exit 0
+            fi
+            echo "Backend not ready yet (attempt ${i}/20). Retrying in 15 seconds..."
+            sleep 15
+          done
+          echo "Backend failed to become healthy within the expected time ❌"
+          exit 1
 
       - name: Send Success Notification
         uses: 8398a7/action-slack@v3
@@ -127,7 +146,7 @@ jobs:
   rollback:
     name: Rollback on Failure
     runs-on: ubuntu-latest
-    needs: post-deploy
+    needs: [deploy-frontend, deploy-backend, post-deploy]
     if: failure()
     steps:
       - name: Rollback Vercel
