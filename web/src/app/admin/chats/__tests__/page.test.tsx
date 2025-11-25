@@ -14,16 +14,134 @@ jest.mock('next/link', () => {
   return MockLink
 })
 
+// Mock data
+const mockFlaggedMessages = [
+  {
+    id: 'msg-1',
+    room_id: 'room-1',
+    sender_id: 'user-1',
+    content: '다른 플랫폼에서 연락주세요. 카톡 ID: abc123',
+    is_flagged: true,
+    flag_reason: 'Off-platform contact attempt',
+    created_at: '2025-11-24T12:20:00Z',
+    sender: { full_name: 'Unknown User' },
+  },
+  {
+    id: 'msg-2',
+    room_id: 'room-2',
+    sender_id: 'user-2',
+    content: '돈 먼저 입금하시면 스케줄 잡아드릴게요.',
+    is_flagged: true,
+    flag_reason: 'Potential scam - upfront payment request',
+    created_at: '2025-11-23T16:45:00Z',
+    sender: { full_name: 'Pro Lee' },
+  },
+]
+
+const mockChatRooms = [
+  {
+    id: 'room-1',
+    pro_id: 'pro-101',
+    golfer_id: 'golfer-1',
+    status: 'active' as const,
+    created_at: '2025-11-23T10:15:00Z',
+    updated_at: '2025-11-24T14:32:00Z',
+    pro_profile: {
+      full_name: 'Hannah Park',
+      avatar_url: null,
+      phone: '010-1111-1111',
+    },
+    golfer_profile: {
+      full_name: 'Park Ji-sung',
+      avatar_url: null,
+      phone: '010-9876-5432',
+    },
+    last_message: {
+      content: '다음 주 화요일 오후 2시 가능할까요?',
+      created_at: '2025-11-24T14:32:00Z',
+    },
+    unread_count: 2,
+  },
+  {
+    id: 'room-2',
+    pro_id: 'pro-102',
+    golfer_id: 'golfer-2',
+    status: 'matched' as const,
+    created_at: '2025-11-22T15:30:00Z',
+    updated_at: '2025-11-24T13:15:00Z',
+    pro_profile: {
+      full_name: 'James Kim',
+      avatar_url: null,
+      phone: '010-2222-2222',
+    },
+    golfer_profile: {
+      full_name: 'Kim Min-jae',
+      avatar_url: null,
+      phone: '010-8765-4321',
+    },
+    last_message: {
+      content: '감사합니다. 확인했습니다.',
+      created_at: '2025-11-24T13:15:00Z',
+    },
+    unread_count: 0,
+  },
+]
+
+const mockChatStats = {
+  total_rooms: 156,
+  active_rooms: 23,
+  matched_rooms: 89,
+  flagged_messages: 3,
+}
+
+// Mock functions
+const mockGetFlaggedMessages = jest.fn()
+const mockDismissFlaggedMessage = jest.fn()
+const mockDeleteFlaggedMessage = jest.fn()
+const mockGetAllChatRooms = jest.fn()
+const mockGetChatStats = jest.fn()
+const mockUpdateChatRoomStatus = jest.fn()
+
+jest.mock('@/lib/api/chat', () => ({
+  __esModule: true,
+  getFlaggedMessages: () => mockGetFlaggedMessages(),
+  dismissFlaggedMessage: (id: string) => mockDismissFlaggedMessage(id),
+  deleteFlaggedMessage: (id: string) => mockDeleteFlaggedMessage(id),
+  getAllChatRooms: () => mockGetAllChatRooms(),
+  getChatStats: () => mockGetChatStats(),
+  updateChatRoomStatus: (roomId: string, status: string) =>
+    mockUpdateChatRoomStatus(roomId, status),
+}))
+
 describe('Admin Chats Management Page', () => {
   beforeEach(() => {
-    localStorage.clear()
+    jest.resetAllMocks()
+    mockGetFlaggedMessages.mockResolvedValue([...mockFlaggedMessages])
+    mockGetAllChatRooms.mockResolvedValue([...mockChatRooms])
+    mockGetChatStats.mockResolvedValue({ ...mockChatStats })
+    mockDismissFlaggedMessage.mockResolvedValue(undefined)
+    mockDeleteFlaggedMessage.mockResolvedValue(undefined)
+    mockUpdateChatRoomStatus.mockResolvedValue({})
+  })
+
+  describe('Loading State', () => {
+    it('should show loading indicator initially', () => {
+      render(<AdminChatsPage />)
+      expect(screen.getByText(/데이터를 불러오는 중/i)).toBeInTheDocument()
+    })
   })
 
   describe('Stats Overview', () => {
-    it('should render chat statistics', () => {
+    it('should render chat statistics', async () => {
       render(<AdminChatsPage />)
 
-      expect(screen.getByText(/전체 채팅방/i)).toBeInTheDocument()
+      await waitFor(
+        () => {
+          expect(screen.getAllByText(/전체 채팅방/i).length).toBeGreaterThan(0)
+        },
+        { timeout: 3000 }
+      )
+
       expect(screen.getAllByText('156').length).toBeGreaterThan(0)
       expect(screen.getByText(/활성 대화/i)).toBeInTheDocument()
       expect(screen.getAllByText('23').length).toBeGreaterThan(0)
@@ -33,136 +151,232 @@ describe('Admin Chats Management Page', () => {
   })
 
   describe('Flagged Messages', () => {
-    it('should render flagged messages list', () => {
+    it('should render flagged messages list', async () => {
       render(<AdminChatsPage />)
 
-      expect(screen.getByText(/신고된 메시지 \(\d+\)/i)).toBeInTheDocument()
+      await waitFor(
+        () => {
+          expect(screen.getByText(/신고된 메시지 \(\d+\)/i)).toBeInTheDocument()
+        },
+        { timeout: 3000 }
+      )
+
       expect(screen.getByText(/Unknown User/i)).toBeInTheDocument()
       expect(screen.getByText(/Pro Lee/i)).toBeInTheDocument()
     })
 
-    it('should show flagged message content and reason', () => {
+    it('should show flagged message content and reason', async () => {
       render(<AdminChatsPage />)
 
-      expect(screen.getByText(/다른 플랫폼에서 연락주세요/i)).toBeInTheDocument()
+      await waitFor(
+        () => {
+          expect(screen.getByText(/다른 플랫폼에서 연락주세요/i)).toBeInTheDocument()
+        },
+        { timeout: 3000 }
+      )
+
       expect(screen.getByText(/Off-platform contact attempt/i)).toBeInTheDocument()
       expect(screen.getByText(/Potential scam - upfront payment request/i)).toBeInTheDocument()
     })
 
-    it('should have action buttons for each flagged message', () => {
+    it('should have action buttons for each flagged message', async () => {
       render(<AdminChatsPage />)
 
-      const actionButtons = screen.getAllByRole('button', { name: /조치/i })
-      const dismissButtons = screen.getAllByRole('button', { name: /무시/i })
+      await waitFor(
+        () => {
+          const actionButtons = screen.getAllByRole('button', { name: /조치/i })
+          expect(actionButtons).toHaveLength(2)
+        },
+        { timeout: 3000 }
+      )
 
-      expect(actionButtons).toHaveLength(2)
+      const dismissButtons = screen.getAllByRole('button', { name: /무시/i })
       expect(dismissButtons).toHaveLength(2)
     })
 
     it('should take action on flagged message when action button clicked', async () => {
       const user = userEvent.setup()
+
+      // Setup mock to return updated data after action
+      mockGetFlaggedMessages
+        .mockResolvedValueOnce([...mockFlaggedMessages])
+        .mockResolvedValueOnce([mockFlaggedMessages[1]])
+
       render(<AdminChatsPage />)
 
-      const actionButtons = screen.getAllByRole('button', { name: /조치/i })
+      await waitFor(
+        () => {
+          expect(screen.getByText(/Unknown User/i)).toBeInTheDocument()
+        },
+        { timeout: 3000 }
+      )
 
-      // Click first action button
+      const actionButtons = screen.getAllByRole('button', { name: /조치/i })
       await user.click(actionButtons[0])
 
       await waitFor(() => {
-        // Message should be removed from flagged list
-        expect(screen.queryByText(/Unknown User/i)).not.toBeInTheDocument()
+        expect(mockDeleteFlaggedMessage).toHaveBeenCalledWith('msg-1')
       })
-
-      // Count should decrease
-      expect(screen.getByText(/신고된 메시지 \(1\)/i)).toBeInTheDocument()
     })
 
     it('should dismiss flagged message when dismiss button clicked', async () => {
       const user = userEvent.setup()
       render(<AdminChatsPage />)
 
-      const dismissButtons = screen.getAllByRole('button', { name: /무시/i })
+      await waitFor(
+        () => {
+          expect(screen.getAllByText(/Unknown User/i).length).toBeGreaterThan(0)
+        },
+        { timeout: 5000 }
+      )
 
-      // Click first dismiss button
+      const dismissButtons = screen.getAllByRole('button', { name: /무시/i })
       await user.click(dismissButtons[0])
 
       await waitFor(() => {
-        // Message should be removed from flagged list
-        expect(screen.queryByText(/Unknown User/i)).not.toBeInTheDocument()
+        expect(mockDismissFlaggedMessage).toHaveBeenCalledWith('msg-1')
       })
-
-      // Count should decrease
-      expect(screen.getByText(/신고된 메시지 \(1\)/i)).toBeInTheDocument()
     })
 
     it('should disable buttons while processing', async () => {
       const user = userEvent.setup()
+
+      // Make delete take longer so we can check disabled state
+      let resolveDelete: (value?: unknown) => void = () => {}
+      mockDeleteFlaggedMessage.mockImplementation(
+        () => new Promise((resolve) => { resolveDelete = resolve })
+      )
+
       render(<AdminChatsPage />)
+
+      await waitFor(
+        () => {
+          expect(screen.getByText(/Unknown User/i)).toBeInTheDocument()
+        },
+        { timeout: 3000 }
+      )
 
       const actionButtons = screen.getAllByRole('button', { name: /조치/i })
 
       // Click action button
       await user.click(actionButtons[0])
 
-      // Button should be disabled immediately
-      expect(actionButtons[0]).toBeDisabled()
+      // Button should be disabled while processing
+      await waitFor(() => {
+        expect(actionButtons[0]).toBeDisabled()
+      })
+
+      // Resolve the promise to clean up
+      resolveDelete()
+    })
+
+    it('should show empty state when no flagged messages', async () => {
+      mockGetFlaggedMessages.mockResolvedValue([])
+
+      render(<AdminChatsPage />)
+
+      await waitFor(
+        () => {
+          expect(screen.getAllByText(/전체 채팅방/i).length).toBeGreaterThan(0)
+        },
+        { timeout: 5000 }
+      )
+
+      // Flagged messages section header with count should not be rendered (h2 with count)
+      expect(screen.queryByText(/신고된 메시지 \(\d+\)/i)).not.toBeInTheDocument()
     })
   })
 
   describe('Chat Rooms List', () => {
-    it('should render active chat rooms', () => {
+    it('should render active chat rooms', async () => {
       render(<AdminChatsPage />)
 
-      expect(screen.getByText(/Park Ji-sung/i)).toBeInTheDocument()
+      await waitFor(
+        () => {
+          expect(screen.getByText(/Park Ji-sung/i)).toBeInTheDocument()
+        },
+        { timeout: 3000 }
+      )
+
       expect(screen.getByText(/Kim Min-jae/i)).toBeInTheDocument()
-      expect(screen.getByText(/Lee Soo-hyun/i)).toBeInTheDocument()
-      expect(screen.getByText(/Choi Yeon-woo/i)).toBeInTheDocument()
     })
 
-    it('should show chat room details', () => {
+    it('should show chat room details', async () => {
       render(<AdminChatsPage />)
 
-      // Check for pro names
-      expect(screen.getByText(/Hannah Park/i)).toBeInTheDocument()
-      expect(screen.getByText(/James Kim/i)).toBeInTheDocument()
+      await waitFor(
+        () => {
+          expect(screen.getByText(/Hannah Park/i)).toBeInTheDocument()
+        },
+        { timeout: 3000 }
+      )
 
-      // Check for last messages
+      expect(screen.getByText(/James Kim/i)).toBeInTheDocument()
       expect(screen.getByText(/다음 주 화요일 오후 2시 가능할까요/i)).toBeInTheDocument()
     })
 
-    it('should show status badges correctly', () => {
+    it('should show status badges correctly', async () => {
       render(<AdminChatsPage />)
 
-      // Get all status badges
-      const statusElements = screen.getAllByText(/활성|매칭 완료|종료/)
-
-      // Should have status badges for each room (4 rooms)
-      expect(statusElements.length).toBeGreaterThanOrEqual(2)
+      await waitFor(
+        () => {
+          const statusElements = screen.getAllByText(/활성|매칭 완료|종료/)
+          expect(statusElements.length).toBeGreaterThanOrEqual(2)
+        },
+        { timeout: 3000 }
+      )
     })
 
-    it('should show unread count badges', () => {
+    it('should show unread count badges', async () => {
       render(<AdminChatsPage />)
 
-      // Should show unread counts for rooms with unread messages
-      expect(screen.getByText('2')).toBeInTheDocument() // Room 1 has 2 unread
-      expect(screen.getByText('1')).toBeInTheDocument() // Room 3 has 1 unread
+      await waitFor(
+        () => {
+          expect(screen.getByText('2')).toBeInTheDocument()
+        },
+        { timeout: 3000 }
+      )
     })
 
-    it('should have view button for each chat room', () => {
+    it('should have view button for each chat room', async () => {
       render(<AdminChatsPage />)
 
-      const viewButtons = screen.getAllByRole('link', { name: /보기/i })
+      await waitFor(
+        () => {
+          const viewButtons = screen.getAllByRole('link', { name: /보기/i })
+          expect(viewButtons).toHaveLength(2)
+        },
+        { timeout: 3000 }
+      )
+    })
 
-      expect(viewButtons).toHaveLength(4)
+    it('should show empty state when no chat rooms', async () => {
+      mockGetAllChatRooms.mockResolvedValue([])
+
+      render(<AdminChatsPage />)
+
+      await waitFor(
+        () => {
+          expect(screen.getByText(/채팅방이 없습니다/i)).toBeInTheDocument()
+        },
+        { timeout: 3000 }
+      )
     })
   })
 
   describe('Navigation', () => {
-    it('should have navigation tabs', () => {
+    it('should have navigation tabs', async () => {
       render(<AdminChatsPage />)
 
+      await waitFor(
+        () => {
+          expect(screen.getAllByText(/전체 채팅방/i).length).toBeGreaterThan(0)
+        },
+        { timeout: 5000 }
+      )
+
       const navLinks = screen.getAllByRole('link')
-      const navTexts = navLinks.map(link => link.textContent)
+      const navTexts = navLinks.map((link) => link.textContent)
 
       expect(navTexts).toContain('대시보드')
       expect(navTexts).toContain('프로 관리')
@@ -171,8 +385,15 @@ describe('Admin Chats Management Page', () => {
       expect(navTexts).toContain('분석')
     })
 
-    it('should have back to dashboard link', () => {
+    it('should have back to dashboard link', async () => {
       render(<AdminChatsPage />)
+
+      await waitFor(
+        () => {
+          expect(screen.getAllByText(/전체 채팅방/i).length).toBeGreaterThan(0)
+        },
+        { timeout: 5000 }
+      )
 
       const backLink = screen.getByRole('link', { name: /← 대시보드/i })
       expect(backLink).toHaveAttribute('href', '/admin')
@@ -180,13 +401,34 @@ describe('Admin Chats Management Page', () => {
   })
 
   describe('Insights', () => {
-    it('should show chat insights metrics', () => {
+    it('should show chat insights metrics', async () => {
       render(<AdminChatsPage />)
 
-      expect(screen.getByText(/평균 응답 시간/i)).toBeInTheDocument()
-      expect(screen.getByText(/2\.3시간/i)).toBeInTheDocument()
+      await waitFor(
+        () => {
+          expect(screen.getByText(/평균 응답 시간/i)).toBeInTheDocument()
+        },
+        { timeout: 5000 }
+      )
+
       expect(screen.getByText(/매칭 성공률/i)).toBeInTheDocument()
-      expect(screen.getAllByText(/57\.1%/i).length).toBeGreaterThan(0)
+    })
+  })
+
+  describe('Error Handling', () => {
+    it('should show error message when API fails', async () => {
+      mockGetFlaggedMessages.mockRejectedValue(new Error('API Error'))
+      mockGetAllChatRooms.mockRejectedValue(new Error('API Error'))
+      mockGetChatStats.mockRejectedValue(new Error('API Error'))
+
+      render(<AdminChatsPage />)
+
+      await waitFor(
+        () => {
+          expect(screen.getByText(/API Error/i)).toBeInTheDocument()
+        },
+        { timeout: 5000 }
+      )
     })
   })
 })

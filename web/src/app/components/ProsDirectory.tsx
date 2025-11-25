@@ -1,5 +1,6 @@
 "use client"
 
+import Image from 'next/image'
 import Link from 'next/link'
 import { useMemo, useState } from 'react'
 
@@ -89,11 +90,13 @@ export default function ProsDirectory({ pros }: { pros: ProItem[] }) {
             className="card group animate-slideUp"
           >
             {/* Pro Image */}
-            <div className="h-64 overflow-hidden bg-calm-cloud">
-              <img
+            <div className="relative h-64 overflow-hidden bg-calm-cloud">
+              <Image
                 src={pro.image}
                 alt={pro.name}
-                className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                fill
+                className="object-cover transition-transform duration-500 group-hover:scale-105"
+                sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
               />
             </div>
 

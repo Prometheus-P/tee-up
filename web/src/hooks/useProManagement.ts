@@ -1,91 +1,101 @@
-import { useState } from 'react'
+'use client'
 
-interface PendingPro {
-  id: number
-  name: string
-  title: string
-  location: string
-  email: string
-  phone: string
-  specialties: string[]
-  tourExperience: string
-  certifications: string[]
-  appliedAt: string
-  profileImage: string
-}
-
-interface ApprovedPro {
-  id: number
-  name: string
-  title: string
-  location: string
-  status: 'active'
-  profileViews: number
-  leads: number
-  matchedLessons: number
-  rating: number
-  subscriptionTier: 'basic' | 'pro'
-}
+import { useState, useEffect, useCallback } from 'react'
+import {
+  getPendingProProfiles,
+  getApprovedProProfiles,
+  approveProProfile,
+  rejectProProfile,
+  type PendingProProfile,
+  type ApprovedProProfile,
+} from '@/lib/api/profiles'
 
 interface UseProManagementReturn {
-  pendingPros: PendingPro[]
-  approvedPros: ApprovedPro[]
-  processingId: number | null
-  handleApprove: (id: number) => Promise<void>
-  handleReject: (id: number) => Promise<void>
+  pendingPros: PendingProProfile[]
+  approvedPros: ApprovedProProfile[]
+  processingId: string | null
+  isLoading: boolean
+  error: string | null
+  handleApprove: (id: string) => Promise<void>
+  handleReject: (id: string) => Promise<void>
+  refetch: () => Promise<void>
 }
 
-export function useProManagement(
-  initialPending: PendingPro[],
-  initialApproved: ApprovedPro[]
-): UseProManagementReturn {
-  const [pendingPros, setPendingPros] = useState(initialPending)
-  const [approvedPros, setApprovedPros] = useState(initialApproved)
-  const [processingId, setProcessingId] = useState<number | null>(null)
+export function useProManagement(): UseProManagementReturn {
+  const [pendingPros, setPendingPros] = useState<PendingProProfile[]>([])
+  const [approvedPros, setApprovedPros] = useState<ApprovedProProfile[]>([])
+  const [processingId, setProcessingId] = useState<string | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
-  const handleApprove = async (id: number): Promise<void> => {
+  const fetchData = useCallback(async () => {
+    setIsLoading(true)
+    setError(null)
+
+    try {
+      const [pending, approved] = await Promise.all([
+        getPendingProProfiles(),
+        getApprovedProProfiles(),
+      ])
+      setPendingPros(pending)
+      setApprovedPros(approved)
+    } catch (err) {
+      const message = err instanceof Error ? err.message : '데이터를 불러오는데 실패했습니다.'
+      setError(message)
+      console.error('Error fetching pro profiles:', err)
+    } finally {
+      setIsLoading(false)
+    }
+  }, [])
+
+  useEffect(() => {
+    fetchData()
+  }, [fetchData])
+
+  const handleApprove = async (id: string): Promise<void> => {
     setProcessingId(id)
+    setError(null)
 
-    // Simulate async operation
-    await new Promise(resolve => setTimeout(resolve, 100))
-
-    // Remove from pending - approved pros are added to count but not shown immediately
-    setPendingPros(prev => prev.filter(pro => pro.id !== id))
-
-    // Increment approved count without showing the pro immediately
-    setApprovedPros(prev => [...prev, {
-      id: id + 1000, // Temporary ID to increment count without showing actual data
-      name: '',
-      title: '',
-      location: '',
-      status: 'active' as const,
-      profileViews: 0,
-      leads: 0,
-      matchedLessons: 0,
-      rating: 0,
-      subscriptionTier: 'basic' as const,
-    }])
-
-    setProcessingId(null)
+    try {
+      await approveProProfile(id)
+      // Refetch data to get updated lists
+      await fetchData()
+    } catch (err) {
+      const message = err instanceof Error ? err.message : '승인 처리에 실패했습니다.'
+      setError(message)
+      console.error('Error approving pro:', err)
+      throw err
+    } finally {
+      setProcessingId(null)
+    }
   }
 
-  const handleReject = async (id: number): Promise<void> => {
+  const handleReject = async (id: string): Promise<void> => {
     setProcessingId(id)
+    setError(null)
 
-    // Simulate async operation
-    await new Promise(resolve => setTimeout(resolve, 100))
-
-    // Remove from pending
-    setPendingPros(prev => prev.filter(pro => pro.id !== id))
-
-    setProcessingId(null)
+    try {
+      await rejectProProfile(id)
+      // Update local state
+      setPendingPros(prev => prev.filter(pro => pro.id !== id))
+    } catch (err) {
+      const message = err instanceof Error ? err.message : '거절 처리에 실패했습니다.'
+      setError(message)
+      console.error('Error rejecting pro:', err)
+      throw err
+    } finally {
+      setProcessingId(null)
+    }
   }
 
   return {
     pendingPros,
     approvedPros,
     processingId,
+    isLoading,
+    error,
     handleApprove,
     handleReject,
+    refetch: fetchData,
   }
 }
