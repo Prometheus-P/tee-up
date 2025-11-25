@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { useAuth } from '@/hooks/useAuth';
 import { createSubscription, SUBSCRIPTION_PLANS } from '@/lib/payments';
+import { LoadingSpinner } from '@/app/components/LoadingSpinner';
 
 function PaymentSuccessContent() {
   const router = useRouter();
@@ -149,20 +150,9 @@ function PaymentSuccessContent() {
   );
 }
 
-function LoadingFallback() {
-  return (
-    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-[#0a0e27] via-[#1a1f3a] to-[#0a0e27]">
-      <div className="text-center">
-        <div className="mx-auto mb-6 h-16 w-16 animate-spin rounded-full border-4 border-[#d4af37] border-t-transparent" />
-        <p className="text-white/60">로딩 중...</p>
-      </div>
-    </div>
-  );
-}
-
 export default function PaymentSuccessPage() {
   return (
-    <Suspense fallback={<LoadingFallback />}>
+    <Suspense fallback={<LoadingSpinner message="로딩 중..." />}>
       <PaymentSuccessContent />
     </Suspense>
   );
