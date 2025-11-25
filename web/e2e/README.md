@@ -4,17 +4,78 @@
 
 ## 설정
 
-### 1. 환경 변수 설정
+### 1. Supabase에서 테스트 관리자 계정 생성
 
-`.env.test` 파일을 생성하고 테스트용 관리자 계정 정보를 추가하세요:
+**중요:** E2E 테스트를 실행하기 전에 Supabase에서 테스트 관리자 계정을 생성해야 합니다.
+
+#### 방법 1: Supabase 대시보드에서 수동 생성 (권장)
+
+1. [Supabase Dashboard](https://supabase.com/dashboard)에 로그인
+2. 프로젝트 선택: `yrdfopkerrrhsafynakg`
+3. 좌측 메뉴에서 **Authentication** → **Users** 클릭
+4. **Add user** 버튼 클릭
+5. 다음 정보 입력:
+   - Email: `admin@teeup.com`
+   - Password: `TestPassword123!`
+   - Auto Confirm User: ✅ (체크)
+6. **Create User** 클릭
+
+#### 방법 2: SQL Editor에서 생성
+
+Supabase Dashboard → SQL Editor에서 다음 쿼리 실행:
+
+```sql
+-- Insert admin user
+INSERT INTO auth.users (
+  instance_id,
+  id,
+  aud,
+  role,
+  email,
+  encrypted_password,
+  email_confirmed_at,
+  recovery_sent_at,
+  last_sign_in_at,
+  raw_app_meta_data,
+  raw_user_meta_data,
+  created_at,
+  updated_at,
+  confirmation_token,
+  email_change,
+  email_change_token_new,
+  recovery_token
+) VALUES (
+  '00000000-0000-0000-0000-000000000000',
+  gen_random_uuid(),
+  'authenticated',
+  'authenticated',
+  'admin@teeup.com',
+  crypt('TestPassword123!', gen_salt('bf')),
+  NOW(),
+  NOW(),
+  NOW(),
+  '{"provider":"email","providers":["email"]}',
+  '{}',
+  NOW(),
+  NOW(),
+  '',
+  '',
+  '',
+  ''
+);
+```
+
+### 2. 환경 변수 확인
+
+`.env.test` 파일이 생성되어 있어야 합니다 (이미 생성됨):
 
 ```bash
 # .env.test
 TEST_ADMIN_EMAIL=admin@teeup.com
-TEST_ADMIN_PASSWORD=your-test-password
+TEST_ADMIN_PASSWORD=TestPassword123!
 ```
 
-### 2. 개발 서버 실행
+### 3. 개발 서버 실행
 
 Playwright는 자동으로 개발 서버를 실행하지만, 수동으로 실행하고 싶다면:
 

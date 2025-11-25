@@ -1,6 +1,9 @@
 'use client'
 
+import { useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import { useAdminAuth } from '@/hooks/useAdminAuth'
 import { useProManagement } from '@/hooks/useProManagement'
 import { PendingProCard } from './components/PendingProCard'
 import { ApprovedProsTable } from './components/ApprovedProsTable'
@@ -94,10 +97,30 @@ const initialApprovedPros: ProProfile[] = [
 ]
 
 export default function AdminProsPage() {
+  const router = useRouter()
+  const { isAuthenticated, isLoading } = useAdminAuth()
   const { pendingPros, approvedPros, processingId, handleApprove, handleReject } = useProManagement(
     initialPendingPros,
     initialApprovedPros
   )
+
+  useEffect(() => {
+    if (!isLoading && !isAuthenticated) {
+      router.push('/admin')
+    }
+  }, [isAuthenticated, isLoading, router])
+
+  if (isLoading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <div className="text-calm-ash">Loading...</div>
+      </div>
+    )
+  }
+
+  if (!isAuthenticated) {
+    return null
+  }
 
   return (
     <div className="min-h-screen bg-calm-white">

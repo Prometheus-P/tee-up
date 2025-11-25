@@ -1,20 +1,30 @@
 'use client'
 
+import { useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import { useAdminAuth } from '@/hooks/useAdminAuth'
-import { AdminLoginForm } from './components/AdminLoginForm'
 import { AdminDashboard } from './components/AdminDashboard'
 
 export default function AdminPage() {
-  const { isAuthenticated, isLoading, error, login, logout } = useAdminAuth()
+  const router = useRouter()
+  const { isAuthenticated, isLoading, logout } = useAdminAuth()
+
+  useEffect(() => {
+    if (!isLoading && !isAuthenticated) {
+      router.push('/admin/login')
+    }
+  }, [isAuthenticated, isLoading, router])
+
+  if (isLoading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <div className="text-calm-ash">Loading...</div>
+      </div>
+    )
+  }
 
   if (!isAuthenticated) {
-    return (
-      <AdminLoginForm
-        onSubmit={login}
-        error={error}
-        isLoading={isLoading}
-      />
-    )
+    return null
   }
 
   return <AdminDashboard onLogout={logout} />

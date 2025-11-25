@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test'
+import { createClient } from '@supabase/supabase-js'
 
 /**
  * Admin Pro Verification E2E Tests
@@ -6,11 +7,35 @@ import { test, expect } from '@playwright/test'
  * Prerequisites:
  * 1. Development server running (npm run dev)
  * 2. Supabase environment variables configured
- * 3. Admin account created in Supabase
+ * 3. Admin account created in Supabase (auto-created if not exists)
  * 4. Test pro profiles in database with is_approved = false
  */
 
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://yrdfopkerrrhsafynakg.supabase.co'
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlyZGZvcGtlcnJyaHNhZnluYWtnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM5NjA3MTQsImV4cCI6MjA3OTUzNjcxNH0.OJ0VkIC6p3jJQkV7Lo3XWU9svYnDpOmeMu5ITtFpW24'
+
 test.describe('Admin Pro Verification Flow', () => {
+  // Create test admin account before running tests
+  test.beforeAll(async () => {
+    const supabase = createClient(supabaseUrl, supabaseAnonKey)
+    const testEmail = process.env.TEST_ADMIN_EMAIL || 'admin@teeup.com'
+    const testPassword = process.env.TEST_ADMIN_PASSWORD || 'TestPassword123!'
+
+    // Try to sign up (will fail if account already exists, which is fine)
+    const { error } = await supabase.auth.signUp({
+      email: testEmail,
+      password: testPassword,
+    })
+
+    // Ignore "user already exists" error
+    if (error && !error.message.includes('already registered')) {
+      console.warn('Warning: Could not create test admin account:', error.message)
+      console.warn('Please create the account manually in Supabase Dashboard')
+      console.warn(`Email: ${testEmail}`)
+      console.warn(`Password: ${testPassword}`)
+    }
+  })
+
   test.beforeEach(async ({ page }) => {
     // Navigate to admin login page
     await page.goto('/admin/login')
@@ -44,7 +69,7 @@ test.describe('Admin Pro Verification Flow', () => {
     test('should login successfully with valid credentials', async ({ page }) => {
       // TODO: Replace with actual admin credentials from .env.test
       const adminEmail = process.env.TEST_ADMIN_EMAIL || 'admin@teeup.com'
-      const adminPassword = process.env.TEST_ADMIN_PASSWORD || 'password'
+      const adminPassword = process.env.TEST_ADMIN_PASSWORD || 'TestPassword123!'
 
       await page.fill('input[type="email"]', adminEmail)
       await page.fill('input[type="password"]', adminPassword)
@@ -59,7 +84,7 @@ test.describe('Admin Pro Verification Flow', () => {
     test.beforeEach(async ({ page }) => {
       // Login before each test
       const adminEmail = process.env.TEST_ADMIN_EMAIL || 'admin@teeup.com'
-      const adminPassword = process.env.TEST_ADMIN_PASSWORD || 'password'
+      const adminPassword = process.env.TEST_ADMIN_PASSWORD || 'TestPassword123!'
 
       await page.fill('input[type="email"]', adminEmail)
       await page.fill('input[type="password"]', adminPassword)
@@ -183,7 +208,7 @@ test.describe('Admin Pro Verification Flow', () => {
 
     test('should display mobile layout', async ({ page }) => {
       const adminEmail = process.env.TEST_ADMIN_EMAIL || 'admin@teeup.com'
-      const adminPassword = process.env.TEST_ADMIN_PASSWORD || 'password'
+      const adminPassword = process.env.TEST_ADMIN_PASSWORD || 'TestPassword123!'
 
       await page.fill('input[type="email"]', adminEmail)
       await page.fill('input[type="password"]', adminPassword)
