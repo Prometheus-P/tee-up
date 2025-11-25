@@ -97,9 +97,15 @@ Launch a visual-first platform that showcases verified golf pros and enables bas
 - [x] Analytics widgets with time filtering
 
 #### Pro Verification System 🚧
-- [x] Pending pro applications list API (TDD)
-- [x] Approve pro API (TDD)
-- [x] Reject pro API with reason (TDD)
+- [x] Backend API Tests (TDD)
+  - Pending pro applications list API
+  - Approve pro API
+  - Reject pro API with reason
+- [x] Frontend API Functions (TDD)
+  - getPendingPros with Supabase integration
+  - approvePro with Supabase integration
+  - rejectPro with Supabase integration
+- [x] useProManagement hook integration with real APIs
 - [ ] Pro profile review interface
   - View all submitted information
   - Verify credentials (LPGA/PGA certificates)
@@ -544,10 +550,17 @@ Focus on revenue optimization, advanced features, and market expansion.
 ## Next Actions
 
 ### Priority 1: Pro Verification System (TDD) ✅
-- [x] RED: Write failing test for pending pro applications list API
-- [x] GREEN: Implement pending pro applications list API
-- [x] RED: Write failing test for approve/reject pro functionality
-- [x] GREEN: Implement approve/reject pro functionality
+- [x] Backend API (Express + mock data)
+  - RED: Write failing test for pending pros API
+  - GREEN: Implement pending pros API
+  - RED: Write failing test for approve/reject APIs
+  - GREEN: Implement approve/reject APIs
+- [x] Frontend API (Supabase integration)
+  - RED: Write failing tests for getPendingPros, approvePro, rejectPro
+  - GREEN: Implement Supabase-based pro verification functions
+- [x] Hook integration (useProManagement)
+  - Replace mock with real API calls
+  - Add error handling
 
 ### Priority 2: Chat Management
 - [ ] Active chat rooms table
