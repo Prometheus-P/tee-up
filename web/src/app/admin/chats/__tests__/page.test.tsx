@@ -242,7 +242,7 @@ describe('Admin Chats Management Page', () => {
       const user = userEvent.setup()
 
       // Make delete take longer so we can check disabled state
-      let resolveDelete: () => void = () => {}
+      let resolveDelete: (value?: unknown) => void = () => {}
       mockDeleteFlaggedMessage.mockImplementation(
         () => new Promise((resolve) => { resolveDelete = resolve })
       )
