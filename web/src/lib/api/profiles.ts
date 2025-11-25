@@ -131,3 +131,146 @@ export async function incrementProfileViews(profileId: string): Promise<void> {
     throw new Error(error.message)
   }
 }
+
+// ========================================
+// Admin Functions for Pro Management
+// ========================================
+
+export type PendingProProfile = ProProfile & {
+  profiles: {
+    full_name: string
+    avatar_url: string | null
+    phone: string | null
+  }
+  location: string | null
+  tour_experience: string | null
+  certifications: string[] | null
+}
+
+export type ApprovedProProfile = ProProfile & {
+  profiles: {
+    full_name: string
+    avatar_url: string | null
+    phone: string | null
+  }
+  location: string | null
+}
+
+/**
+ * Fetch all pending (unapproved) pro profiles - Admin only
+ */
+export async function getPendingProProfiles(): Promise<PendingProProfile[]> {
+  const supabase = createClient()
+
+  const { data, error } = await supabase
+    .from('pro_profiles')
+    .select('*, profiles(full_name, avatar_url, phone)')
+    .eq('is_approved', false)
+    .order('created_at', { ascending: false })
+
+  if (error) {
+    throw new Error(error.message)
+  }
+
+  return data || []
+}
+
+/**
+ * Fetch all approved pro profiles - Admin only
+ */
+export async function getApprovedProProfiles(): Promise<ApprovedProProfile[]> {
+  const supabase = createClient()
+
+  const { data, error } = await supabase
+    .from('pro_profiles')
+    .select('*, profiles(full_name, avatar_url, phone)')
+    .eq('is_approved', true)
+    .order('approved_at', { ascending: false })
+
+  if (error) {
+    throw new Error(error.message)
+  }
+
+  return data || []
+}
+
+/**
+ * Approve a pro profile - Admin only
+ */
+export async function approveProProfile(id: string): Promise<ProProfile> {
+  const supabase = createClient()
+
+  const { data, error } = await supabase
+    .from('pro_profiles')
+    .update({
+      is_approved: true,
+      approved_at: new Date().toISOString(),
+    })
+    .eq('id', id)
+    .select()
+    .single()
+
+  if (error) {
+    throw new Error(error.message)
+  }
+
+  return data
+}
+
+/**
+ * Reject (delete) a pro profile - Admin only
+ */
+export async function rejectProProfile(id: string): Promise<void> {
+  const supabase = createClient()
+
+  const { error } = await supabase
+    .from('pro_profiles')
+    .delete()
+    .eq('id', id)
+
+  if (error) {
+    throw new Error(error.message)
+  }
+}
+
+/**
+ * Get a single pro profile by ID - Admin only
+ */
+export async function getProProfileById(id: string): Promise<PendingProProfile | null> {
+  const supabase = createClient()
+
+  const { data, error } = await supabase
+    .from('pro_profiles')
+    .select('*, profiles(full_name, avatar_url, phone)')
+    .eq('id', id)
+    .single()
+
+  if (error) {
+    if (error.code === 'PGRST116') {
+      return null
+    }
+    throw new Error(error.message)
+  }
+
+  return data
+}
+
+/**
+ * Update pro profile featured status - Admin only
+ */
+export async function updateProFeaturedStatus(id: string, isFeatured: boolean): Promise<ProProfile> {
+  const supabase = createClient()
+
+  const { data, error } = await supabase
+    .from('pro_profiles')
+    .update({ is_featured: isFeatured })
+    .eq('id', id)
+    .select()
+    .single()
+
+  if (error) {
+    throw new Error(error.message)
+  }
+
+  return data
+}

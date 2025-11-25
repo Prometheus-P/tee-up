@@ -1,5 +1,6 @@
 "use client"
 
+import Image from 'next/image'
 import Link from 'next/link'
 import { useState } from 'react'
 import type { ProfileData } from './profile-data'
@@ -48,11 +49,13 @@ export function ProfileTemplate({ data }: { data: ProfileData }) {
       <header className="relative h-screen overflow-hidden">
         {/* Background Image with Parallax Effect */}
         <div className="absolute inset-0">
-          <img
+          <Image
             src={profile.heroImage}
             alt={profile.name}
-            className="h-full w-full object-cover"
-            style={{ transform: 'scale(1.1)' }}
+            fill
+            priority
+            className="object-cover scale-110"
+            sizes="100vw"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-[#0a0e27] via-[#0a0e27]/80 to-transparent" />
         </div>
@@ -190,7 +193,7 @@ export function ProfileTemplate({ data }: { data: ProfileData }) {
                   <p className="text-lg leading-relaxed text-white/70">{section.body}</p>
                 </div>
                 <div className={`group relative aspect-square overflow-hidden rounded-3xl border border-white/10 ${section.align === 'right' ? 'lg:col-start-1 lg:row-start-1' : ''}`}>
-                  <img src={section.image} alt={section.heading} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                  <Image src={section.image} alt={section.heading} fill className="object-cover transition-transform duration-700 group-hover:scale-105" sizes="(max-width: 1024px) 100vw, 50vw" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
                 </div>
               </div>
@@ -219,7 +222,7 @@ export function ProfileTemplate({ data }: { data: ProfileData }) {
                     rel="noopener noreferrer"
                     className="group relative aspect-square overflow-hidden rounded-xl border border-white/10 transition-all duration-300 hover:scale-105 hover:shadow-2xl"
                   >
-                    <img src={post.image} alt="Instagram Post" className="h-full w-full object-cover" />
+                    <Image src={post.image} alt="Instagram Post" fill className="object-cover" sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 16vw" />
                     <div className="absolute inset-0 bg-black/40 opacity-0 transition-opacity group-hover:opacity-100" />
                   </a>
                 ))}
@@ -453,7 +456,9 @@ export function ProfileTemplate({ data }: { data: ProfileData }) {
                     </p>
 
                     <div className="flex items-center gap-4">
-                      <img src={item.avatar} alt={item.name} className="h-16 w-16 rounded-full object-cover" />
+                      <div className="relative h-16 w-16 overflow-hidden rounded-full">
+                        <Image src={item.avatar} alt={item.name} fill className="object-cover" sizes="64px" />
+                      </div>
                       <div>
                         <p className="font-semibold text-white">{item.name}</p>
                         <div className="mt-1 flex gap-1 text-[#d4af37]">
@@ -484,7 +489,9 @@ export function ProfileTemplate({ data }: { data: ProfileData }) {
                 {similarPros.map((pro) => (
                   <Link href={`/profile/${pro.slug}`} key={pro.slug} className="group block overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-white/10 to-white/5 p-8 backdrop-blur-xl transition-all duration-500 hover:scale-105 hover:border-[#d4af37]/50">
                     <div className="flex items-center gap-6">
-                      <img src={pro.image} alt={pro.name} className="h-20 w-20 rounded-full object-cover" />
+                      <div className="relative h-20 w-20 overflow-hidden rounded-full">
+                        <Image src={pro.image} alt={pro.name} fill className="object-cover" sizes="80px" />
+                      </div>
                       <div>
                         <h3 className="text-xl font-bold text-white">{pro.name}</h3>
                         <p className="text-white/60">{pro.role}</p>

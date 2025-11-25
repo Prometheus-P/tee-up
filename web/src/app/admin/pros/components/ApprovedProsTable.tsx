@@ -1,26 +1,11 @@
 import Link from 'next/link'
-
-interface ApprovedPro {
-  id: number
-  name: string
-  title: string
-  location: string
-  status: 'active'
-  profileViews: number
-  leads: number
-  matchedLessons: number
-  rating: number
-  subscriptionTier: 'basic' | 'pro'
-}
+import { type ApprovedProProfile } from '@/lib/api/profiles'
 
 interface ApprovedProsTableProps {
-  pros: ApprovedPro[]
+  pros: ApprovedProProfile[]
 }
 
 export function ApprovedProsTable({ pros }: ApprovedProsTableProps) {
-  // Filter out placeholder pros (those without names)
-  const visiblePros = pros.filter(pro => pro.name)
-
   return (
     <div className="table-container">
       <table className="w-full">
@@ -38,24 +23,28 @@ export function ApprovedProsTable({ pros }: ApprovedProsTableProps) {
           </tr>
         </thead>
         <tbody>
-          {visiblePros.map((pro) => (
+          {pros.map((pro) => (
             <tr key={pro.id} className="table-row">
-              <td className="table-cell font-semibold text-calm-obsidian">{pro.name}</td>
+              <td className="table-cell font-semibold text-calm-obsidian">
+                {pro.profiles?.full_name || '이름 없음'}
+              </td>
               <td className="table-cell">{pro.title}</td>
-              <td className="table-cell">{pro.location}</td>
-              <td className="table-cell text-center font-mono">{pro.profileViews}</td>
-              <td className="table-cell text-center font-mono">{pro.leads}</td>
-              <td className="table-cell text-center font-mono">{pro.matchedLessons}</td>
-              <td className="table-cell text-center font-mono">{pro.rating}</td>
+              <td className="table-cell">{pro.location || '-'}</td>
+              <td className="table-cell text-center font-mono">{pro.profile_views}</td>
+              <td className="table-cell text-center font-mono">{pro.total_leads}</td>
+              <td className="table-cell text-center font-mono">{pro.matched_lessons}</td>
+              <td className="table-cell text-center font-mono">
+                {pro.rating > 0 ? pro.rating.toFixed(1) : '-'}
+              </td>
               <td className="table-cell text-center">
                 <span
                   className={`rounded-full px-3 py-1 text-body-xs font-medium ${
-                    pro.subscriptionTier === 'pro'
+                    pro.subscription_tier === 'pro'
                       ? 'bg-success-bg text-success'
                       : 'bg-calm-cloud text-calm-charcoal'
                   }`}
                 >
-                  {pro.subscriptionTier === 'pro' ? 'Pro' : 'Basic'}
+                  {pro.subscription_tier === 'pro' ? 'Pro' : 'Basic'}
                 </span>
               </td>
               <td className="table-cell text-right">

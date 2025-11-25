@@ -19,7 +19,7 @@ export default function TestSupabasePage() {
         }
 
         // Test 2: Try to query profiles table
-        const { data, error: queryError } = await supabase
+        const { error: queryError } = await supabase
           .from('profiles')
           .select('count')
           .limit(1)
