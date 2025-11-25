@@ -38,7 +38,7 @@ export function ProfileTemplate({ data }: { data: ProfileData }) {
           className="group relative overflow-hidden rounded-full bg-gradient-to-r from-[#d4af37] to-[#f4e5c2] px-8 py-4 text-lg font-bold text-[#1a1f3a] shadow-2xl transition-all duration-300 hover:scale-105 hover:shadow-[0_0_40px_rgba(212,175,55,0.6)]"
         >
           <span className="relative z-10 flex items-center gap-2">
-            💬 레슨 문의
+            💬 레슨 상담하기
           </span>
           <div className="absolute inset-0 -z-0 bg-gradient-to-r from-[#f4e5c2] to-[#d4af37] opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
         </button>
@@ -200,68 +200,68 @@ export function ProfileTemplate({ data }: { data: ProfileData }) {
 
         {/* Instagram Embed */}
         {instagramPosts && instagramPosts.length > 0 && (
-        <section className="px-6 py-20">
-          <div className="mx-auto max-w-7xl">
-            <div className="mb-12 text-center">
-              <h2 className="mb-4 font-display text-4xl font-bold text-white">
-                <a href={`https://instagram.com/${profile.instagramUsername}`} target="_blank" rel="noopener noreferrer" className="hover:text-[#d4af37] transition-colors">
-                  Instagram
-                </a>
-              </h2>
-              <p className="text-lg text-white/60">@{profile.instagramUsername}</p>
+          <section className="px-6 py-20">
+            <div className="mx-auto max-w-7xl">
+              <div className="mb-12 text-center">
+                <h2 className="mb-4 font-display text-4xl font-bold text-white">
+                  <a href={`https://instagram.com/${profile.instagramUsername}`} target="_blank" rel="noopener noreferrer" className="hover:text-[#d4af37] transition-colors">
+                    Instagram
+                  </a>
+                </h2>
+                <p className="text-lg text-white/60">@{profile.instagramUsername}</p>
+              </div>
+              <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-6">
+                {instagramPosts.map((post) => (
+                  <a
+                    key={post.id}
+                    href={post.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group relative aspect-square overflow-hidden rounded-xl border border-white/10 transition-all duration-300 hover:scale-105 hover:shadow-2xl"
+                  >
+                    <img src={post.image} alt="Instagram Post" className="h-full w-full object-cover" />
+                    <div className="absolute inset-0 bg-black/40 opacity-0 transition-opacity group-hover:opacity-100" />
+                  </a>
+                ))}
+              </div>
             </div>
-            <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-6">
-              {instagramPosts.map((post) => (
-                <a
-                  key={post.id}
-                  href={post.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group relative aspect-square overflow-hidden rounded-xl border border-white/10 transition-all duration-300 hover:scale-105 hover:shadow-2xl"
-                >
-                  <img src={post.image} alt="Instagram Post" className="h-full w-full object-cover" />
-                  <div className="absolute inset-0 bg-black/40 opacity-0 transition-opacity group-hover:opacity-100" />
-                </a>
-              ))}
-            </div>
-          </div>
-        </section>
+          </section>
         )}
 
 
         {/* YouTube Videos */}
         {youtubeVideos && youtubeVideos.length > 0 && (
-        <section className="px-6 py-20">
-          <div className="mx-auto max-w-7xl">
-            <div className="mb-12 text-center">
-              <h2 className="mb-4 font-display text-4xl font-bold text-white">
-                <a href={`https://www.youtube.com/channel/${profile.youtubeChannelId}`} target="_blank" rel="noopener noreferrer" className="hover:text-[#d4af37] transition-colors">
-                  YouTube
-                </a>
-              </h2>
-              <p className="text-lg text-white/60">레슨 영상과 골프 팁</p>
-            </div>
-            <div className="grid gap-8 md:grid-cols-2">
-              {youtubeVideos.map((ytVideo) => (
-                <div key={ytVideo.id} className="group relative overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-white/5 to-transparent backdrop-blur-xl">
-                  <div className="aspect-video">
-                    <iframe
-                      src={`https://www.youtube.com/embed/${ytVideo.id}`}
-                      title={ytVideo.title}
-                      frameBorder="0"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                      className="h-full w-full"
-                    ></iframe>
+          <section className="px-6 py-20">
+            <div className="mx-auto max-w-7xl">
+              <div className="mb-12 text-center">
+                <h2 className="mb-4 font-display text-4xl font-bold text-white">
+                  <a href={`https://www.youtube.com/channel/${profile.youtubeChannelId}`} target="_blank" rel="noopener noreferrer" className="hover:text-[#d4af37] transition-colors">
+                    YouTube
+                  </a>
+                </h2>
+                <p className="text-lg text-white/60">레슨 영상과 골프 팁</p>
+              </div>
+              <div className="grid gap-8 md:grid-cols-2">
+                {youtubeVideos.map((ytVideo) => (
+                  <div key={ytVideo.id} className="group relative overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-white/5 to-transparent backdrop-blur-xl">
+                    <div className="aspect-video">
+                      <iframe
+                        src={`https://www.youtube.com/embed/${ytVideo.id}`}
+                        title={ytVideo.title}
+                        frameBorder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                        className="h-full w-full"
+                      ></iframe>
+                    </div>
+                    <div className="p-6">
+                      <h3 className="text-lg font-semibold text-white">{ytVideo.title}</h3>
+                    </div>
                   </div>
-                  <div className="p-6">
-                    <h3 className="text-lg font-semibold text-white">{ytVideo.title}</h3>
-                  </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
-          </div>
-        </section>
+          </section>
         )}
 
         {/* Performance Metrics */}
@@ -270,7 +270,7 @@ export function ProfileTemplate({ data }: { data: ProfileData }) {
             <div className="mx-auto max-w-7xl">
               <div className="mb-12 text-center">
                 <h2 className="mb-4 font-display text-4xl font-bold text-white">
-                  전문 분야
+                  레슨 전문 분야
                 </h2>
                 <p className="text-lg text-white/60">데이터로 검증된 실력</p>
               </div>
@@ -311,7 +311,7 @@ export function ProfileTemplate({ data }: { data: ProfileData }) {
             <div className="mx-auto max-w-7xl">
               <div className="mb-12 text-center">
                 <h2 className="mb-4 font-display text-4xl font-bold text-white">
-                  레슨 프로그램
+                  커리큘럼 안내
                 </h2>
                 <p className="text-lg text-white/60">맞춤형 커리큘럼</p>
               </div>
@@ -346,7 +346,7 @@ export function ProfileTemplate({ data }: { data: ProfileData }) {
             <div className="mx-auto max-w-7xl">
               <div className="mb-12 text-center">
                 <h2 className="mb-4 font-display text-4xl font-bold text-white">
-                  레슨 요금
+                  수강료 안내
                 </h2>
                 <p className="text-lg text-white/60">합리적인 가격, 최고의 가치</p>
               </div>
@@ -355,11 +355,10 @@ export function ProfileTemplate({ data }: { data: ProfileData }) {
                 {priceTiers.map((tier, idx) => (
                   <div
                     key={tier.name}
-                    className={`group relative overflow-hidden rounded-3xl border p-10 backdrop-blur-xl transition-all duration-500 hover:scale-105 ${
-                      idx === 1
+                    className={`group relative overflow-hidden rounded-3xl border p-10 backdrop-blur-xl transition-all duration-500 hover:scale-105 ${idx === 1
                         ? 'border-[#d4af37] bg-gradient-to-br from-[#d4af37]/20 to-[#d4af37]/5 shadow-[0_0_40px_rgba(212,175,55,0.3)]'
                         : 'border-white/10 bg-gradient-to-br from-white/10 to-white/5 hover:border-[#d4af37]/50'
-                    }`}
+                      }`}
                   >
                     {idx === 1 && (
                       <div className="absolute right-8 top-8 rounded-full bg-[#d4af37] px-4 py-1 text-xs font-bold text-[#1a1f3a]">
@@ -383,11 +382,10 @@ export function ProfileTemplate({ data }: { data: ProfileData }) {
 
                       <button
                         onClick={() => setOpen(true)}
-                        className={`w-full rounded-xl py-4 font-semibold transition-all duration-300 ${
-                          idx === 1
+                        className={`w-full rounded-xl py-4 font-semibold transition-all duration-300 ${idx === 1
                             ? 'bg-gradient-to-r from-[#d4af37] to-[#f4e5c2] text-[#1a1f3a] hover:shadow-[0_0_30px_rgba(212,175,55,0.5)]'
                             : 'border border-[#d4af37] text-[#d4af37] hover:bg-[#d4af37] hover:text-[#1a1f3a]'
-                        }`}
+                          }`}
                       >
                         선택하기
                       </button>
@@ -434,7 +432,7 @@ export function ProfileTemplate({ data }: { data: ProfileData }) {
           <div className="mx-auto max-w-7xl">
             <div className="mb-12 text-center">
               <h2 className="mb-4 font-display text-4xl font-bold text-white">
-                수강생 후기
+                생생한 수강 후기
               </h2>
               <p className="text-lg text-white/60">실제 수강생들의 생생한 후기</p>
             </div>
@@ -478,7 +476,7 @@ export function ProfileTemplate({ data }: { data: ProfileData }) {
             <div className="mx-auto max-w-7xl">
               <div className="mb-12">
                 <h2 className="mb-4 font-display text-4xl font-bold text-white">
-                  이런 프로는 어떠세요?
+                  추천 프로 더보기
                 </h2>
                 <p className="text-lg text-white/60">나에게 맞는 다른 프로 더 찾아보기</p>
               </div>
