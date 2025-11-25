@@ -49,16 +49,21 @@ export async function getLeads(proId: string): Promise<ILead[]> {
     return [];
   }
 
-  return data.map((room) => ({
-    id: room.id,
-    pro_id: room.pro_id,
-    golfer_id: room.golfer_id,
-    chat_room_id: room.id,
-    status: mapRoomStatusToLeadStatus(room.status),
-    created_at: room.created_at,
-    matched_at: room.matched_at,
-    golfer: room.golfer as ILead['golfer'],
-  }));
+  return data.map((room) => {
+    // Supabase joins can return array or object depending on relationship
+    const golferData = Array.isArray(room.golfer) ? room.golfer[0] : room.golfer;
+
+    return {
+      id: room.id,
+      pro_id: room.pro_id,
+      golfer_id: room.golfer_id,
+      chat_room_id: room.id,
+      status: mapRoomStatusToLeadStatus(room.status),
+      created_at: room.created_at,
+      matched_at: room.matched_at,
+      golfer: golferData as ILead['golfer'],
+    };
+  });
 }
 
 /**
