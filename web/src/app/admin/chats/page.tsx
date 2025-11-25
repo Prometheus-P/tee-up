@@ -2,93 +2,66 @@
 
 import Link from 'next/link'
 import { useFlaggedMessages } from '@/hooks/useFlaggedMessages'
+import { useChatManagement } from '@/hooks/useChatManagement'
 import { FlaggedMessageCard } from './components/FlaggedMessageCard'
 
-const activeChatRooms = [
-  {
-    id: 1,
-    golferName: 'Park Ji-sung',
-    golferPhone: '010-9876-5432',
-    proName: 'Hannah Park',
-    proId: 101,
-    lastMessage: '다음 주 화요일 오후 2시 가능할까요?',
-    lastMessageTime: '2025-11-24 14:32',
-    unreadCount: 2,
-    status: 'active',
-    createdAt: '2025-11-23 10:15',
-  },
-  {
-    id: 2,
-    golferName: 'Kim Min-jae',
-    golferPhone: '010-8765-4321',
-    proName: 'James Kim',
-    proId: 102,
-    lastMessage: '감사합니다. 확인했습니다.',
-    lastMessageTime: '2025-11-24 13:15',
-    unreadCount: 0,
-    status: 'matched',
-    createdAt: '2025-11-22 15:30',
-    matchedAt: '2025-11-23 09:20',
-  },
-  {
-    id: 3,
-    golferName: 'Lee Soo-hyun',
-    golferPhone: '010-7654-3210',
-    proName: 'Sophia Lee',
-    proId: 103,
-    lastMessage: '안녕하세요, 레슨 문의드립니다.',
-    lastMessageTime: '2025-11-24 11:50',
-    unreadCount: 1,
-    status: 'active',
-    createdAt: '2025-11-24 11:45',
-  },
-  {
-    id: 4,
-    golferName: 'Choi Yeon-woo',
-    golferPhone: '010-6543-2109',
-    proName: 'Michael Choi',
-    proId: 104,
-    lastMessage: '레슨 완료했습니다. 감사합니다!',
-    lastMessageTime: '2025-11-23 18:30',
-    unreadCount: 0,
-    status: 'closed',
-    createdAt: '2025-11-20 14:00',
-    closedAt: '2025-11-23 18:30',
-  },
-]
-
-const initialFlaggedMessages = [
-  {
-    id: 1,
-    chatRoomId: 5,
-    sender: 'Unknown User',
-    content: '다른 플랫폼에서 연락주세요. 카톡 ID: abc123',
-    flagReason: 'Off-platform contact attempt',
-    flaggedAt: '2025-11-24 12:20',
-    status: 'pending',
-  },
-  {
-    id: 2,
-    chatRoomId: 6,
-    sender: 'Pro Lee',
-    content: '돈 먼저 입금하시면 스케줄 잡아드릴게요.',
-    flagReason: 'Potential scam - upfront payment request',
-    flaggedAt: '2025-11-23 16:45',
-    status: 'reviewed',
-  },
-]
-
-const chatStats = [
-  { label: '전체 채팅방', value: '156', change: '+12 this week' },
-  { label: '활성 대화', value: '23', change: '14.7% of total' },
-  { label: '매칭 완료', value: '89', change: '57.1% conversion' },
-  { label: '신고된 메시지', value: '3', change: '1 pending review' },
-]
-
 export default function AdminChatsPage() {
-  const { flaggedMessages, processingId, handleAction, handleDismiss } = useFlaggedMessages(
-    initialFlaggedMessages
-  )
+  const {
+    flaggedMessages,
+    processingId,
+    isLoading: flaggedLoading,
+    error: flaggedError,
+    handleAction,
+    handleDismiss,
+  } = useFlaggedMessages()
+
+  const {
+    chatRooms,
+    stats,
+    isLoading: chatsLoading,
+    error: chatsError,
+  } = useChatManagement()
+
+  const isLoading = flaggedLoading || chatsLoading
+  const error = flaggedError || chatsError
+
+  const chatStats = [
+    {
+      label: '전체 채팅방',
+      value: stats.totalRooms.toString(),
+      change: `${stats.activeRooms} active`,
+    },
+    {
+      label: '활성 대화',
+      value: stats.activeRooms.toString(),
+      change: stats.totalRooms > 0
+        ? `${((stats.activeRooms / stats.totalRooms) * 100).toFixed(1)}% of total`
+        : '0% of total',
+    },
+    {
+      label: '매칭 완료',
+      value: stats.matchedRooms.toString(),
+      change: stats.totalRooms > 0
+        ? `${((stats.matchedRooms / stats.totalRooms) * 100).toFixed(1)}% conversion`
+        : '0% conversion',
+    },
+    {
+      label: '신고된 메시지',
+      value: stats.flaggedMessages.toString(),
+      change: `${flaggedMessages.filter((m) => m.status === 'pending').length} pending review`,
+    },
+  ]
+
+  if (isLoading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-calm-white">
+        <div className="text-center">
+          <div className="mx-auto mb-4 h-8 w-8 animate-spin rounded-full border-4 border-accent border-t-transparent"></div>
+          <p className="text-calm-ash">데이터를 불러오는 중...</p>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="min-h-screen bg-calm-white">
@@ -147,6 +120,13 @@ export default function AdminChatsPage() {
 
       {/* Main Content */}
       <main className="mx-auto max-w-7xl px-6 py-8">
+        {/* Error Alert */}
+        {error && (
+          <div className="mb-6 rounded-lg border border-error bg-error/10 p-4">
+            <p className="text-error">{error}</p>
+          </div>
+        )}
+
         {/* Stats Overview */}
         <section className="mb-12">
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
@@ -189,13 +169,9 @@ export default function AdminChatsPage() {
         <section>
           <div className="mb-6 flex items-center justify-between">
             <h2 className="text-2xl font-semibold text-calm-obsidian">
-              채팅방 목록 ({activeChatRooms.length})
+              채팅방 목록 ({chatRooms.length})
             </h2>
-            <input
-              type="search"
-              placeholder="골퍼/프로 이름 검색..."
-              className="input w-64"
-            />
+            <input type="search" placeholder="골퍼/프로 이름 검색..." className="input w-64" />
           </div>
 
           <div className="table-container">
@@ -213,29 +189,29 @@ export default function AdminChatsPage() {
                 </tr>
               </thead>
               <tbody>
-                {activeChatRooms.map((room) => (
+                {chatRooms.map((room) => (
                   <tr key={room.id} className="table-row">
                     <td className="table-cell font-mono font-semibold text-accent">
-                      #{room.id}
+                      #{room.id.slice(0, 8)}
                     </td>
                     <td className="table-cell">
                       <div>
                         <p className="font-semibold text-calm-obsidian">{room.golferName}</p>
-                        <p className="text-body-xs text-calm-ash">{room.golferPhone}</p>
+                        <p className="text-body-xs text-calm-ash">{room.golferPhone || '-'}</p>
                       </div>
                     </td>
                     <td className="table-cell">
                       <div>
                         <p className="font-semibold text-calm-obsidian">{room.proName}</p>
-                        <p className="text-body-xs text-calm-ash">ID: {room.proId}</p>
+                        <p className="text-body-xs text-calm-ash">ID: {room.proId.slice(0, 8)}</p>
                       </div>
                     </td>
                     <td className="table-cell max-w-xs">
                       <div>
                         <p className="truncate text-body-sm text-calm-charcoal">
-                          {room.lastMessage}
+                          {room.lastMessage || '-'}
                         </p>
-                        <p className="text-body-xs text-calm-ash">{room.lastMessageTime}</p>
+                        <p className="text-body-xs text-calm-ash">{room.lastMessageTime || '-'}</p>
                       </div>
                     </td>
                     <td className="table-cell text-center">
@@ -281,7 +257,7 @@ export default function AdminChatsPage() {
             </table>
           </div>
 
-          {activeChatRooms.length === 0 && (
+          {chatRooms.length === 0 && (
             <div className="rounded-2xl border border-calm-stone bg-calm-cloud/50 p-12 text-center">
               <p className="text-body-lg text-calm-ash">채팅방이 없습니다.</p>
             </div>
@@ -296,22 +272,26 @@ export default function AdminChatsPage() {
               <h4 className="mb-4 text-body-sm font-semibold uppercase tracking-wide text-calm-ash">
                 평균 응답 시간
               </h4>
-              <div className="mb-2 font-display text-3xl font-bold text-calm-obsidian">2.3시간</div>
+              <div className="mb-2 font-display text-3xl font-bold text-calm-obsidian">-</div>
               <p className="text-body-sm text-calm-charcoal">
                 프로 평균 첫 응답까지 걸리는 시간
               </p>
-              <div className="mt-4 text-body-xs text-success">↓ 18% 지난 주 대비 개선</div>
+              <div className="mt-4 text-body-xs text-calm-ash">데이터 수집 중</div>
             </div>
 
             <div className="card p-6">
               <h4 className="mb-4 text-body-sm font-semibold uppercase tracking-wide text-calm-ash">
                 매칭 성공률
               </h4>
-              <div className="mb-2 font-display text-3xl font-bold text-calm-obsidian">57.1%</div>
+              <div className="mb-2 font-display text-3xl font-bold text-calm-obsidian">
+                {stats.totalRooms > 0
+                  ? `${((stats.matchedRooms / stats.totalRooms) * 100).toFixed(1)}%`
+                  : '-'}
+              </div>
               <p className="text-body-sm text-calm-charcoal">
                 채팅 시작 후 실제 레슨으로 이어진 비율
               </p>
-              <div className="mt-4 text-body-xs text-success">↑ 5.2% 지난 달 대비 상승</div>
+              <div className="mt-4 text-body-xs text-calm-ash">전체 채팅방 기준</div>
             </div>
           </div>
         </section>
