@@ -174,6 +174,9 @@ describe('Profile API', () => {
         slug: 'elliot-kim',
         title: 'Golf Pro',
         bio: 'Test',
+        specialties: null,
+        hero_image_url: null,
+        profile_image_url: null,
       }
 
       mockSupabaseClient.single.mockResolvedValue({

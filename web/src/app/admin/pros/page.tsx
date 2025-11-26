@@ -1,126 +1,20 @@
 'use client'
 
-import { useEffect } from 'react'
-import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { useAdminAuth } from '@/hooks/useAdminAuth'
 import { useProManagement } from '@/hooks/useProManagement'
 import { PendingProCard } from './components/PendingProCard'
 import { ApprovedProsTable } from './components/ApprovedProsTable'
-import type { ProProfile } from '@/lib/api/profiles'
-
-// Mock pending pros data matching ProProfile type
-const initialPendingPros: ProProfile[] = [
-  {
-    id: 'pending-1',
-    user_id: 'user-1',
-    slug: 'kim-soo-jin',
-    title: 'KLPGA Professional',
-    bio: 'KLPGA Tour 6 years experience',
-    specialties: ['Putting', 'Short Game', 'Mental Coaching'],
-    hero_image_url: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400',
-    profile_image_url: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400',
-    profile_views: 0,
-    monthly_chat_count: 0,
-    total_leads: 0,
-    matched_lessons: 0,
-    rating: 0,
-    subscription_tier: 'basic',
-    subscription_expires_at: null,
-    is_approved: false,
-    is_featured: false,
-    created_at: '2025-11-23T14:30:00Z',
-    updated_at: '2025-11-23T14:30:00Z',
-    profiles: {
-      full_name: 'Kim Soo-jin',
-      avatar_url: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400',
-      phone: '010-1234-5678',
-    },
-  },
-  {
-    id: 'pending-2',
-    user_id: 'user-2',
-    slug: 'lee-dong-hyun',
-    title: 'PGA Master Professional',
-    bio: 'PGA Tour Coach 10+ years',
-    specialties: ['Driver Distance', 'TrackMan Analysis', 'Biomechanics'],
-    hero_image_url: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400',
-    profile_image_url: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400',
-    profile_views: 0,
-    monthly_chat_count: 0,
-    total_leads: 0,
-    matched_lessons: 0,
-    rating: 0,
-    subscription_tier: 'basic',
-    subscription_expires_at: null,
-    is_approved: false,
-    is_featured: false,
-    created_at: '2025-11-23T11:20:00Z',
-    updated_at: '2025-11-23T11:20:00Z',
-    profiles: {
-      full_name: 'Lee Dong-hyun',
-      avatar_url: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400',
-      phone: '010-2345-6789',
-    },
-  },
-]
-
-// Mock approved pros data
-const initialApprovedPros: ProProfile[] = [
-  {
-    id: 'approved-1',
-    user_id: 'user-101',
-    slug: 'hannah-park',
-    title: 'LPGA Tour Professional',
-    bio: 'LPGA Tour experience',
-    specialties: ['Driver', 'Iron Play'],
-    hero_image_url: null,
-    profile_image_url: null,
-    profile_views: 247,
-    monthly_chat_count: 5,
-    total_leads: 5,
-    matched_lessons: 3,
-    rating: 4.9,
-    subscription_tier: 'basic',
-    subscription_expires_at: null,
-    is_approved: true,
-    is_featured: false,
-    approved_at: '2025-11-20T10:00:00Z',
-    created_at: '2025-11-20T10:00:00Z',
-    updated_at: '2025-11-20T10:00:00Z',
-    profiles: {
-      full_name: 'Hannah Park',
-      avatar_url: null,
-      phone: null,
-    },
-  },
-]
 
 export default function AdminProsPage() {
-  const router = useRouter()
-  const { isAuthenticated, isLoading } = useAdminAuth()
-  const { pendingPros, approvedPros, processingId, handleApprove, handleReject } = useProManagement(
-    initialPendingPros,
-    initialApprovedPros
-  )
-
-  useEffect(() => {
-    if (!isLoading && !isAuthenticated) {
-      router.push('/admin')
-    }
-  }, [isAuthenticated, isLoading, router])
-
-  if (isLoading) {
-    return (
-      <div className="flex min-h-screen items-center justify-center">
-        <div className="text-calm-ash">Loading...</div>
-      </div>
-    )
-  }
-
-  if (!isAuthenticated) {
-    return null
-  }
+  const {
+    pendingPros,
+    approvedPros,
+    processingId,
+    isLoading,
+    error,
+    handleApprove,
+    handleReject,
+  } = useProManagement()
 
   return (
     <div className="min-h-screen bg-calm-white">
@@ -179,50 +73,71 @@ export default function AdminProsPage() {
 
       {/* Main Content */}
       <main className="mx-auto max-w-7xl px-6 py-8">
-        {/* Pending Applications Section */}
-        <section className="mb-12">
-          <div className="mb-6">
-            <h2 className="text-2xl font-semibold text-calm-obsidian">승인 대기 중 ({pendingPros.length})</h2>
+        {/* Error Message */}
+        {error && (
+          <div className="mb-6 rounded-lg border border-red-200 bg-red-50 p-4 text-red-700">
+            {error}
           </div>
+        )}
 
-          <div className="space-y-6">
-            {pendingPros.map((pro) => (
-              <PendingProCard
-                key={pro.id}
-                pro={pro}
-                onApprove={handleApprove}
-                onReject={handleReject}
-                isProcessing={processingId === pro.id}
-              />
-            ))}
+        {/* Loading State */}
+        {isLoading ? (
+          <div className="flex items-center justify-center py-12">
+            <div className="h-8 w-8 animate-spin rounded-full border-4 border-accent border-t-transparent"></div>
+            <span className="ml-3 text-calm-ash">데이터를 불러오는 중...</span>
           </div>
+        ) : (
+          <>
+            {/* Pending Applications Section */}
+            <section className="mb-12">
+              <div className="mb-6">
+                <h2 className="text-2xl font-semibold text-calm-obsidian">
+                  승인 대기 중 ({pendingPros.length})
+                </h2>
+              </div>
 
-          {pendingPros.length === 0 && (
-            <div className="rounded-2xl border border-calm-stone bg-calm-cloud/50 p-12 text-center">
-              <p className="text-body-lg text-calm-ash">대기 중인 신청이 없습니다.</p>
-            </div>
-          )}
-        </section>
+              <div className="space-y-6">
+                {pendingPros.map((pro) => (
+                  <PendingProCard
+                    key={pro.id}
+                    pro={pro}
+                    onApprove={handleApprove}
+                    onReject={handleReject}
+                    isProcessing={processingId === pro.id}
+                  />
+                ))}
+              </div>
 
-        {/* Approved Pros Section */}
-        <section>
-          <div className="mb-6 flex items-center justify-between">
-            <h2 className="text-2xl font-semibold text-calm-obsidian">승인된 프로 ({approvedPros.length})</h2>
-            <input
-              type="search"
-              placeholder="프로 검색..."
-              className="input w-64"
-            />
-          </div>
+              {pendingPros.length === 0 && (
+                <div className="rounded-2xl border border-calm-stone bg-calm-cloud/50 p-12 text-center">
+                  <p className="text-body-lg text-calm-ash">대기 중인 신청이 없습니다.</p>
+                </div>
+              )}
+            </section>
 
-          <ApprovedProsTable pros={approvedPros} />
+            {/* Approved Pros Section */}
+            <section>
+              <div className="mb-6 flex items-center justify-between">
+                <h2 className="text-2xl font-semibold text-calm-obsidian">
+                  승인된 프로 ({approvedPros.length})
+                </h2>
+                <input
+                  type="search"
+                  placeholder="프로 검색..."
+                  className="input w-64"
+                />
+              </div>
 
-          {approvedPros.length === 0 && (
-            <div className="rounded-2xl border border-calm-stone bg-calm-cloud/50 p-12 text-center">
-              <p className="text-body-lg text-calm-ash">승인된 프로가 없습니다.</p>
-            </div>
-          )}
-        </section>
+              <ApprovedProsTable pros={approvedPros} />
+
+              {approvedPros.length === 0 && (
+                <div className="rounded-2xl border border-calm-stone bg-calm-cloud/50 p-12 text-center">
+                  <p className="text-body-lg text-calm-ash">승인된 프로가 없습니다.</p>
+                </div>
+              )}
+            </section>
+          </>
+        )}
       </main>
     </div>
   )

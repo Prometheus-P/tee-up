@@ -1,35 +1,38 @@
-import type { ProProfile } from '@/lib/api/profiles'
+import Image from 'next/image'
+import { type PendingProProfile } from '@/lib/api/profiles'
 
 interface PendingProCardProps {
-  pro: ProProfile
+  pro: PendingProProfile
   onApprove: (id: string) => void
-  onReject: (id: string, reason: string) => void
+  onReject: (id: string) => void
   isProcessing: boolean
 }
 
 export function PendingProCard({ pro, onApprove, onReject, isProcessing }: PendingProCardProps) {
-  const handleRejectClick = () => {
-    const reason = window.prompt('거절 사유를 입력하세요:')
-    if (reason) {
-      onReject(pro.id, reason)
-    }
-  }
+  const profileName = pro.profiles?.full_name || '이름 없음'
+  const profileImage = pro.profile_image_url || pro.hero_image_url || '/placeholder-profile.jpg'
+  const phone = pro.profiles?.phone || '연락처 없음'
 
   return (
-    <div className="card" data-testid="pending-pro-card">
+    <div className="card">
       <div className="grid gap-6 lg:grid-cols-[300px,1fr]">
         {/* Left: Pro Image & Basic Info */}
         <div>
-          <img
-            src={pro.profile_image_url || 'https://via.placeholder.com/400'}
-            alt={pro.profiles?.full_name || 'Pro'}
-            className="mb-4 h-64 w-full rounded-xl object-cover"
-          />
+          <div className="relative mb-4 h-64 w-full overflow-hidden rounded-xl">
+            <Image
+              src={profileImage}
+              alt={profileName}
+              fill
+              className="object-cover"
+              sizes="(max-width: 768px) 100vw, 300px"
+            />
+          </div>
           <div className="space-y-2">
-            <h3 className="text-xl font-semibold text-calm-obsidian">
-              {pro.profiles?.full_name || 'Unknown'}
-            </h3>
+            <h3 className="text-xl font-semibold text-calm-obsidian">{profileName}</h3>
             <p className="text-body-sm text-calm-ash">{pro.title}</p>
+            {pro.location && (
+              <p className="text-body-sm text-calm-charcoal">📍 {pro.location}</p>
+            )}
             <p className="text-body-xs text-calm-ash">
               신청: {new Date(pro.created_at).toLocaleDateString('ko-KR')}
             </p>
@@ -39,14 +42,12 @@ export function PendingProCard({ pro, onApprove, onReject, isProcessing }: Pendi
         {/* Right: Detailed Info */}
         <div className="space-y-6 p-6">
           {/* Contact */}
-          {pro.profiles?.phone && (
-            <div>
-              <h4 className="mb-2 text-body-sm font-semibold uppercase tracking-wide text-calm-ash">
-                연락처
-              </h4>
-              <p className="text-body-sm text-calm-charcoal">📱 {pro.profiles.phone}</p>
-            </div>
-          )}
+          <div>
+            <h4 className="mb-2 text-body-sm font-semibold uppercase tracking-wide text-calm-ash">
+              연락처
+            </h4>
+            <p className="text-body-sm text-calm-charcoal">📱 {phone}</p>
+          </div>
 
           {/* Specialties */}
           {pro.specialties && pro.specialties.length > 0 && (
@@ -64,13 +65,39 @@ export function PendingProCard({ pro, onApprove, onReject, isProcessing }: Pendi
             </div>
           )}
 
+          {/* Experience */}
+          {pro.tour_experience && (
+            <div>
+              <h4 className="mb-2 text-body-sm font-semibold uppercase tracking-wide text-calm-ash">
+                투어 경력
+              </h4>
+              <p className="text-body-sm text-calm-charcoal">{pro.tour_experience}</p>
+            </div>
+          )}
+
+          {/* Certifications */}
+          {pro.certifications && pro.certifications.length > 0 && (
+            <div>
+              <h4 className="mb-2 text-body-sm font-semibold uppercase tracking-wide text-calm-ash">
+                자격증
+              </h4>
+              <ul className="space-y-1">
+                {pro.certifications.map((cert, index) => (
+                  <li key={index} className="text-body-sm text-calm-charcoal">
+                    ✓ {cert}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
           {/* Bio */}
           {pro.bio && (
             <div>
               <h4 className="mb-2 text-body-sm font-semibold uppercase tracking-wide text-calm-ash">
                 소개
               </h4>
-              <p className="text-body-sm text-calm-charcoal">{pro.bio}</p>
+              <p className="text-body-sm text-calm-charcoal line-clamp-3">{pro.bio}</p>
             </div>
           )}
 
@@ -81,11 +108,11 @@ export function PendingProCard({ pro, onApprove, onReject, isProcessing }: Pendi
               onClick={() => onApprove(pro.id)}
               disabled={isProcessing}
             >
-              승인
+              {isProcessing ? '처리 중...' : '승인'}
             </button>
             <button
               className="btn-ghost flex-1"
-              onClick={handleRejectClick}
+              onClick={() => onReject(pro.id)}
               disabled={isProcessing}
             >
               거부

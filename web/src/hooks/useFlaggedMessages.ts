@@ -1,54 +1,110 @@
-import { useState } from 'react'
+import { useState, useEffect, useCallback } from 'react'
+import {
+  getFlaggedMessages as fetchFlaggedMessages,
+  dismissFlaggedMessage,
+  deleteFlaggedMessage,
+  type FlaggedMessage as APIFlaggedMessage,
+} from '@/lib/api/chat'
 
-interface FlaggedMessage {
-  id: number
-  chatRoomId: number
+export interface FlaggedMessage {
+  id: string
+  chatRoomId: string
   sender: string
   content: string
   flagReason: string
   flaggedAt: string
-  status: string
+  status: 'pending' | 'reviewed'
 }
 
 interface UseFlaggedMessagesReturn {
   flaggedMessages: FlaggedMessage[]
-  processingId: number | null
-  handleAction: (id: number) => Promise<void>
-  handleDismiss: (id: number) => Promise<void>
+  processingId: string | null
+  isLoading: boolean
+  error: string | null
+  handleAction: (id: string) => Promise<void>
+  handleDismiss: (id: string) => Promise<void>
+  refetch: () => Promise<void>
 }
 
-export function useFlaggedMessages(initialMessages: FlaggedMessage[]): UseFlaggedMessagesReturn {
-  const [flaggedMessages, setFlaggedMessages] = useState(initialMessages)
-  const [processingId, setProcessingId] = useState<number | null>(null)
+function mapAPIToFlaggedMessage(apiMsg: APIFlaggedMessage): FlaggedMessage {
+  return {
+    id: apiMsg.id,
+    chatRoomId: apiMsg.room_id,
+    sender: apiMsg.sender?.full_name || 'Unknown User',
+    content: apiMsg.content,
+    flagReason: apiMsg.flag_reason || 'No reason provided',
+    flaggedAt: new Date(apiMsg.created_at).toLocaleString('ko-KR'),
+    status: apiMsg.is_flagged ? 'pending' : 'reviewed',
+  }
+}
 
-  const handleAction = async (id: number): Promise<void> => {
+export function useFlaggedMessages(): UseFlaggedMessagesReturn {
+  const [flaggedMessages, setFlaggedMessages] = useState<FlaggedMessage[]>([])
+  const [processingId, setProcessingId] = useState<string | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  const fetchData = useCallback(async () => {
+    try {
+      setIsLoading(true)
+      setError(null)
+      const data = await fetchFlaggedMessages()
+      setFlaggedMessages(data.map(mapAPIToFlaggedMessage))
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'Failed to fetch flagged messages'
+      setError(errorMessage)
+    } finally {
+      setIsLoading(false)
+    }
+  }, [])
+
+  useEffect(() => {
+    fetchData()
+  }, [fetchData])
+
+  const handleAction = async (id: string): Promise<void> => {
     setProcessingId(id)
+    setError(null)
 
-    // Simulate async operation (e.g., ban user, delete message)
-    await new Promise(resolve => setTimeout(resolve, 100))
+    try {
+      // Delete the flagged message
+      await deleteFlaggedMessage(id)
 
-    // Remove from flagged list
-    setFlaggedMessages(prev => prev.filter(msg => msg.id !== id))
-
-    setProcessingId(null)
+      // Remove from local state
+      setFlaggedMessages((prev) => prev.filter((msg) => msg.id !== id))
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'Failed to take action'
+      setError(errorMessage)
+    } finally {
+      setProcessingId(null)
+    }
   }
 
-  const handleDismiss = async (id: number): Promise<void> => {
+  const handleDismiss = async (id: string): Promise<void> => {
     setProcessingId(id)
+    setError(null)
 
-    // Simulate async operation (mark as reviewed)
-    await new Promise(resolve => setTimeout(resolve, 100))
+    try {
+      // Dismiss the flag (unflag the message)
+      await dismissFlaggedMessage(id)
 
-    // Remove from flagged list
-    setFlaggedMessages(prev => prev.filter(msg => msg.id !== id))
-
-    setProcessingId(null)
+      // Remove from local state
+      setFlaggedMessages((prev) => prev.filter((msg) => msg.id !== id))
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'Failed to dismiss'
+      setError(errorMessage)
+    } finally {
+      setProcessingId(null)
+    }
   }
 
   return {
     flaggedMessages,
     processingId,
+    isLoading,
+    error,
     handleAction,
     handleDismiss,
+    refetch: fetchData,
   }
 }

@@ -18,9 +18,6 @@ export type ProProfile = {
   subscription_expires_at: string | null
   is_approved: boolean
   is_featured: boolean
-  approved_at?: string | null
-  rejection_reason?: string | null
-  rejected_at?: string | null
   created_at: string
   updated_at: string
   profiles?: {
@@ -135,20 +132,41 @@ export async function incrementProfileViews(profileId: string): Promise<void> {
   }
 }
 
-/**
- * Pro Verification Functions
- */
+// ========================================
+// Admin Functions for Pro Management
+// ========================================
+
+export type PendingProProfile = ProProfile & {
+  profiles: {
+    full_name: string
+    avatar_url: string | null
+    phone: string | null
+  }
+  location: string | null
+  tour_experience: string | null
+  certifications: string[] | null
+}
+
+export type ApprovedProProfile = ProProfile & {
+  profiles: {
+    full_name: string
+    avatar_url: string | null
+    phone: string | null
+  }
+  location: string | null
+}
 
 /**
- * Fetch all pending pro applications (is_approved = false)
+ * Fetch all pending (unapproved) pro profiles - Admin only
  */
-export async function getPendingPros(): Promise<ProProfile[]> {
+export async function getPendingProProfiles(): Promise<PendingProProfile[]> {
   const supabase = createClient()
 
   const { data, error } = await supabase
     .from('pro_profiles')
     .select('*, profiles(full_name, avatar_url, phone)')
     .eq('is_approved', false)
+    .order('created_at', { ascending: false })
 
   if (error) {
     throw new Error(error.message)
@@ -158,9 +176,28 @@ export async function getPendingPros(): Promise<ProProfile[]> {
 }
 
 /**
- * Approve a pro application
+ * Fetch all approved pro profiles - Admin only
  */
-export async function approvePro(id: string): Promise<ProProfile> {
+export async function getApprovedProProfiles(): Promise<ApprovedProProfile[]> {
+  const supabase = createClient()
+
+  const { data, error } = await supabase
+    .from('pro_profiles')
+    .select('*, profiles(full_name, avatar_url, phone)')
+    .eq('is_approved', true)
+    .order('approved_at', { ascending: false })
+
+  if (error) {
+    throw new Error(error.message)
+  }
+
+  return data || []
+}
+
+/**
+ * Approve a pro profile - Admin only
+ */
+export async function approveProProfile(id: string): Promise<ProProfile> {
   const supabase = createClient()
 
   const { data, error } = await supabase
@@ -181,21 +218,52 @@ export async function approvePro(id: string): Promise<ProProfile> {
 }
 
 /**
- * Reject a pro application with reason
+ * Reject (delete) a pro profile - Admin only
  */
-export async function rejectPro(id: string, reason: string): Promise<ProProfile> {
-  if (!reason) {
-    throw new Error('Rejection reason is required')
-  }
+export async function rejectProProfile(id: string): Promise<void> {
+  const supabase = createClient()
 
+  const { error } = await supabase
+    .from('pro_profiles')
+    .delete()
+    .eq('id', id)
+
+  if (error) {
+    throw new Error(error.message)
+  }
+}
+
+/**
+ * Get a single pro profile by ID - Admin only
+ */
+export async function getProProfileById(id: string): Promise<PendingProProfile | null> {
   const supabase = createClient()
 
   const { data, error } = await supabase
     .from('pro_profiles')
-    .update({
-      rejection_reason: reason,
-      rejected_at: new Date().toISOString(),
-    })
+    .select('*, profiles(full_name, avatar_url, phone)')
+    .eq('id', id)
+    .single()
+
+  if (error) {
+    if (error.code === 'PGRST116') {
+      return null
+    }
+    throw new Error(error.message)
+  }
+
+  return data
+}
+
+/**
+ * Update pro profile featured status - Admin only
+ */
+export async function updateProFeaturedStatus(id: string, isFeatured: boolean): Promise<ProProfile> {
+  const supabase = createClient()
+
+  const { data, error } = await supabase
+    .from('pro_profiles')
+    .update({ is_featured: isFeatured })
     .eq('id', id)
     .select()
     .single()

@@ -1,14 +1,11 @@
 import Link from 'next/link'
-import type { ProProfile } from '@/lib/api/profiles'
+import { type ApprovedProProfile } from '@/lib/api/profiles'
 
 interface ApprovedProsTableProps {
-  pros: ProProfile[]
+  pros: ApprovedProProfile[]
 }
 
 export function ApprovedProsTable({ pros }: ApprovedProsTableProps) {
-  // Filter out placeholder pros (those without names)
-  const visiblePros = pros.filter(pro => pro.profiles?.full_name)
-
   return (
     <div className="table-container">
       <table className="w-full">
@@ -16,6 +13,7 @@ export function ApprovedProsTable({ pros }: ApprovedProsTableProps) {
           <tr className="table-header">
             <th className="text-left">이름</th>
             <th className="text-left">직함</th>
+            <th className="text-left">지역</th>
             <th className="text-center">조회수</th>
             <th className="text-center">Leads</th>
             <th className="text-center">매칭</th>
@@ -25,17 +23,18 @@ export function ApprovedProsTable({ pros }: ApprovedProsTableProps) {
           </tr>
         </thead>
         <tbody>
-          {visiblePros.map((pro) => (
+          {pros.map((pro) => (
             <tr key={pro.id} className="table-row">
-              <td className="table-cell">
-                <div className="font-medium text-calm-obsidian">{pro.profiles?.full_name}</div>
+              <td className="table-cell font-semibold text-calm-obsidian">
+                {pro.profiles?.full_name || '이름 없음'}
               </td>
-              <td className="table-cell text-calm-charcoal">{pro.title}</td>
-              <td className="table-cell text-center font-medium text-calm-obsidian">{pro.profile_views}</td>
-              <td className="table-cell text-center font-medium text-calm-obsidian">{pro.total_leads}</td>
-              <td className="table-cell text-center font-medium text-calm-obsidian">{pro.matched_lessons}</td>
-              <td className="table-cell text-center">
-                <span className="font-medium text-success">{pro.rating.toFixed(1)}</span>
+              <td className="table-cell">{pro.title}</td>
+              <td className="table-cell">{pro.location || '-'}</td>
+              <td className="table-cell text-center font-mono">{pro.profile_views}</td>
+              <td className="table-cell text-center font-mono">{pro.total_leads}</td>
+              <td className="table-cell text-center font-mono">{pro.matched_lessons}</td>
+              <td className="table-cell text-center font-mono">
+                {pro.rating > 0 ? pro.rating.toFixed(1) : '-'}
               </td>
               <td className="table-cell text-center">
                 <span

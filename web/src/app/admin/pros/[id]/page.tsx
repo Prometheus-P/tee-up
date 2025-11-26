@@ -1,5 +1,6 @@
 "use client"
 
+import Image from 'next/image'
 import Link from 'next/link'
 import { useState } from 'react'
 
@@ -284,11 +285,13 @@ export default function ProProfileEditorPage({ params }: { params: { id: string 
                     onChange={(e) => setProfileData({...profileData, heroImage: e.target.value})}
                   />
                 </div>
-                <div className="rounded-xl border border-calm-stone bg-calm-cloud p-4">
-                  <img
+                <div className="relative h-48 rounded-xl border border-calm-stone bg-calm-cloud p-4 overflow-hidden">
+                  <Image
                     src={profileData.heroImage}
                     alt="Hero preview"
-                    className="h-48 w-full rounded-lg object-cover"
+                    fill
+                    className="rounded-lg object-cover"
+                    sizes="(max-width: 768px) 100vw, 600px"
                   />
                 </div>
                 <button className="btn-secondary mt-4 w-full">
