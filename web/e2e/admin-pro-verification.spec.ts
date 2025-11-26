@@ -62,8 +62,9 @@ test.describe('Admin Pro Verification Flow', () => {
       await page.fill('input[type="password"]', 'wrongpassword')
       await page.click('button[type="submit"]')
 
-      // Should show error message
-      await expect(page.locator('text=/error|invalid|failed/i')).toBeVisible({ timeout: 5000 })
+      // Should show error message in the error box (not the toast)
+      await expect(page.locator('div.rounded-lg p.text-error')).toBeVisible({ timeout: 5000 })
+      await expect(page.locator('div.rounded-lg p.text-error')).toContainText(/invalid/i)
     })
 
     test('should login successfully with valid credentials', async ({ page }) => {
