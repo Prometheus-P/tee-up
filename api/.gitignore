@@ -12,6 +12,9 @@ node_modules/
 dist/
 build/
 
+# Test coverage
+coverage/
+
 # Logs
 *.log
 logs/
