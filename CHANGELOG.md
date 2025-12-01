@@ -7,22 +7,58 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Planned
+- Supabase 실시간 연동
+- KakaoTalk 링크 통합
+- 프로 인증 워크플로우 완성
+
+---
+
+## [1.0.0-beta] - 2025-12-01
+
 ### Added
 - 글로벌 에러 바운더리 (`error.tsx`, `global-error.tsx`)
 - 404 Not Found 페이지 (`not-found.tsx`)
 - 로딩 스켈레톤 컴포넌트 (`Skeleton.tsx`)
 - 페이지별 로딩 상태 (`loading.tsx`)
 - 유틸리티 함수 (`cn`, `formatKRW`, `formatCompact` 등)
+- UI/UX 원칙 문서 (`docs/UI_UX_PRINCIPLES.md`)
 
 ### Changed
-- **전체 디자인 시스템 통일** (다크 골드 → Calm Control 라이트 블루 테마)
-  - 홈페이지 (`page.tsx`): 네비게이션, 히어로, 카드, 푸터 전면 개편
-  - 에러 페이지: `error.tsx`, `not-found.tsx`, `global-error.tsx`
-  - 인증 컴포넌트: `AuthLayout`, `AuthInput`, `AuthButton`
-  - 인증 페이지: `login`, `signup`, `reset-password`
-  - Admin 페이지: 에러 메시지 스타일 표준화
-  - 컴포넌트: `BookingModal`, `ScheduleWidget`, `Skeleton`, `KakaoTalkButton`
-  - 로딩 상태: `loading.tsx` (root, profile, admin)
+
+#### 디자인 시스템 완전 통일 (P0 Critical)
+다크 테마(`#0a0e27`) + 골드(`#d4af37`) → 라이트 테마(`--calm-white`) + 블루(`#3B82F6`)로 전면 전환
+
+| 카테고리 | 수정 파일 |
+|----------|----------|
+| 공통 | `LoadingSpinner.tsx`, `global.css` |
+| 결제 | `payment/success/page.tsx`, `payment/fail/page.tsx` |
+| 가격 | `pricing/page.tsx` |
+| 대시보드 | `dashboard/page.tsx`, `StatCard.tsx`, `LeadChart.tsx`, `LeadList.tsx` |
+| 채팅 | `chat/page.tsx`, `chat/[roomId]/page.tsx`, `ChatInput.tsx`, `ChatRoomList.tsx`, `MessageBubble.tsx` |
+| 프로필 | `ProfileTemplate.tsx` |
+
+#### 접근성 개선 (P1 High)
+- **global.css 확장**
+  - 버튼 disabled/focus 스타일 (`.btn-primary:disabled`, `.btn-secondary:disabled`, `.btn-ghost:disabled`)
+  - 새 컴포넌트 클래스: `.tag-info`, `.radio-option`, `.checkbox`, `.schedule-day-button`
+  - 테이블 zebra striping (`.table-row:nth-child(even)`)
+- **ARIA 속성 추가**
+  - `pricing/page.tsx`: 토글 버튼 `role="switch"`, `aria-checked`, `aria-label`
+  - `AdminLoginForm.tsx`: 에러 `role="alert"`, 복구 안내
+  - `admin/pros/[id]/page.tsx`: 탭 `role="tab"`, `aria-selected`, 저장 버튼 로딩 상태
+  - `PendingProCard.tsx`: 버튼 `aria-label`, 로딩 스피너
+  - `AuthInput.tsx`: `.label` 클래스, `aria-invalid`, `aria-describedby`
+- **포커스 상태 개선**
+  - 홈페이지 네비게이션 링크 `focus:ring-2 focus:ring-accent-light`
+  - 스크롤 인디케이터 대비 개선 (`text-calm-ash` → `text-calm-charcoal`)
+
+#### 컴포넌트 패턴 통일 (P1 High)
+- `auth/login/page.tsx`, `admin/chats/page.tsx`: 인라인 에러 → `.alert-error`
+- `ProsDirectory.tsx`: 검색바/빈 상태 → `.card` 클래스
+
+#### 스페이싱 표준화 (P2 Medium)
+- `ProfileTemplate.tsx`: `py-20` → `py-16` (10개 섹션 수정)
 
 ### Fixed
 - date-fns v4 locale import 경로 수정
@@ -36,11 +72,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Dependencies
 - clsx, tailwind-merge 패키지 추가
 - @playwright/test 패키지 추가
-
-### Planned
-- Supabase 실시간 연동
-- KakaoTalk 링크 통합
-- 프로 인증 워크플로우 완성
 
 ---
 
@@ -90,6 +121,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 | Version | Date | Description |
 |---------|------|-------------|
+| 1.0.0-beta | 2025-12-01 | 디자인 시스템 통일, 접근성 개선, UI/UX 완성도 향상 |
 | 1.0.0-alpha | 2025-11-27 | Phase 1 MVP 초기 릴리스 |
 
 ---
