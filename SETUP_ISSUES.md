@@ -269,14 +269,20 @@ ALLOWED_ORIGINS=https://your-domain.vercel.app,https://teeup.kr
 - [ ] Public Domain 활성화 및 URL 복사
 - [ ] Vercel에 백엔드 URL 추가: `NEXT_PUBLIC_API_URL=<Railway Domain>`
 
-#### 3. GitHub Secrets 설정
-```
-VERCEL_TOKEN=xxx
-VERCEL_ORG_ID=xxx
-VERCEL_PROJECT_ID=xxx
-RAILWAY_TOKEN=xxx
-SLACK_WEBHOOK_URL=xxx (선택)
-```
+#### 3. GitHub Secrets 설정 (CI/CD용)
+
+**필수 Secrets:**
+- [ ] **SUPABASE_ANON_KEY** - Supabase Dashboard → API → `anon` key
+- [ ] **VERCEL_TOKEN** - Vercel Account Settings → Tokens
+- [ ] **VERCEL_ORG_ID** - Vercel Settings → General → Team ID
+- [ ] **VERCEL_PROJECT_ID** - Vercel Project Settings → Project ID
+- [ ] **RAILWAY_TOKEN** - Railway Dashboard → Tokens
+
+**선택 Secrets:**
+- [ ] **SLACK_WEBHOOK_URL** - Slack Incoming Webhooks
+- [ ] **CODECOV_TOKEN** - Codecov.io 프로젝트
+
+**설정 경로:** GitHub Repository → Settings → Secrets and variables → Actions
 
 #### 4. 도메인 설정
 - [ ] 도메인 구입 (예: teeup.kr)

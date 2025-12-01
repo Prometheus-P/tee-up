@@ -91,13 +91,45 @@ TOSS_SECRET_KEY=<Phase 2에서 설정>
 - [ ] Email Templates 확인 및 커스터마이징
 - [ ] Database → Settings → Connection pooling 활성화 (고트래픽 대비)
 
-### 4. GitHub Secrets 설정 (CI/CD용 - 선택)
-```
-VERCEL_TOKEN=xxx
-VERCEL_ORG_ID=xxx
-VERCEL_PROJECT_ID=xxx
-RAILWAY_TOKEN=xxx
-SLACK_WEBHOOK_URL=xxx (선택)
+### 4. GitHub Secrets 설정 (CI/CD용)
+
+**필수 Secrets (GitHub Repository Settings → Secrets and variables → Actions)**
+
+- [ ] **SUPABASE_ANON_KEY** (Critical)
+  - Supabase Dashboard → Settings → API → `anon` `public` key 복사
+  - CI 빌드 및 테스트에 필요
+
+**배포 Secrets (자동 배포 사용 시)**
+
+- [ ] **VERCEL_TOKEN**
+  - Vercel Account Settings → Tokens → Create Token
+  - Scope: Full Account
+
+- [ ] **VERCEL_ORG_ID**
+  - Vercel Dashboard → Settings → General → Team ID 복사
+
+- [ ] **VERCEL_PROJECT_ID**
+  - Vercel 프로젝트 → Settings → General → Project ID 복사
+
+- [ ] **RAILWAY_TOKEN**
+  - Railway Dashboard → Account → Tokens → Create Token
+
+**선택 Secrets**
+
+- [ ] **SLACK_WEBHOOK_URL** (배포 알림용)
+  - Slack App → Incoming Webhooks → Webhook URL 복사
+
+- [ ] **CODECOV_TOKEN** (코드 커버리지용)
+  - Codecov.io 프로젝트 → Settings → Token 복사
+
+**설정 방법:**
+```bash
+# GitHub Repository 접속
+# Settings → Secrets and variables → Actions → New repository secret
+
+# 각 Secret을 위 목록대로 추가
+Name: SUPABASE_ANON_KEY
+Secret: <실제 key 값>
 ```
 
 ### 5. 도메인 설정
