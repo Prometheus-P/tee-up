@@ -191,7 +191,7 @@ describe('Admin Pros Management Page', () => {
   describe('Loading State', () => {
     it('should show loading indicator initially', () => {
       render(<AdminProsPage />)
-      expect(screen.getByText(/데이터를 불러오는 중/i)).toBeInTheDocument()
+      expect(screen.getByText(/데이터를 불러오고 있어요/i)).toBeInTheDocument()
     })
   })
 
