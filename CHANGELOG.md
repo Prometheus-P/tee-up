@@ -14,27 +14,59 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-## [0.2.0] - 2025-12-02
+## [1.0.0-beta.1] - 2025-12-03
 
 ### Added
-- 다크 모드 토글 기능 (ThemeToggle 컴포넌트)
-- 마이크로 인터랙션 및 UI 애니메이션 개선
-- 스켈레톤 로딩 UI 강화
+
+#### 다크 모드 지원 (US1)
+- `next-themes` 기반 다크/라이트 모드 전환
+- 시스템 설정 동기화 및 localStorage 저장
+- `ThemeToggle` 컴포넌트 (홈, 프로필, 관리자 페이지)
+- `useTheme` 커스텀 훅 (타입 안전성)
+
+#### 마이크로 인터랙션 (US2)
+- `.btn-hover`, `.card-hover`, `.link-hover` 유틸리티 클래스
+- 모달 애니메이션 (overlay fade, modal scale)
+- 홈페이지 섹션 staggered fade-in 애니메이션
+
+#### Material Design 3 통합 (US6)
+- **M3 Motion Tokens**: Standard Scheme 이징 커브
+  - `--ease-standard`: cubic-bezier(0.2, 0, 0, 1)
+  - `--ease-standard-decelerate`: cubic-bezier(0, 0, 0, 1)
+  - `--ease-standard-accelerate`: cubic-bezier(0.3, 0, 1, 1)
+- **M3 Duration Tokens**: short1-4, medium1-4, long1-2
+- **M3 Shape Tokens**: extra-small(4px) ~ full(9999px)
+- **M3 Color Roles**: surface, on-surface, outline, container
+- 다크 모드 Tonal Elevation 지원
+
+#### 스켈레톤 UI 개선 (US4)
+- shimmer 애니메이션 효과
+- `SkeletonCard`, `SkeletonText`, `SkeletonAvatar` 변형
+- `aria-busy`, `aria-live` 접근성 속성
+
+#### Empty/Error States (US5)
+- `EmptyState` 컴포넌트 (아이콘, 제목, 설명, CTA)
+- `ErrorState` 컴포넌트 (재시도, 홈으로 이동)
+- `role="status"`, `role="alert"` 접근성 속성
 
 ### Changed
-- 디자인 시스템 색상 일관성 개선
-- 접근성 (a11y) 표준 준수 강화
-- 프론트엔드 컴포넌트 반응형 디자인 최적화
+- `.btn-primary`, `.btn-secondary`, `.btn-ghost`에 M3 Standard Easing 적용
+- `.card`, `.modal`, `.input`, `.select`에 M3 Shape Tokens 적용
+- `.table-container`, `.metric-card`에 M3 Color Roles 적용
+- Accent 색상 대비율 개선: #3B82F6 (3.67:1) → #2563EB (4.7:1)
 
 ### Fixed
+- WCAG AA 대비율 준수 (4.5:1 이상)
 - CI/CD 빌드 오류 수정 (Supabase 환경변수 폴백 처리)
 - useFocusTrap 테스트 케이스 순환 포커스 동작 수정
-- 단위 테스트 통과율 개선 (100/109 passed)
 
-### Technical
-- PR #13 병합: UI/UX 검증 전략 및 색상 체계 개선
-- E2E 테스트 안정성 향상
-- TypeScript strict 모드 타입 안정성 유지
+### Dependencies
+- `next-themes` 패키지 추가
+
+### Testing
+- 136 E2E 테스트 통과
+- 다크 모드 전환 테스트
+- axe-core WCAG AA 접근성 검사 통과
 
 ---
 
@@ -145,7 +177,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 | Version | Date | Description |
 |---------|------|-------------|
-| 0.2.0 | 2025-12-02 | UI/UX 개선, 다크모드 토글, CI/CD 안정성 향상 |
+| 1.0.0-beta.1 | 2025-12-03 | 다크 모드, M3 디자인 시스템, 마이크로 인터랙션 |
 | 1.0.0-beta | 2025-12-01 | 디자인 시스템 통일, 접근성 개선, UI/UX 완성도 향상 |
 | 1.0.0-alpha | 2025-11-27 | Phase 1 MVP 초기 릴리스 |
 
