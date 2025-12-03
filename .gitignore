@@ -47,15 +47,14 @@ apikeys*.json
 auth.json
 
 # ============================================
-# 🛠️ DEVELOPMENT TOOLS (Environment-specific)
+# 🛠️ DEVELOPMENT TOOLS
 # ============================================
 
-# Claude Code (AI assistant local settings)
-.claude/
-!.claude/settings.json
+# Claude Code - 로컬 설정만 제외 (commands는 공유)
+.claude/settings.local.json
 
-# Speckit (Feature specification toolkit)
-.specify/
+# Speckit - 캐시만 제외 (templates, scripts, memory는 공유)
+.specify/cache/
 
 # Cursor AI
 .cursor/
@@ -63,7 +62,7 @@ auth.json
 # Aider AI
 .aider*
 
-# Other AI tools
+# Other AI tools - 로컬 전용
 .continue/
 .codeium/
 .tabnine/
