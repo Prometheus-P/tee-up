@@ -8,6 +8,7 @@
 # Environment files (NEVER commit these)
 .env
 .env.*
+.env.test
 !.env.example
 !.env.*.example
 *.env.backup
