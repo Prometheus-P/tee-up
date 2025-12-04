@@ -14,6 +14,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.0.0-beta.2] - 2025-12-04
+
+### Security
+- `.gitignore` 보안 강화 (민감 파일 패턴 확장)
+- `web/.env.test` 버전관리 제외 (자격 증명 보호)
+- Git 히스토리 정리 가이드 추가 (`docs/SECURITY_INCIDENT_RESPONSE.md`)
+
+### Added
+- `docs/SECURITY_INCIDENT_RESPONSE.md` - Git 히스토리에서 민감 데이터 제거 가이드
+  - git-filter-repo 사용법
+  - BFG Repo-Cleaner 사용법
+  - GitHub 캐시 무효화 절차
+
+### Changed
+- `.gitignore` 전면 개편
+  - 보안 섹션 최상단 배치
+  - 자격 증명 패턴 확장 (`*.pem`, `*.key`, `*-credentials.json` 등)
+  - 개발도구 설정 공유 허용 (`.claude/commands/`, `.specify/`)
+  - 로컬 전용 설정만 제외 (`.claude/settings.local.json`)
+
+---
+
 ## [1.0.0-beta.1] - 2025-12-03
 
 ### Added
@@ -177,6 +199,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 | Version | Date | Description |
 |---------|------|-------------|
+| 1.0.0-beta.2 | 2025-12-04 | 보안 강화, .gitignore 개편, 개발도구 설정 공유 |
 | 1.0.0-beta.1 | 2025-12-03 | 다크 모드, M3 디자인 시스템, 마이크로 인터랙션 |
 | 1.0.0-beta | 2025-12-01 | 디자인 시스템 통일, 접근성 개선, UI/UX 완성도 향상 |
 | 1.0.0-alpha | 2025-11-27 | Phase 1 MVP 초기 릴리스 |
