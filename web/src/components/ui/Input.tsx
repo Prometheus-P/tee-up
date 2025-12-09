@@ -9,7 +9,8 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ({ className, label, helperText, errorText, id, ...props }, ref) => {
-    const inputId = id || React.useId(); // Generate unique ID if not provided
+    const generatedId = React.useId(); // Call unconditionally
+    const inputId = id || generatedId; // Use provided id or generated one
 
     return (
       <div className="flex flex-col gap-1">

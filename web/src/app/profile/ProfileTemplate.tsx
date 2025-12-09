@@ -7,7 +7,7 @@ import type { ProfileData } from './profile-data'
 import BookingModal from '../components/BookingModal'
 import { KakaoTalkButton } from '../components/KakaoTalkButton'
 import { ThemeToggle } from '../components/ThemeToggle'
-import { useScrollVisibility } from '@/hooks/useScrollVisibility'
+import useScrollVisibility from '@/hooks/useScrollVisibility'
 
 export function ProfileTemplate({ data }: { data: ProfileData }) {
   const {
