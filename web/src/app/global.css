@@ -1,738 +1,84 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    /* ===== TEE:UP DESIGN TOKENS - COLORS ===== */
-    /* Neutrals */
-    --color-tee-background: #F7F4F0;      /* base-background: 아주 연한 웜 화이트 */
-    --color-tee-surface: #FFFFFF;         /* base-surface: 순백 */
-    --color-tee-ink-strong: #1A1A1A;      /* ink-strong: 거의 블랙에 가까운 딥 네이비/차콜 */
-    --color-tee-ink-light: #52524E;       /* on-surface-variant for subdued text */
+    /* Color Palette */
+    --tee-background: #F7F4F0;
+    --tee-surface: #FFFFFF;
+    --tee-ink-strong: #1A1A1A;
+    --tee-ink-light: #52524E;
+    --tee-accent-primary: #0A362B;
+    --tee-accent-primary-hover: #072A21;
+    --tee-accent-primary-active: #051E18;
+    --tee-accent-primary-disabled: #B4C6BF;
+    --tee-accent-secondary: #B39A68;
+    --tee-error: #D32F2F;
+    --tee-success: #388E3C;
+    --tee-warning: #FBC02D;
+    --tee-info: #1976D2;
 
-    /* Accents */
-    --color-tee-accent-primary: #0A362B;  /* accent-primary: TEE:UP 그린 */
-    --color-tee-accent-secondary: #B39A68; /* accent-secondary: 골드/샴페인 컬러 */
-
-    /* State Colors for accent-primary (명도만 조정) */
-    --color-tee-accent-primary-hover: #145C4B; /* Darker green for hover */
-    --color-tee-accent-primary-active: #0A362B; /* Same as primary for active, or slightly darker */
-    --color-tee-accent-primary-disabled: rgba(10, 54, 43, 0.4); /* 40% opacity of primary */
-
-    /* ===== FUNCTIONAL COLORS ===== */
-    --color-functional-success: #10B981;
-    --color-functional-warning: #F59E0B;
-    --color-functional-error: #EF4444;
-    --color-functional-info: #8B5CF6;
-
-    /* ===== EXTERNAL BRAND COLORS ===== */
-    --color-brand-kakao: #FEE500;
-    --color-brand-kakao-text: #191919;
-    --color-brand-kakao-hover: #FDD835;
-
-    /* ===== GLASS & GLOW (adapted) ===== */
-    --glass-bg: rgba(255, 255, 255, 0.7);
-    --glass-border: rgba(0, 0, 0, 0.08);
-    --glow-accent: rgba(215, 186, 116, 0.15); /* Using tee-gold */
-    --glow-success: rgba(16, 185, 129, 0.12); /* Using functional-success */
-
-    /* ===== TEE:UP DESIGN TOKENS - TYPOGRAPHY ===== */
-    --font-pretendard: 'Pretendard', -apple-system, system-ui, sans-serif;
-    --font-jetbrains-mono: 'JetBrains Mono', Consolas, monospace;
-
-    /* Type Scale (rem values - Tailwind will use these) */
-    --text-h1: 3rem;     /* 48px */
-    --text-h2: 2.25rem;  /* 36px */
-    --text-h3: 1.5rem;   /* 24px */
-    --text-body: 1rem;   /* 16px */
-    --text-caption: 0.875rem; /* 14px */
-
-    /* ===== TEE:UP DESIGN TOKENS - SPACING (4px grid) ===== */
-    --space-0: 0;
-    --space-1: 0.25rem;  /* 4px */
-    --space-2: 0.5rem;   /* 8px */
-    --space-3: 0.75rem;  /* 12px */
-    --space-4: 1rem;     /* 16px */
-    --space-5: 1.25rem;  /* 20px */
-    --space-6: 1.5rem;   /* 24px */
-    --space-8: 2rem;     /* 32px */
-    --space-10: 2.5rem;  /* 40px */
-    --space-12: 3rem;    /* 48px */
-    --space-16: 4rem;    /* 64px */
-
-    /* ===== TEE:UP DESIGN TOKENS - SHADOWS ===== */
-    --shadow-card: 0px 2px 8px rgba(0, 0, 0, 0.05); /* Only one weak shadow */
-
-    /* ===== TEE:UP DESIGN TOKENS - BORDER RADIUS ===== */
-    --radius-sm: 0.25rem; /* 4px */
-    --radius-md: 0.5rem;  /* 8px */
-    --radius-lg: 0.75rem; /* 12px */
-    --radius-xl: 1rem;    /* 16px */
-    --radius-full: 9999px;
-
-    /* ===== TRANSITIONS (Retained legacy, will be managed by Tailwind's transition utilities) ===== */
-    --transition-fast: 150ms ease-in-out;
+    /* Font Families */
+    --font-pretendard: 'Pretendard', sans-serif;
+    --font-inter: 'Inter', sans-serif;
+    /* --font-jetbrains-mono: 'JetBrains Mono', monospace; */
   }
 
-  .dark {
-    /* Base Neutrals (inverted for dark mode) */
-    --color-tee-background: #1A1A1A;      /* Dark mode background */
-    --color-tee-surface: #000000;         /* Dark mode pure black surface */
-    --color-tee-ink-strong: #FFFFFF;      /* White text on dark background */
-    --color-tee-ink-light: #A0A0A0;       /* Lighter subdued text on dark */
-
-    /* Accents (adjusted for dark mode visibility) */
-    --color-tee-accent-primary: #3F7565;  /* Lighter green for dark mode contrast */
-    --color-tee-accent-secondary: #EAC98E; /* Slightly lighter gold for dark mode contrast */
-
-    /* State Colors for accent-primary (명도만 조정) */
-    --color-tee-accent-primary-hover: #5A9988;
-    --color-tee-accent-primary-active: #3F7565;
-    --color-tee-accent-primary-disabled: rgba(63, 117, 101, 0.4);
-
-    /* Functional colors (adjusted for dark mode visibility) */
-    --color-functional-success: #34D399;
-    --color-functional-warning: #FBBF24;
-    --color-functional-error: #F87171;
-    --color-functional-info: #A78BFA;
-
-    /* Shadows (stronger for dark mode) */
-    --shadow-card: 0px 4px 16px rgba(0, 0, 0, 0.5); /* Stronger shadow for dark mode */
+  /* Base styles */
+  html {
+    @apply text-body font-inter text-tee-ink-strong bg-tee-background;
+    scroll-behavior: smooth;
   }
 
   body {
     @apply antialiased;
-    font-family: var(--font-pretendard);
-    background-color: var(--color-tee-background);
-    color: var(--color-tee-ink-strong);
-    font-size: var(--text-body);
-    line-height: 1.5; /* Default body line height from HIG */
   }
 
-  /* ===== SELECTION ===== */
-  ::selection {
-    background: var(--color-tee-accent-secondary);
-    color: var(--color-tee-ink-strong);
+  /* Headings */
+  h1 {
+    @apply text-h1 font-pretendard;
   }
 
-  /* ===== HEADINGS ===== */
-  h1, h2, h3, h4, h5, h6 {
-    color: var(--color-tee-ink-strong);
+  h2 {
+    @apply text-h2 font-pretendard;
   }
 
-  /* No explicit h1, h2, h3 styles here; they will be applied via Tailwind classes */
-
-  .caption {
-    font-size: var(--text-caption);
-    color: var(--color-tee-ink-light); /* Use ink-light for subdued text */
-    text-transform: uppercase;
+  h3 {
+    @apply text-h3 font-pretendard;
   }
 
-  /* ===== LINKS ===== */
+  /* Links */
   a {
-    color: var(--color-tee-accent-primary);
-    text-decoration: none;
-    font-weight: 500; /* medium */
-    transition: color 150ms ease-in-out;
+    @apply text-tee-accent-primary hover:underline;
   }
 
-  a:hover {
-    color: var(--color-tee-accent-primary-hover);
-    text-decoration: underline;
+  /* Accessibility: Focus Ring */
+  *:focus-visible {
+    @apply outline-none ring-2 ring-tee-accent-primary ring-offset-2;
   }
 
-  /* ===== FOCUS VISIBILITY (Accessibility) ===== */
-  a:focus-visible {
-    outline: 2px solid var(--color-tee-accent-primary);
-    outline-offset: 2px;
-    border-radius: 2px;
+  /* Custom utility for stagger animation */
+  .stagger-fade-in > * {
+    opacity: 0;
+    animation: fadeInAnimation 0.5s ease-out forwards;
   }
 
-  button:focus-visible,
-  [role="button"]:focus-visible {
-    outline: 2px solid var(--color-tee-accent-primary);
-    outline-offset: 2px;
-  }
-
-  /* ===== SCROLLBAR ===== */
-  ::-webkit-scrollbar {
-    width: 8px; /* Adjusted to 8px for a cleaner look */
-    height: 8px;
-  }
-
-  ::-webkit-scrollbar-track {
-    background: var(--color-tee-background);
-  }
-
-  ::-webkit-scrollbar-thumb {
-    background: var(--color-tee-ink-light);
-    border-radius: var(--radius-full);
-  }
-
-  ::-webkit-scrollbar-thumb:hover {
-    background: var(--color-tee-ink-strong);
-  }
-}
-
-@layer components {
-  /* ===== BUTTONS ===== */
-  .btn { /* Base button styles from TEE UP design */
-    font-family: var(--font-pretendard);
-    font-weight: 500; /* medium */
-    font-size: var(--text-body);
-    letter-spacing: normal;
-    text-transform: uppercase;
-    padding: var(--space-3) var(--space-5); /* 12px 20px */
-    border-radius: var(--radius-full);
-    border: 1px solid transparent;
-    cursor: pointer;
-  }
-
-  .btn-primary {
-    background-color: var(--color-tee-accent-primary);
-    color: var(--color-tee-surface);
-    border-color: var(--color-tee-accent-primary);
-    box-shadow: 0 10px 20px rgba(10, 54, 43, 0.1); /* Derived from accent-primary */
-  }
-
-  .btn-primary:hover:not(:disabled) {
-    background-color: var(--color-tee-accent-primary-hover);
-    border-color: var(--color-tee-accent-primary-hover);
-    transform: translateY(-1px);
-    box-shadow: 0 12px 24px rgba(10, 54, 43, 0.15);
-  }
-
-  .btn-primary:active:not(:disabled) {
-    background-color: var(--color-tee-accent-primary-active);
-    border-color: var(--color-tee-accent-primary-active);
-    transform: scale(0.98);
-    box-shadow: none;
-  }
-
-  .btn-primary:focus-visible {
-    outline: 2px solid var(--color-tee-accent-primary);
-    outline-offset: 2px;
-  }
-
-  .btn-primary:disabled {
-    @apply cursor-not-allowed;
-    opacity: 0.6;
-    background-color: var(--color-tee-accent-primary-disabled);
-    border-color: var(--color-tee-accent-primary-disabled);
-  }
-
-  /* btn-secondary is not in TEE UP design, keeping for now but adapting colors */
-  .btn-secondary {
-    @apply px-4 py-2; /* Adjusted padding to match new spacing scale */
-    border-radius: var(--radius-full);
-    border: 1px solid var(--color-tee-ink-light);
-    background: var(--color-tee-background);
-    color: var(--color-tee-ink-strong);
-    font-weight: 500;
-  }
-
-  .btn-secondary:hover:not(:disabled) {
-    border-color: var(--color-tee-accent-primary);
-    color: var(--color-tee-accent-primary);
-    transform: translateY(-1px);
-  }
-
-  .btn-secondary:active:not(:disabled) {
-    transform: scale(0.98);
-  }
-
-  .btn-secondary:focus-visible {
-    outline: 2px solid var(--color-tee-accent-primary);
-    outline-offset: 2px;
-  }
-
-  .btn-secondary:disabled {
-    @apply cursor-not-allowed;
-    opacity: 0.6;
-    border-color: var(--color-tee-ink-light);
-    color: var(--color-tee-ink-light);
-  }
-
-  .btn-ghost {
-    background-color: transparent;
-    color: var(--color-tee-ink-strong);
-    border-color: transparent; /* No border for ghost buttons */
-  }
-
-  .btn-ghost:hover {
-    background-color: rgba(0,0,0,0.03); /* Subtle hover */
-  }
-
-  .btn-ghost:focus-visible {
-    outline: 2px solid var(--color-tee-accent-primary);
-    outline-offset: 2px;
-  }
-
-  .btn-ghost:disabled {
-    @apply cursor-not-allowed;
-    opacity: 0.6;
-    color: var(--color-tee-ink-light);
-  }
-
-  /* ===== CARDS ===== */
-  .card {
-    background-color: var(--color-tee-surface);
-    border-radius: var(--radius-xl); /* 16px soft round */
-    border: 1px solid rgba(0,0,0,0.04);
-    box-shadow: var(--shadow-card);
-    padding: var(--space-4); /* 16px padding */
-  }
-
-  .card:hover {
-    border-color: rgba(0,0,0,0.08);
-  }
-
-  .card-content {
-    @apply p-6 space-y-4; /* Keep existing internal spacing */
-  }
-
-  /* ===== INPUTS ===== */
-  .input {
-    font-family: var(--font-pretendard);
-    font-size: var(--text-body);
-    padding: var(--space-2) var(--space-3); /* 8px 12px */
-    border-radius: var(--radius-full);
-    border: 1px solid var(--color-tee-ink-light);
-    background-color: var(--color-tee-background);
-    color: var(--color-tee-ink-strong);
-    outline: none;
-    width: 100%;
-  }
-
-  .input::placeholder {
-    color: var(--color-tee-ink-light);
-  }
-
-  .input:focus {
-    border-color: var(--color-tee-accent-primary);
-    box-shadow: 0 0 0 1px rgba(10, 54, 43, 0.2);
-  }
-
-  .select { /* Adapting select to input styles */
-    @apply w-full px-4 py-3 cursor-pointer; /* Keep existing padding for now */
-    border-radius: var(--radius-full);
-    background: var(--color-tee-background);
-    border: 1px solid var(--color-tee-ink-light);
-    color: var(--color-tee-ink-strong);
-    font-size: var(--text-body);
-  }
-
-  .select:focus {
-    outline: none;
-    border-color: var(--color-tee-accent-primary);
-    box-shadow: 0 0 0 1px rgba(10, 54, 43, 0.2);
-  }
-
-  .label {
-    @apply block mb-2;
-    color: var(--color-tee-ink-strong);
-    font-size: var(--text-body);
-    font-weight: 500; /* medium */
-    text-transform: uppercase;
-  }
-
-  /* ===== DATA TABLES ===== */
-  .table-container {
-    @apply w-full overflow-hidden;
-    background: var(--color-tee-surface);
-    border: 1px solid rgba(0,0,0,0.08); /* Light border */
-    border-radius: var(--radius-xl); /* Card like radius */
-  }
-
-  .table-header {
-    @apply px-4 py-3; /* Adjusted padding */
-    background: var(--color-tee-background);
-    border-bottom: 1px solid rgba(0,0,0,0.08);
-    color: var(--color-tee-ink-strong);
-    font-size: var(--text-caption);
-    font-weight: 500; /* medium */
-    text-transform: uppercase;
-  }
-
-  .table-row {
-    border-bottom: 1px solid rgba(0,0,0,0.04); /* Lighter border */
-  }
-
-  .table-row:last-child {
-    border-bottom: none;
-  }
-
-  .table-row:hover {
-    background: rgba(0,0,0,0.02); /* Subtle hover effect */
-  }
-
-  .table-row:nth-child(even) {
-    background: var(--color-tee-background); /* Use background for subtle stripe */
-  }
-
-  .table-row:nth-child(even):hover {
-    background: rgba(0,0,0,0.02);
-  }
-
-  .table-cell {
-    @apply px-4 py-3; /* Adjusted padding */
-    color: var(--color-tee-ink-strong);
-    font-size: var(--text-body);
-  }
-
-  /* ===== METRICS ===== */
-  .metric-card {
-    @apply p-6;
-    background: var(--color-tee-surface);
-    border: 1px solid rgba(0,0,0,0.04);
-    border-radius: var(--radius-xl); /* Consistent with cards */
-  }
-
-  .metric-card:hover {
-    border-color: var(--color-tee-accent-primary);
-  }
-
-  .metric-number {
-    @apply font-mono;
-    font-size: var(--text-h2);
-    font-weight: 700; /* bold */
-    color: var(--color-tee-ink-strong);
-  }
-
-  .metric-label {
-    @apply mt-2;
-    font-size: var(--text-body);
-    font-weight: 500; /* medium */
-    color: var(--color-tee-ink-light);
-    text-transform: uppercase;
-  }
-
-  /* ===== MODAL ===== */
-  .modal-overlay {
-    @apply fixed inset-0 z-50 flex items-center justify-center;
-    background: rgba(0, 0, 0, 0.4);
-    backdrop-filter: blur(8px); /* slightly stronger blur for overlay */
-  }
-
-  .modal-container {
-    @apply shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto;
-    border-radius: var(--radius-xl); /* Consistent with cards */
-    background: var(--color-tee-surface);
-    border: 1px solid rgba(0,0,0,0.08);
-  }
-
-  .modal-header {
-    @apply px-8 py-6;
-    border-bottom: 1px solid rgba(0,0,0,0.08);
-  }
-
-  .modal-title {
-    font-size: var(--text-h3);
-    font-weight: 600; /* semibold */
-    color: var(--color-tee-ink-strong);
-  }
-
-  /* ===== CHAT ===== */
-  .chat-container {
-    @apply overflow-hidden;
-    background: var(--color-tee-surface);
-    border: 1px solid rgba(0,0,0,0.08);
-    border-radius: var(--radius-xl);
-  }
-
-  .message-bubble {
-    @apply max-w-[70%] px-4 py-3;
-    border-radius: var(--radius-xl);
-    font-size: var(--text-body);
-  }
-
-  .message-bubble.received {
-    border-top-left-radius: var(--radius-sm);
-    background: var(--color-tee-background);
-    color: var(--color-tee-ink-strong);
-  }
-
-  .message-bubble.sent {
-    border-top-right-radius: var(--radius-sm);
-    background: var(--color-tee-accent-primary);
-    color: var(--color-tee-surface);
-  }
-
-  /* ===== TAGS ===== */
-  .tag {
-    @apply inline-flex items-center px-3 py-1;
-    border-radius: var(--radius-full);
-    background: var(--color-tee-accent-primary); /* Default tag uses primary accent */
-    color: var(--color-tee-surface);
-    font-size: var(--text-caption);
-    font-weight: 500;
-  }
-
-  .tag-success {
-    background: rgba(16, 185, 129, 0.15); /* Derived from functional-success with opacity */
-    color: var(--color-functional-success);
-  }
-
-  .tag-warning {
-    background: rgba(245, 158, 11, 0.15); /* Derived from functional-warning with opacity */
-    color: var(--color-functional-warning);
-  }
-
-  .tag-error {
-    background: rgba(239, 68, 68, 0.15); /* Derived from functional-error with opacity */
-    color: var(--color-functional-error);
-  }
-
-  .tag-info {
-    background: rgba(139, 92, 246, 0.15); /* Derived from functional-info with opacity */
-    color: var(--color-functional-info);
-  }
-
-  /* ===== RADIO & CHECKBOX ===== */
-  .radio-option {
-    @apply flex items-center gap-3 px-4 py-3 cursor-pointer;
-    border-radius: var(--radius-lg); /* 12px Consistent with shape-medium */
-    border: 1px solid rgba(0,0,0,0.08);
-    background: var(--color-tee-surface);
-  }
-
-  .radio-option:hover {
-    border-color: var(--color-tee-accent-primary);
-  }
-
-  .radio-option.selected {
-    border-color: var(--color-tee-accent-primary);
-    background: rgba(10, 54, 43, 0.1); /* Light tint of primary accent */
-  }
-
-  .radio-option:focus-within {
-    outline: 2px solid var(--color-tee-accent-primary);
-    outline-offset: 2px;
-  }
-
-  .checkbox {
-    @apply h-5 w-5 cursor-pointer;
-    border-radius: var(--radius-sm); /* 4px Consistent with shape-extra-small */
-    border: 2px solid var(--color-tee-ink-light);
-  }
-
-  .checkbox:checked {
-    background: var(--color-tee-accent-primary);
-    border-color: var(--color-tee-accent-primary);
-  }
-
-  .checkbox:focus {
-    outline: 2px solid var(--color-tee-accent-primary);
-    outline-offset: 2px;
-  }
-
-  /* ===== SCHEDULE BUTTONS ===== */
-  .schedule-day-button {
-    @apply px-4 py-2 font-medium;
-    font-size: var(--text-body);
-    border-radius: var(--radius-md); /* 8px Consistent with shape-small */
-    border: 1px solid rgba(0,0,0,0.08);
-    color: var(--color-tee-ink-strong);
-  }
-
-  .schedule-day-button:hover {
-    border-color: var(--color-tee-accent-primary);
-    color: var(--color-tee-accent-primary);
-  }
-
-  .schedule-day-button.selected {
-    background: var(--color-tee-accent-primary);
-    border-color: var(--color-tee-accent-primary);
-    color: var(--color-tee-surface);
-  }
-
-  .schedule-day-button:focus {
-    outline: 2px solid var(--color-tee-accent-primary);
-    outline-offset: 2px;
-  }
-
-  /* ===== ALERTS ===== */
-  .alert {
-    @apply px-6 py-4 border-2;
-    border-radius: var(--radius-lg); /* 12px Consistent with shape-medium */
-    font-size: var(--text-body);
-  }
-
-  .alert-info {
-    background: rgba(139, 92, 246, 0.1);
-    border-color: var(--color-functional-info);
-    color: var(--color-functional-info);
-  }
-
-  .alert-success {
-    background: rgba(16, 185, 129, 0.1);
-    border-color: var(--color-functional-success);
-    color: var(--color-functional-success);
-  }
-
-  .alert-warning {
-    background: rgba(245, 158, 11, 0.1);
-    border-color: var(--color-functional-warning);
-    color: var(--color-functional-warning);
-  }
-
-  .alert-error {
-    background: rgba(239, 68, 68, 0.1);
-    border-color: var(--color-functional-error);
-    color: var(--color-functional-error);
-  }
-
-  /* ===== SKELETON LOADING ===== */
-  .skeleton {
-    border-radius: var(--radius-md); /* 8px Consistent with shape-small */
-    background: linear-gradient(
-      90deg,
-      rgba(0,0,0,0.05) 0%, /* Light variant of ink-light */
-      rgba(0,0,0,0.1) 50%, /* Slightly darker */
-      rgba(0,0,0,0.05) 100%
-    );
-    background-size: 200% 100%;
-    animation: shimmer 1.5s infinite linear;
-  }
-
-  .skeleton-pulse {
-    @apply animate-pulse;
-    border-radius: var(--radius-md);
-    background: rgba(0,0,0,0.05);
-  }
-
-  /* ===== TABLE SCROLL CONTAINER ===== */
-  .table-scroll-container {
-    position: relative;
-  }
-
-  .table-scroll-container::after {
-    content: '';
-    position: absolute;
-    right: 0;
-    top: 0;
-    height: 100%;
-    width: 2rem;
-    pointer-events: none;
-    background: linear-gradient(to left, white, transparent);
-  }
-
-  @media (min-width: 768px) {
-    .table-scroll-container::after {
-      display: none;
-    }
-  }
-
-  .table-scroll-container > div {
-    overflow-x: auto;
-  }
-
-  .table-scroll-container table {
-    min-width: 800px;
-    width: 100%;
-  }
-}
+  .stagger-fade-in > *:nth-child(1) { animation-delay: 0.1s; }
+  .stagger-fade-in > *:nth-child(2) { animation-delay: 0.2s; }
+  .stagger-fade-in > *:nth-child(3) { animation-delay: 0.3s; }
+  .stagger-fade-in > *:nth-child(4) { animation-delay: 0.4s; }
+  .stagger-fade-in > *:nth-child(5) { animation-delay: 0.5s; }
+  /* Add more as needed for the maximum number of staggered items */
 
-@layer utilities {
-  /* ===== ANIMATIONS ===== */
-  @keyframes fadeIn {
+  @keyframes fadeInAnimation {
     from {
       opacity: 0;
-      transform: translateY(8px);
+      transform: translateY(10px);
     }
     to {
       opacity: 1;
       transform: translateY(0);
     }
   }
-
-  @keyframes shimmer {
-    0% {
-      background-position: -200% 0;
-    }
-    100% {
-      background-position: 200% 0;
-    }
-  }
-
-  @keyframes modalFadeIn {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
-
-  @keyframes modalScaleIn {
-    from {
-      opacity: 0;
-      transform: scale(0.95) translateY(10px);
-    }
-    to {
-      opacity: 1;
-      transform: scale(1) translateY(0);
-    }
-  }
-
-  @keyframes slideUp {
-    from {
-      transform: translateY(20px);
-      opacity: 0;
-    }
-    to {
-      transform: translateY(0);
-      opacity: 1;
-    }
-  }
-
-  @keyframes scaleIn {
-    from {
-      transform: scale(0.95);
-      opacity: 0;
-    }
-    to {
-      transform: scale(1);
-      opacity: 1;
-    }
-  }
-
-  .animate-fadeIn {
-    animation: fadeIn 0.3s ease-in-out;
-  }
-
-  .animate-slideUp {
-    animation: slideUp 0.4s ease-out;
-  }
-
-  .animate-scaleIn {
-    animation: scaleIn 0.3s ease-out;
-  }
-
-
-
-  /* ===== PREFERS REDUCED MOTION ===== */
-  @media (prefers-reduced-motion: reduce) {
-    *,
-    *::before,
-    *::after {
-      animation-duration: 0.01ms !important;
-      animation-iteration-count: 1 !important;
-      transition-duration: 0.01ms !important;
-      scroll-behavior: auto !important;
-    }
-
-    .animate-fadeIn,
-    .animate-slideUp,
-    .animate-scaleIn {
-      animation: none !important;
-      opacity: 1 !important;
-      transform: none !important;
-    }
-  }
-
-
 }

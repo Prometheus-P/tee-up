@@ -1,41 +1,41 @@
-import React from 'react';
-import { cva, type VariantProps } from 'class-variance-authority';
+import * as React from 'react';
 import { cn } from '@/lib/utils';
+import { cva, type VariantProps } from 'class-variance-authority';
 
 const tagVariants = cva(
-  'inline-flex items-center justify-center font-pretendard text-caption font-medium rounded-full px-2.5 py-0.5',
+  'inline-flex items-center justify-center rounded-full px-space-2 py-px text-caption font-medium',
   {
     variants: {
       variant: {
+        default: 'bg-tee-accent-secondary text-tee-ink-strong',
+        // Add more variants as needed
         primary: 'bg-tee-accent-primary text-tee-surface',
-        secondary: 'bg-tee-accent-secondary text-tee-ink-strong',
-        info: 'bg-functional-info/10 text-functional-info',
-        success: 'bg-functional-success/10 text-functional-success',
-        warning: 'bg-functional-warning/10 text-functional-warning',
-        error: 'bg-functional-error/10 text-functional-error',
+        outline: 'border border-tee-ink-light/20 text-tee-ink-strong',
+      },
+      size: {
+        md: 'h-6 px-space-2', // Adjust size as needed
+        lg: 'h-8 px-space-3',
       },
     },
     defaultVariants: {
-      variant: 'secondary', // Default to accent-secondary as per requirements
+      variant: 'default',
+      size: 'md',
     },
   }
 );
 
 interface TagProps extends React.HTMLAttributes<HTMLDivElement>, VariantProps<typeof tagVariants> {
-  asChild?: boolean;
+  // Any additional props specific to your Tag component
 }
 
 const Tag = React.forwardRef<HTMLDivElement, TagProps>(
-  ({ className, variant, asChild = false, ...props }, ref) => {
-    const Comp = asChild ? 'div' : 'div';
-    return (
-      <Comp
-        className={cn(tagVariants({ variant, className }))}
-        ref={ref}
-        {...props}
-      />
-    );
-  }
+  ({ className, variant, size, ...props }, ref) => (
+    <div
+      ref={ref}
+      className={cn(tagVariants({ variant, size, className }))}
+      {...props}
+    />
+  )
 );
 Tag.displayName = 'Tag';
 

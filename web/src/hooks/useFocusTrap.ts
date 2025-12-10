@@ -21,7 +21,7 @@ const useFocusTrap = (
       if (focusableElements.length === 0) return;
 
       const firstElement = focusableElements[0];
-      const lastElement = focusableElements[focusableElements.length - 1];
+      const lastElement = focusableElements[focusableableElements.length - 1];
 
       if (e.key === 'Tab') {
         if (e.shiftKey && document.activeElement === firstElement) {

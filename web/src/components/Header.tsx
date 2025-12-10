@@ -1,38 +1,52 @@
-import Link from 'next/link'
-import { ThemeToggle } from '../app/components/ThemeToggle'
-import { Button } from './ui/Button' // Import Button component
+import Link from 'next/link';
+import { Button } from './ui/Button';
+import ThemeToggle from './ThemeToggle';
+import Image from 'next/image';
 
 export default function Header() {
   return (
-    <nav className="fixed top-0 z-50 w-full border-b border-tee-ink-light/20 bg-tee-background/80 backdrop-blur-xl">
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5">
-        <Link href="/" className="font-sans text-h2 font-bold text-tee-ink-strong">
-          TEE<span className="text-tee-accent-secondary">:</span>UP
+    <header className="fixed top-0 z-50 w-full border-b border-tee-ink-light/20 bg-tee-surface px-space-4 py-space-3">
+      <div className="mx-auto flex max-w-screen-xl items-center justify-between">
+        {/* Logo */}
+        <Link href="/" className="flex items-center gap-space-2">
+          <Image
+            src="/favicon.svg" // Adjust path as needed
+            alt="TEE:UP Logo"
+            width={24}
+            height={24}
+            priority
+          />
+          <span className="text-h3 font-bold text-tee-ink-strong">TEE:UP</span>
         </Link>
 
-        {/* Desktop Navigation Links */}
-        <div className="hidden items-center gap-8 md:flex">
-          <Link
-            href="#"
-            className="rounded-lg px-2 py-1 text-body text-tee-ink-strong transition-colors hover:text-tee-accent-primary focus:outline-none focus:ring-2 focus:ring-tee-accent-primary"
-          >
-            전체 프로
-          </Link>
-          <Link
-            href="#"
-            className="rounded-lg px-2 py-1 text-body text-tee-ink-strong transition-colors hover:text-tee-accent-primary focus:outline-none focus:ring-2 focus:ring-tee-accent-primary"
-          >
-            소개
-          </Link>
-          <Link
-            href="#"
-            className="rounded-lg px-2 py-1 text-body text-tee-ink-strong transition-colors hover:text-tee-accent-primary focus:outline-none focus:ring-2 focus:ring-tee-accent-primary"
-          >
-            문의
-          </Link>
-        </div>
+        {/* Desktop Navigation (Hidden on Mobile) */}
+        <nav className="hidden md:block">
+          <ul className="flex items-center gap-space-8">
+            <li>
+              <Link href="/find-pros" className="text-body font-medium text-tee-ink-strong hover:text-tee-accent-primary">
+                프로 찾기
+              </Link>
+            </li>
+            <li>
+              <Link href="/how-it-works" className="text-body font-medium text-tee-ink-strong hover:text-tee-accent-primary">
+                이용 방법
+              </Link>
+            </li>
+            <li>
+              <Link href="/community" className="text-body font-medium text-tee-ink-strong hover:text-tee-accent-primary">
+                커뮤니티
+              </Link>
+            </li>
+            <li>
+              <Link href="/mypage" className="text-body font-medium text-tee-ink-strong hover:text-tee-accent-primary">
+                마이페이지
+              </Link>
+            </li>
+          </ul>
+        </nav>
 
-        <div className="flex items-center gap-4">
+        {/* Actions */}
+        <div className="flex items-center gap-space-4">
           <ThemeToggle />
           {/* Primary CTA */}
           <Button asChild variant="primary" size="md">
@@ -40,10 +54,12 @@ export default function Header() {
               바로 시작하기
             </Link>
           </Button>
-          {/* Mobile Hamburger (Hidden on desktop) */}
-          {/* <button className="md:hidden">
+
+          {/* Mobile Hamburger (Hidden on Desktop) */}
+          <button className="md:hidden">
+            {/* Hamburger Icon */}
             <svg
-              className="h-6 w-6 text-tee-ink-strong"
+              className="h-space-8 w-space-8 text-tee-ink-strong"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -56,9 +72,9 @@ export default function Header() {
                 d="M4 6h16M4 12h16M4 18h16"
               />
             </svg>
-          </button> */}
+          </button>
         </div>
       </div>
-    </nav>
-  )
+    </header>
+  );
 }

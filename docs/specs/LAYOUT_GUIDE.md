@@ -1,130 +1,144 @@
-# TEE:UP 레이아웃 가이드 v1.0
+# TEE:UP Layout Guide
 
-본 문서는 TEE:UP 웹 서비스의 전반적인 레이아웃 및 내비게이션 구조를 정의합니다. Apple Human Interface Guidelines (HIG) 기반의 'Calm Luxury' 디자인 원칙을 적용하여 사용자에게 일관되고 직관적인 경험을 제공하는 것을 목표로 합니다.
+This guide outlines the foundational layout principles and structure for the TEE:UP web service, ensuring consistency, responsiveness, and adherence to our "Calm Control" design philosophy. Inspired by Apple Human Interface Guidelines, we prioritize clarity, efficiency, and elegant visual presentation.
 
-## 1. View Hierarchy (뷰 계층 구조)
+---
 
-TEE:UP의 뷰 계층은 명확한 시각적 위계를 통해 사용자가 콘텐츠에 집중하고 핵심 액션을 쉽게 발견할 수 있도록 설계됩니다.
+## 1. Overall Structure
 
-### 1.1. 상단 내비게이션 바 (Header)
-- **얇고 절제된 디자인**: 높이를 최소화하여 콘텐츠 영역을 최대한 확보합니다.
-- **배경과 유사한 톤**: `bg-tee-surface` 또는 `bg-tee-background`와 같은 밝은 배경색을 사용하며, 투명도 또는 아주 미미한 `shadow-card`를 적용하여 배경과의 미묘한 분리감을 줍니다.
-- **Subtle Border**: 하단에 얇은 1px의 `border-b` (`border-tee-ink-light` 또는 `rgba(0,0,0,0.08)`)를 사용하여 섹션 구분을 명확히 합니다.
-- **구성**:
-    - 좌측: 로고 (`TEE:UP` 텍스트 로고)
-    - 중앙: 주요 텍스트 링크 (Desktop) 또는 비워둠 (Mobile)
-    - 우측: Primary CTA (Desktop) / 햄버거 메뉴 아이콘 (Mobile)
+### A. General Principles
 
-### 1.2. 메인 콘텐츠 영역 (Main Content)
-- **최대 너비 1200px 컨테이너**: 대부분의 페이지 콘텐츠는 `max-w-screen-xl` (`1280px`) 또는 `max-w-7xl` (`1280px`)의 중앙 정렬된 컨테이너 내에 배치됩니다.
-- **충분한 양 측면 여백**: `mx-auto px-8 lg:px-16` 와 같은 클래스를 사용하여 해상도에 따라 유동적인 좌우 여백을 확보합니다. 이는 콘텐츠의 가독성을 높이고 시각적 편안함을 제공합니다.
-- **수직 여백**: 섹션 간 `py-16` 또는 `py-32`와 같은 큰 수직 여백을 활용하여 시원하고 정돈된 느낌을 줍니다.
+*   **Maximum Readability**: Content areas are optimized for readability, with appropriate line lengths and contrast.
+*   **Hierarchical & Clear**: Visual hierarchy is established through sizing, spacing, and placement to guide the user's eye naturally.
+*   **Responsive by Design**: All layouts are designed mobile-first and adapt seamlessly to larger screens, ensuring a consistent experience across devices.
+*   **Minimalist & Uncluttered**: Ample use of white space to create a sense of calm and focus, reducing visual noise.
+*   **Consistency**: Repetitive use of layout patterns and components for predictability and ease of learning.
 
-### 1.3. 푸터 (Footer)
-- **정보성 콘텐츠**: 회사 정보, 약관, 소셜 미디어 링크 등 보조적인 정보를 제공합니다.
-- **배경**: `bg-tee-background`와 같은 배경색을 사용하고, 상단에 `border-t`를 두어 메인 콘텐츠와 구분합니다.
+### B. Global Layout (Conceptual)
 
-## 2. Navigation (내비게이션)
-
-### 2.1. 데스크톱 내비게이션
-- **Primary CTA**: 헤더 우측에 단 하나의 주요 CTA 버튼(`btn-primary` 스타일)을 배치합니다. (예: "프로 찾기" 또는 "프로 등록"). 이는 사용자의 주요 목표를 명확히 제시합니다.
-- **텍스트 위주 링크**: "전체 프로", "소개", "문의" 등의 나머지 내비게이션 링크는 텍스트 형태로 제공되며, 아이콘 사용은 최소화하여 간결함을 유지합니다. (`text-tee-ink-light` + `hover:text-tee-accent-primary`)
-
-### 2.2. 모바일 내비게이션
-- **단순한 헤더**: 로고와 햄버거 메뉴 아이콘(`text-tee-ink-strong`)만으로 구성되어 미니멀한 경험을 제공합니다.
-- **텍스트 메뉴 드로어**: 햄버거 메뉴 클릭 시 화면 우측에서 슬라이드 인 되는 메뉴 드로어(Drawer)를 통해 모든 내비게이션 링크와 Primary CTA를 제공합니다.
-
-## 3. Landing Hero (랜딩 영웅 섹션)
-
-### 3.1. Calm Luxury Hero Pattern
-- **풀 브리드 이미지 자제**: 시각적 과부하를 피하기 위해 풀 브리드(Full-bleed) 영웅 이미지 사용을 자제합니다.
-- **여백 넓은 카드 구조**: 대신, 넓은 여백을 가진 카드 형태의 UI 요소 내에 핵심 메시지를 배치합니다.
-- **"크고 간결한 타이틀 + 짧은 설명 + 단일 CTA 버튼"**: Apple HIG에서 영감을 받아, `text-h1`을 활용한 크고 간결한 핵심 카피, `text-body`로 제공되는 짧고 명확한 서브 카피, 그리고 단 하나의 명확한 Primary CTA(`btn-primary`)로 구성합니다.
-
-```text
-+----------------------------------------------------------------------------------------------------------------+
-| [Header]                                                                                                       |
-|    LOGO                      [메뉴1] [메뉴2] [메뉴3]                   [Primary CTA]                         |
-+----------------------------------------------------------------------------------------------------------------+
-|                                                                                                                |
-|                                                                                                                |
-|                                         +--------------------------------------+                             |
-|                                         |           [태그]                   |                             |
-|                                         |                                      |                             |
-|                                         |     [H1] 크고 간결한 타이틀          |                             |
-|                                         |                                      |                             |
-|                                         |     [Body] 짧은 설명               |                             |
-|                                         |                                      |                             |
-|                                         |         [Primary CTA Button]         |                             |
-|                                         +--------------------------------------+                             |
-|                                                                                                                |
-|                                                                                                                |
-|                                                                                                                |
-|                                     Scroll Indicator ▼                                                       |
-+----------------------------------------------------------------------------------------------------------------+
+```
++-------------------------------------------------------------------------+
+|                  [Thin Header with Logo & Primary CTA]                  |
++-------------------------------------------------------------------------+
+|                                                                         |
+|                                [Main Content Area]                      |
+|                     (Max-width 1200px, horizontally centered)           |
+|                                                                         |
++-------------------------------------------------------------------------+
+|                                [Footer]                                 |
++-------------------------------------------------------------------------+
 ```
 
-## 4. Responsiveness (반응형 디자인)
+### C. Key Elements
 
-### 4.1. 타이포그래피 및 여백
-- **토큰 기반 반응형 조정**: `tailwind.config.ts`에 정의된 `fontSize`, `spacing` 토큰을 기반으로 Tailwind의 반응형 유틸리티 (`sm:`, `md:`, `lg:`)를 적극적으로 활용합니다.
-- **모바일 최적화**: 작은 화면에서는 `text-h1`의 크기를 줄이고, `px` 값을 조정하여 콘텐츠가 잘 보이도록 합니다.
+*   **Header**:
+    *   **Height**: Thin, minimal height to maximize content space.
+    *   **Background**: Matches or subtly contrasts with the `tee-background` color, maintaining a calm aesthetic.
+    *   **Content**: Logo (left), Primary Call-to-Action (right).
+    *   **Mobile**: Hamburger menu for navigation.
+    *   **Behavior**: Sticky on scroll for easy access to navigation and CTA.
+*   **Main Content Area**:
+    *   **Max-Width**: `1200px` for optimal readability and visual balance on large screens.
+    *   **Centering**: Always horizontally centered on the page.
+    *   **Padding/Margins**: Generous horizontal and vertical padding/margins (`space-4` to `space-16`) to create breathing room.
+*   **Footer**:
+    *   **Content**: Copyright, links to legal information, possibly social media (minimalist).
+    *   **Layout**: Simple, clean, and unobtrusive.
+    *   **Background**: `tee-background` or `tee-ink-strong` for clear separation.
 
-### 4.2. 헤더 (모바일)
-- **로고 + 햄버거**: 모바일 뷰포트에서는 헤더가 좌측 로고와 우측 햄버거 메뉴 아이콘으로 간소화됩니다.
-- **드로어 내비게이션**: 햄버거 메뉴 클릭 시 전체 내비게이션 링크와 Primary CTA를 포함하는 드로어(Drawer) 컴포넌트가 나타납니다.
+---
 
-```text
-// Desktop Wireframe
-+-------------------------------------------------------------------------------------+
-| [LOGO]                [전체 프로] [소개] [문의]             [Primary CTA]         |
-+-------------------------------------------------------------------------------------+
-|                                                                                     |
-|  Main Content (Max 1200px wide, centered with generous padding)                     |
-|                                                                                     |
-|  +-------------------------------------------------------------------------------+  |
-|  | [Hero Card]                                                                   |  |
-|  |   [Tag: AI가 추천하는 맞춤 프로]                                                |  |
-|  |                                                                               |  |
-|  |   [H1] 나에게 꼭 맞는                                                          |  |
-|  |        프리미엄 골프 레슨을 간편하게                                            |  |
-|  |                                                                               |  |
-|  |   [Body] 투어 경험이 풍부한 프로들을 한눈에 비교하고, 원하는 스타일로 바로 상담하세요. |  |
-|  |                                                                               |  |
-|  |   [Primary CTA Button]                                                        |  |
-|  +-------------------------------------------------------------------------------+  |
-|                                                                                     |
-|                                                                                     |
-|                                                                                     |
-| [Footer]                                                                            |
-+-------------------------------------------------------------------------------------+
+## 2. Page Sections & Components
 
-// Mobile Wireframe
-+---------------------------------------+
-| [LOGO]                          [☰]   |
-+---------------------------------------+
-|                                       |
-|  Main Content (Full width, some padding)|
-|                                       |
-|  +-----------------------------------+  |
-|  | [Hero Card]                       |  |
-|  |   [Tag]                           |  |
-|  |                                   |  |
-|  |   [H1] 타이틀                     |  |
-|  |                                   |  |
-|  |   [Body] 설명                     |  |
-|  |                                   |  |
-|  |   [Primary CTA Button]            |  |
-|  +-----------------------------------+  |
-|                                       |
-|                                       |
-|  [☰ Drawer Menu] (Slide-in from right)  |
-|  -------------------------------------  |
-|  | 메뉴1                              |  |
-|  | 메뉴2                              |  |
-|  | Primary CTA                        |  |
-|  -------------------------------------  |
-|                                       |
-| [Footer]                              |
-+---------------------------------------+
+### A. Hero Sections (Examples)
+
+**Principle**: No full-bleed hero images. Instead, use a structured "card" style that highlights key information within a contained, elegant space. Inspired by Apple HIG's use of "Large Titles" and concise content blocks.
+
+#### Example 1: Landing Page Hero (Text-focused)
+
 ```
++-------------------------------------------------------------------------+
+|                     [Vertical Padding: space-16 to space-32]            |
+|   +-----------------------------------------------------------------+   |
+|   | [Centered Card: max-width 768px, bg-tee-surface, shadow-card]   |   |
+|   |                                                                 |   |
+|   |       [Subtle Tag: AI Matching, bg-tee-background]              |   |
+|   |                                                                 |   |
+|   |                 [Large Title: H1, centered]                     |   |
+|   |                                                                 |   |
+|   |         [Descriptive Paragraph: centered, max-w-prose]          |   |
+|   |                                                                 |   |
+|   |                     [Primary CTA Button]                        |   |
+|   |                                                                 |   |
+|   +-----------------------------------------------------------------+   |
+|                     [Scroll Indicator (subtle)]                     |   |
++-------------------------------------------------------------------------+
+```
+
+#### Example 2: Pro Detail Hero (Image + Info)
+
+```
++-------------------------------------------------------------------------+
+|                      [Vertical Padding: space-16]                       |
+|   +-----------------------------------------------------------------+   |
+|   | [Full-width within main content, bg-tee-surface, shadow-card]   |   |
+|   |                                                                 |   |
+|   |  +------------+                                                 |   |
+|   |  | [Pro Image]|                                                 |   |
+|   |  | (Rounded)  |  [Pro Name H1]                                  |   |
+|   |  +------------+  [LPGA/PGA Tag]                                 |   |
+|   |                  [Location]                                     |   |
+|   |                  [Avg Rating (Stars)]                           |   |
+|   |                                                                 |   |
+|   |  [Short Bio/Hook]                                               |   |
+|   |                                                                 |   |
+|   |  [Primary Booking CTA] [Secondary Contact CTA]                  |   |
+|   |                                                                 |   |
+|   +-----------------------------------------------------------------+   |
++-------------------------------------------------------------------------+
+```
+
+### B. Content Grids & Cards
+
+**Principle**: Information is often presented in a grid of `Card` components, allowing for easy scanning and comparison. Cards use subtle shadows and generous internal padding.
+
+#### Example: Featured Pros Grid
+
+```
++-------------------------------------------------------------------------+
+|                       [Vertical Padding: space-16]                      |
+|      [Section Title H2]                                                 |
+|      [Intro Paragraph]                                                  |
+|                                                                         |
+|   +-------------+  +-------------+  +-------------+  +-------------+  |
+|   |  [Pro Card] |  |  [Pro Card] |  |  [Pro Card] |  |  [Pro Card] |  |
+|   |             |  |             |  |             |  |             |  |
+|   +-------------+  +-------------+  +-------------+  +-------------+  |
+|                                                                         |
+|                [Call to Action: View All Pros Link]                     |
+|                                                                         |
++-------------------------------------------------------------------------+
+```
+
+### C. Forms & Inputs
+
+**Principle**: Forms are clean, intuitive, and minimize cognitive load. Inputs provide clear feedback.
+
+*   **Structure**: Label above input, optional helper text below, clear error states.
+*   **Focus**: Visible focus rings (`ring-tee-accent-primary`) for accessibility.
+*   **Spacing**: Vertical spacing between form elements (`space-4` to `space-6`).
+*   **Validation**: Real-time feedback for input validation.
+
+---
+
+## 3. Responsive Breakpoints
+
+We adopt a standard set of responsive breakpoints, with mobile-first as the primary design approach.
+
+*   **`sm` (640px)**: Small screens (e.g., larger phones in landscape)
+*   **`md` (768px)**: Medium screens (e.g., tablets)
+*   **`lg` (1024px)**: Large screens (e.g., small laptops)
+*   **`xl` (1280px)**: Extra large screens (e.g., desktops, large laptops)
+*   **`2xl` (1536px)**: Very large screens (e.g., large monitors)
+
+This guide serves as a living document to ensure that all visual elements contribute to a unified, premium, and user-friendly experience across the TEE:UP platform.

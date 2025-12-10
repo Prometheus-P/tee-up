@@ -1,8 +1,6 @@
-import type { Config } from 'tailwindcss'
-import { fontFamily } from 'tailwindcss/defaultTheme'
+import type { Config } from 'tailwindcss';
 
 const config: Config = {
-  darkMode: 'selector',
   content: [
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
@@ -11,126 +9,80 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // TEE:UP Design Tokens - Colors
-        // Neutrals
-        'tee-background': 'var(--color-tee-background)', // 아주 연한 웜 화이트
-        'tee-surface': 'var(--color-tee-surface)',     // 순백
-        'tee-ink-strong': 'var(--color-tee-ink-strong)', // 거의 블랙에 가까운 딥 네이비/차콜
-        'tee-ink-light': 'var(--color-tee-ink-light)',   // on-surface-variant for subdued text
+        // Core Palette
+        'tee-background': '#F7F4F0', // Neutral Background
+        'tee-surface': '#FFFFFF',    // UI Surface / Card Background
+        'tee-ink-strong': '#1A1A1A', // Primary Text / Headings
+        'tee-ink-light': '#52524E',  // Secondary Text / Subheadings
+        'tee-accent-primary': '#0A362B', // Primary Brand Accent (e.g., CTA, active states)
+        'tee-accent-secondary': '#B39A68', // Secondary Accent (e.g., Highlights, badges)
 
-        // Accents
-        'tee-accent-primary': 'var(--color-tee-accent-primary)', // TEE:UP 그린
-        'tee-accent-secondary': 'var(--color-tee-accent-secondary)', // 골드/샴페인
+        // State Colors (Derived from primary/secondary or standard)
+        'tee-accent-primary-hover': '#072A21', // Darker primary for hover
+        'tee-accent-primary-active': '#051E18', // Even darker for active
+        'tee-accent-primary-disabled': '#B4C6BF', // Lighter, desaturated for disabled
+        'tee-error': '#D32F2F',      // Error messages/states
+        'tee-success': '#388E3C',    // Success messages/states
+        'tee-warning': '#FBC02D',    // Warning messages/states
+        'tee-info': '#1976D2',       // Informational messages/states
 
-        // States (derived from accent-primary for consistency)
-        'tee-accent-primary-hover': 'var(--color-tee-accent-primary-hover)',
-        'tee-accent-primary-active': 'var(--color-tee-accent-primary-active)',
-        'tee-accent-primary-disabled': 'var(--color-tee-accent-primary-disabled)',
-
-        // Functional / Semantic Colors (map existing to new token structure if possible, or define new)
-        'functional-success': 'var(--color-functional-success)',
-        'functional-warning': 'var(--color-functional-warning)',
-        'functional-error': 'var(--color-functional-error)',
-        'functional-info': 'var(--color-functional-info)',
-
-        // Brand colors for specific external services (if needed, e.g., Kakao)
-        'brand-kakao': 'var(--color-brand-kakao)',
-        'brand-kakao-text': 'var(--color-brand-kakao-text)',
-        'brand-kakao-hover': 'var(--color-brand-kakao-hover)',
+        // Semantic UI Colors (if needed, map to core palette)
+        // 'ui-border': 'tee-ink-light/20',
+        // 'ui-focus-ring': 'tee-accent-primary/50',
       },
       fontFamily: {
-        sans: ['Pretendard', '-apple-system', 'system-ui', 'sans-serif'],
-        display: ['Pretendard', '-apple-system', 'system-ui', 'sans-serif'],
-        mono: ['JetBrains Mono', 'Consolas', 'monospace'],
+        pretendard: ['var(--font-pretendard)'],
+        inter: ['var(--font-inter)'],
+        // For code snippets or monospaced elements if needed
+        // 'jetbrains-mono': ['var(--font-jetbrains-mono)'],
       },
       fontSize: {
-        'h1': ['3rem', { lineHeight: '1.2', letterSpacing: '-0.02em' }], // 48px
-        'h2': ['2.25rem', { lineHeight: '1.25', letterSpacing: '-0.015em' }], // 36px
-        'h3': ['1.5rem', { lineHeight: '1.3', letterSpacing: '-0.01em' }], // 24px
-        'body': ['1rem', { lineHeight: '1.5', letterSpacing: 'normal' }], // 16px
-        'caption': ['0.875rem', { lineHeight: '1.4', letterSpacing: '0.02em' }], // 14px
-      },
-      lineHeight: {
-        'tight': '1.2',
-        'snug': '1.25',
-        'normal': '1.5',
-        'relaxed': '1.75',
-      },
-      letterSpacing: {
-        'tight': '-0.02em',
-        'normal': 'normal',
-        'wide': '0.02em',
-        'wider': '0.04em',
+        h1: ['3rem', { lineHeight: '1.2' }],      // ~48px
+        h2: ['2.25rem', { lineHeight: '1.25' }],  // ~36px
+        h3: ['1.5rem', { lineHeight: '1.33' }],   // ~24px
+        body: ['1rem', { lineHeight: '1.5' }],    // ~16px
+        caption: ['0.875rem', { lineHeight: '1.4' }], // ~14px
       },
       spacing: {
-        '0': '0',
-        'px': '1px', // Keep pixel for fine adjustments
-        '1': '0.25rem',  // 4px
-        '2': '0.5rem',   // 8px
-        '3': '0.75rem',  // 12px
-        '4': '1rem',     // 16px
-        '5': '1.25rem',  // 20px
-        '6': '1.5rem',   // 24px
-        '8': '2rem',     // 32px
-        '10': '2.5rem',  // 40px
-        '12': '3rem',    // 48px
-        '16': '4rem',    // 64px
-        '20': '5rem',    // 80px
-        '24': '6rem',    // 96px
-        '32': '8rem',    // 128px
-        '40': '10rem',   // 160px
+        'space-1': '0.25rem', // 4px
+        'space-2': '0.5rem',  // 8px
+        'space-3': '0.75rem', // 12px
+        'space-4': '1rem',    // 16px
+        'space-5': '1.25rem', // 20px
+        'space-6': '1.5rem',  // 24px
+        'space-7': '1.75rem', // 28px
+        'space-8': '2rem',    // 32px
+        'space-10': '2.5rem', // 40px
+        'space-12': '3rem',   // 48px
+        'space-16': '4rem',   // 64px
+        'space-20': '5rem',   // 80px
+        'space-24': '6rem',   // 96px
+        'space-32': '8rem',   // 128px
       },
       borderRadius: {
         'none': '0',
-        'sm': '0.25rem', // 4px
-        'md': '0.5rem',  // 8px
-        'lg': '0.75rem', // 12px
-        'xl': '1rem',    // 16px
-        '2xl': '1.5rem', // 24px
-        '3xl': '2rem',   // 32px
+        'sm': '0.25rem',    // 4px
+        'md': '0.5rem',     // 8px
+        'lg': '1rem',       // 16px
+        'xl': '1.25rem',    // 20px
         'full': '9999px',
       },
       boxShadow: {
-        'card': '0px 2px 8px rgba(0, 0, 0, 0.05)', // Very weak shadow for floating cards
+        'card': '0px 2px 8px rgba(0, 0, 0, 0.05)', // Subtle shadow for cards
       },
-      transitionDuration: {
-        '120': '0.12s', // 120ms for button transition
-      },
-      backdropBlur: {
-        'xs': '2px',
-        'sm': '4px',
-        'md': '12px',
-        'lg': '16px',
-        'xl': '24px',
-        '2xl': '40px',
-      },
-      animation: {
-        'fadeIn': 'fadeIn 0.3s ease-in-out',
-        'slideUp': 'slideUp 0.4s ease-out',
-        'scaleIn': 'scaleIn 0.3s ease-out',
-        'shimmer': 'shimmer 2s infinite linear',
-      },
-      keyframes: {
-        fadeIn: {
-          '0%': { opacity: '0' },
-          '100%': { opacity: '1' },
-        },
-        slideUp: {
-          '0%': { transform: 'translateY(20px)', opacity: '0' },
-          '100%': { transform: 'translateY(0)', opacity: '1' },
-        },
-        scaleIn: {
-          '0%': { transform: 'scale(0.95)', opacity: '0' },
-          '100%': { transform: 'scale(1)', opacity: '1' },
-        },
-        shimmer: {
-          '0%': { backgroundPosition: '-200% 0' },
-          '100%': { backgroundPosition: '200% 0' },
-        },
-      },
+      // You can also add custom utilities here if needed
+      // animation: {
+      //   'fade-in': 'fadeIn 0.5s ease-out forwards',
+      // },
+      // keyframes: {
+      //   fadeIn: {
+      //     '0%': { opacity: '0' },
+      //     '100%': { opacity: '1' },
+      //   },
+      // },
     },
   },
   plugins: [],
-}
+};
 
-export default config
+export default config;

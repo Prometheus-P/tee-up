@@ -1,173 +1,39 @@
-import './global.css'
-import type { Metadata, Viewport } from 'next'
-import { ThemeProvider } from 'next-themes'
-import {
-  JsonLd,
-  getOrganizationSchema,
-  getWebsiteSchema,
-  getServiceSchema,
-} from '@/lib/seo/structured-data'
-import Header from '@/components/Header'
-import Footer from '@/components/Footer'
+import './globals.css';
+import type { Metadata } from 'next';
+import { Inter, Pretendard } from 'next/font/google'; // Assuming Pretendard is locally hosted or setup for next/font
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
 
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://teeup.golf'
-
-export const viewport: Viewport = {
-  width: 'device-width',
-  initialScale: 1,
-  maximumScale: 5,
-  themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
-    { media: '(prefers-color-scheme: dark)', color: '#0a0e27' },
-  ],
-}
+// Configure fonts
+const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
+const pretendard = Pretendard({ // Replace with actual setup for Pretendard
+  subsets: ['latin'], // Or appropriate subsets for Pretendard
+  variable: '--font-pretendard',
+  // You might need to configure this differently based on how Pretendard is integrated
+  // For example, if it's a local font, you'd use localFont
+});
 
 export const metadata: Metadata = {
-  title: {
-    default: 'TEE:UP | 프리미엄 골프 레슨 매칭 플랫폼',
-    template: '%s | TEE:UP',
-  },
-  description:
-    '검증된 프로 골퍼와 함께하는 프리미엄 골프 레슨. AI 기반 매칭으로 나에게 딱 맞는 프로를 찾아보세요. 강남 최고의 골프 레슨 플랫폼.',
-  keywords: [
-    '골프 레슨',
-    '골프 프로',
-    '강남 골프',
-    '프리미엄 골프',
-    '골프 코치',
-    '개인 레슨',
-    'LPGA 프로',
-    'PGA 프로',
-    'KPGA 프로',
-    '골프 매칭',
-    'golf lessons',
-    'golf pro',
-    'premium golf',
-    'Seoul golf',
-  ],
-  authors: [{ name: 'TEE:UP', url: BASE_URL }],
-  creator: 'TEE:UP',
-  publisher: 'TEE:UP',
-  metadataBase: new URL(BASE_URL),
-  alternates: {
-    canonical: '/',
-    languages: {
-      'ko-KR': '/',
-      'en-US': '/en',
-    },
-  },
-  openGraph: {
-    type: 'website',
-    locale: 'ko_KR',
-    alternateLocale: 'en_US',
-    url: BASE_URL,
-    title: 'TEE:UP | 프리미엄 골프 레슨 매칭 플랫폼',
-    description: '검증된 프로 골퍼와 함께하는 프리미엄 골프 레슨. AI 기반 매칭으로 나에게 딱 맞는 프로를 찾아보세요.',
-    siteName: 'TEE:UP',
-    images: [
-      {
-        url: '/og-image.svg', // Use the new SVG
-        width: 1200,
-        height: 630,
-        alt: 'TEE:UP - 프리미엄 골프 레슨 플랫폼',
-        type: 'image/svg+xml', // Update type to SVG
-      },
-    ],
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'TEE:UP | 프리미엄 골프 레슨 매칭 플랫폼',
-    description: '검증된 프로 골퍼와 함께하는 프리미엄 골프 레슨',
-    images: ['/og-image.svg'],
-    creator: '@teeup_golf',
-    site: '@teeup_golf',
-  },
-  robots: {
-    index: true,
-    follow: true,
-    nocache: false,
-    googleBot: {
-      index: true,
-      follow: true,
-      noimageindex: false,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
-    },
-  },
-  verification: {
-    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION || '',
-    yandex: '',
-    yahoo: '',
-    other: {
-      'naver-site-verification': process.env.NEXT_PUBLIC_NAVER_SITE_VERIFICATION || '',
-    },
-  },
-  category: 'sports',
-  classification: 'Golf Lesson Matching Platform',
-  referrer: 'origin-when-cross-origin',
-  formatDetection: {
-    email: false,
-    address: false,
-    telephone: false,
-  },
-  icons: {
-    icon: [
-      { url: '/favicon.ico' },
-      { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
-      { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
-    ],
-    apple: [
-      { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
-    ],
-    other: [
-      { rel: 'mask-icon', url: '/safari-pinned-tab.svg', color: '#D7BA74' },
-    ],
-  },
-  manifest: '/manifest.json',
-  appleWebApp: {
-    capable: true,
-    statusBarStyle: 'black-translucent',
-    title: 'TEE:UP',
-  },
-}
+  title: 'TEE:UP - 프리미엄 골프 레슨 매칭 플랫폼',
+  description: 'AI 기반 맞춤형 골프 레슨 프로 매칭. 나에게 꼭 맞는 최적의 레슨을 경험하세요.',
+};
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
-    <html lang="ko" className="scroll-smooth" suppressHydrationWarning>
-      <head>
-        {/* Preconnect to external domains for performance */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-        <link rel="preconnect" href="https://pf.kakao.com" />
-
-        {/* DNS Prefetch */}
-        <link rel="dns-prefetch" href="https://www.google-analytics.com" />
-        <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
-
-        {/* JSON-LD Structured Data */}
-        <JsonLd data={getOrganizationSchema()} />
-        <JsonLd data={getWebsiteSchema()} />
-        <JsonLd data={getServiceSchema()} />
-      </head>
-      <body className="antialiased min-h-screen flex flex-col">
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
+    <html lang="ko" className={`${inter.variable} ${pretendard.variable}`}>
+      <body>
+        <div className="flex min-h-screen flex-col">
           <Header />
-          <main className="flex-grow pt-20"> {/* pt-20 to offset fixed header */}
+          <main className="flex-grow">
             {children}
           </main>
           <Footer />
-        </ThemeProvider>
+        </div>
       </body>
     </html>
-  )
+  );
 }

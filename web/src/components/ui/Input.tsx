@@ -1,39 +1,42 @@
-import React from 'react';
+import React, { useId } from 'react';
 import { cn } from '@/lib/utils';
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   helperText?: string;
-  errorText?: string;
+  error?: string;
 }
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className, label, helperText, errorText, id, ...props }, ref) => {
-    const generatedId = React.useId(); // Call unconditionally
-    const inputId = id || generatedId; // Use provided id or generated one
+  ({ className, type, label, helperText, error, ...props }, ref) => {
+    const id = useId(); // This was the problematic line for conditional rendering.
 
     return (
-      <div className="flex flex-col gap-1">
+      <div className="relative">
         {label && (
-          <label htmlFor={inputId} className="text-body font-medium text-tee-ink-strong uppercase">
+          <label
+            htmlFor={id}
+            className="mb-space-2 block text-body font-medium text-tee-ink-strong"
+          >
             {label}
           </label>
         )}
         <input
-          id={inputId}
-          ref={ref}
+          id={id}
+          type={type}
           className={cn(
-            'flex h-10 w-full rounded-full border border-tee-ink-light/20 bg-tee-background px-3 py-2 text-body text-tee-ink-strong file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-tee-ink-light/70 focus:border-tee-accent-primary focus:ring-1 focus:ring-tee-accent-primary focus:outline-none disabled:cursor-not-allowed disabled:opacity-50',
-            errorText && 'border-functional-error focus:border-functional-error focus:ring-functional-error',
-            className
+            'flex h-10 w-full rounded-full border border-tee-ink-light/20 bg-tee-surface px-space-4 py-space-2 text-body text-tee-ink-strong file:border-0 file:bg-transparent file:text-body file:font-medium placeholder:text-tee-ink-light focus:border-tee-accent-primary focus:outline-none focus:ring-2 focus:ring-tee-accent-primary focus:ring-offset-2 disabled:cursor-not-allowed disabled:bg-tee-background disabled:text-tee-ink-light',
+            className,
+            error && 'border-tee-error focus:ring-tee-error'
           )}
+          ref={ref}
           {...props}
         />
-        {helperText && !errorText && (
-          <p className="text-caption text-tee-ink-light">{helperText}</p>
+        {helperText && !error && (
+          <p className="mt-space-2 text-caption text-tee-ink-light">{helperText}</p>
         )}
-        {errorText && (
-          <p className="text-caption text-functional-error">{errorText}</p>
+        {error && (
+          <p className="mt-space-2 text-caption text-tee-error">{error}</p>
         )}
       </div>
     );

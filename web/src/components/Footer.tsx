@@ -1,103 +1,82 @@
-import Link from 'next/link'
+import Link from 'next/link';
 
 export default function Footer() {
+  const currentYear = new Date().getFullYear();
+
   return (
-    <footer className="border-t border-tee-ink-light/20 bg-tee-background px-6 py-16">
-      <div className="mx-auto max-w-7xl">
-        <div className="grid gap-12 md:grid-cols-4">
-          {/* Company Info */}
-          <div className="md:col-span-2">
-            <Link href="/" className="mb-6 inline-block font-sans text-h2 font-bold text-tee-ink-strong">
-              TEE<span className="text-tee-accent-secondary">:</span>UP
+    <footer className="bg-tee-ink-strong px-space-4 py-space-16 text-tee-background">
+      <div className="mx-auto max-w-screen-xl">
+        <div className="grid grid-cols-1 gap-space-8 md:grid-cols-4">
+          {/* Logo and About */}
+          <div className="col-span-1">
+            <Link href="/" className="mb-space-4 block text-h3 font-bold text-tee-surface">
+              TEE:UP
             </Link>
-            <p className="mb-6 text-body leading-relaxed text-tee-ink-strong">
-              프리미엄 골프 레슨 매칭 플랫폼.
-              <br />
-              검증된 프로와 함께 부담 없이 실력을 키워보세요.
+            <p className="text-body text-tee-ink-light">
+              나만을 위한 프리미엄 골프 레슨 매칭 플랫폼
             </p>
-            <div className="flex gap-4">
-              <a
-                href="#"
-                className="flex h-10 w-10 items-center justify-center rounded-full border border-tee-ink-light/20 text-tee-ink-strong transition-all hover:border-tee-accent-primary hover:text-tee-accent-primary"
-                aria-label="인스타그램"
-              >
-                <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073z" />
-                </svg>
-              </a>
-              <a
-                href="#"
-                className="flex h-10 w-10 items-center justify-center rounded-full border border-tee-ink-light/20 text-tee-ink-strong transition-all hover:border-tee-accent-primary hover:text-tee-accent-primary"
-                aria-label="유튜브"
-              >
-                <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
-                </svg>
-              </a>
-            </div>
           </div>
 
           {/* Quick Links */}
-          <div>
-            <h3 className="mb-6 text-h3 font-semibold text-tee-ink-strong">바로가기</h3>
-            <ul className="space-y-3">
-              <li>
-                <Link href="#" className="text-body text-tee-ink-strong transition-colors hover:text-tee-accent-primary">
-                  전체 프로 보기
+          <div className="col-span-1">
+            <h4 className="mb-space-4 text-h3 font-semibold">바로가기</h4>
+            <ul>
+              <li className="mb-space-2">
+                <Link href="/find-pros" className="text-body text-tee-ink-light hover:text-tee-accent-secondary">
+                  프로 찾기
                 </Link>
               </li>
-              <li>
-                <Link href="#" className="text-body text-tee-ink-strong transition-colors hover:text-tee-accent-primary">
-                  회사 소개
-                </Link>
-              </li>
-              <li>
-                <Link href="#" className="text-body text-tee-ink-strong transition-colors hover:text-tee-accent-primary">
+              <li className="mb-space-2">
+                <Link href="/how-it-works" className="text-body text-tee-ink-light hover:text-tee-accent-secondary">
                   이용 방법
                 </Link>
               </li>
-              <li>
-                <Link href="#" className="text-body text-tee-ink-strong transition-colors hover:text-tee-accent-primary">
-                  요금 안내
+              <li className="mb-space-2">
+                <Link href="/community" className="text-body text-tee-ink-light hover:text-tee-accent-secondary">
+                  커뮤니티
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* Support */}
-          <div>
-            <h3 className="mb-6 text-h3 font-semibold text-tee-ink-strong">고객 지원</h3>
-            <ul className="space-y-3">
-              <li>
-                <Link href="#" className="text-body text-tee-ink-strong transition-colors hover:text-tee-accent-primary">
-                  문의하기
-                </Link>
-              </li>
-              <li>
-                <Link href="#" className="text-body text-tee-ink-strong transition-colors hover:text-tee-accent-primary">
-                  자주 묻는 질문
-                </Link>
-              </li>
-              <li>
-                <Link href="#" className="text-body text-tee-ink-strong transition-colors hover:text-tee-accent-primary">
+          {/* Legal */}
+          <div className="col-span-1">
+            <h4 className="mb-space-4 text-h3 font-semibold">법률</h4>
+            <ul>
+              <li className="mb-space-2">
+                <Link href="/terms" className="text-body text-tee-ink-light hover:text-tee-accent-secondary">
                   이용약관
                 </Link>
               </li>
-              <li>
-                <Link href="#" className="text-body text-tee-ink-strong transition-colors hover:text-tee-accent-primary">
+              <li className="mb-space-2">
+                <Link href="/privacy" className="text-body text-tee-ink-light hover:text-tee-accent-secondary">
                   개인정보처리방침
                 </Link>
               </li>
             </ul>
           </div>
+
+          {/* Contact */}
+          <div className="col-span-1">
+            <h4 className="mb-space-4 text-h3 font-semibold">문의</h4>
+            <ul>
+              <li className="mb-space-2">
+                <a href="mailto:contact@teeup.com" className="text-body text-tee-ink-light hover:text-tee-accent-secondary">
+                  contact@teeup.com
+                </a>
+              </li>
+              <li className="text-body text-tee-ink-light">
+                운영 시간: 09:00 - 18:00 (주말 및 공휴일 제외)
+              </li>
+            </ul>
+          </div>
         </div>
 
-        <div className="mt-12 border-t border-tee-ink-light/20 pt-8 text-center">
-          <p className="text-caption text-tee-ink-light">
-            © 2025 TEE:UP. All rights reserved.
-          </p>
+        {/* Copyright */}
+        <div className="mt-space-12 border-t border-tee-ink-light/20 pt-space-8 text-center text-body text-tee-ink-light">
+          &copy; {currentYear} TEE:UP. All rights reserved.
         </div>
       </div>
     </footer>
-  )
+  );
 }
