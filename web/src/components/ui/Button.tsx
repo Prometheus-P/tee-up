@@ -1,44 +1,55 @@
-import React from 'react';
+import * as React from 'react';
+import { Slot } from '@radix-ui/react-slot';
 import { cva, type VariantProps } from 'class-variance-authority';
-import { cn } from '@/lib/utils'; // Assuming cn utility exists for combining class names
+import { cn } from '@/lib/utils';
 
-// Define button variants using class-variance-authority (cva)
 const buttonVariants = cva(
-  'inline-flex items-center justify-center font-pretendard font-medium uppercase transition-all duration-150 ease-in-out',
+  'inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50',
   {
     variants: {
       variant: {
-        primary: 'bg-tee-accent-primary text-tee-surface border border-tee-accent-primary shadow-sm hover:bg-tee-accent-primary-hover hover:border-tee-accent-primary-hover active:bg-tee-accent-primary-active active:border-tee-accent-primary-active disabled:bg-tee-accent-primary-disabled disabled:border-tee-accent-primary-disabled disabled:cursor-not-allowed',
-        secondary: 'bg-tee-background text-tee-ink-strong border border-tee-ink-light/20 hover:border-tee-accent-primary hover:text-tee-accent-primary disabled:border-tee-ink-light/20 disabled:text-tee-ink-light disabled:cursor-not-allowed',
-        ghost: 'bg-transparent text-tee-ink-strong border border-transparent hover:bg-tee-background disabled:text-tee-ink-light disabled:cursor-not-allowed',
+        default:
+          'bg-tee-accent-primary text-tee-surface shadow hover:bg-tee-accent-primary-hover',
+        destructive:
+          'bg-tee-error text-tee-surface shadow-sm hover:bg-tee-error/90',
+        outline:
+          'border border-tee-ink-light/20 bg-transparent shadow-sm hover:bg-tee-background hover:text-tee-accent-primary',
+        secondary:
+          'bg-tee-background text-tee-ink-strong shadow-sm hover:bg-tee-stone-50',
+        ghost: 'hover:bg-tee-background hover:text-tee-accent-primary',
+        link: 'text-tee-accent-primary underline-offset-4 hover:underline',
+        // Legacy variants for backward compatibility
+        primary:
+          'bg-tee-accent-primary text-tee-surface border border-tee-accent-primary shadow-sm hover:bg-tee-accent-primary-hover hover:border-tee-accent-primary-hover active:bg-tee-accent-primary-active active:border-tee-accent-primary-active disabled:bg-tee-accent-primary-disabled disabled:border-tee-accent-primary-disabled',
       },
       size: {
-        md: 'h-10 px-4 py-2 text-body rounded-full', // 40px height
-        lg: 'h-12 px-6 py-3 text-h3 rounded-full', // 48px height
-      },
-      withIcon: {
-        true: 'gap-2',
+        default: 'h-9 px-4 py-2',
+        sm: 'h-8 rounded-md px-3 text-xs',
+        lg: 'h-10 rounded-md px-8',
+        icon: 'h-9 w-9',
+        // Legacy sizes
+        md: 'h-10 px-4 py-2 rounded-full',
       },
     },
     defaultVariants: {
-      variant: 'primary',
-      size: 'md',
+      variant: 'default',
+      size: 'default',
     },
   }
 );
 
-interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement>, VariantProps<typeof buttonVariants> {
+export interface ButtonProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+    VariantProps<typeof buttonVariants> {
   asChild?: boolean;
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, withIcon, asChild = false, ...props }, ref) => {
-    // If asChild is true, it renders the child component (e.g., Link) with the button styles
-    // Otherwise, it renders a standard button element
-    const Comp = asChild ? 'div' : 'button';
+  ({ className, variant, size, asChild = false, ...props }, ref) => {
+    const Comp = asChild ? Slot : 'button';
     return (
       <Comp
-        className={cn(buttonVariants({ variant, size, withIcon, className }))}
+        className={cn(buttonVariants({ variant, size, className }))}
         ref={ref}
         {...props}
       />

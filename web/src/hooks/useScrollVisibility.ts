@@ -7,11 +7,11 @@ interface UseScrollVisibilityOptions {
 const useScrollVisibility = (options: UseScrollVisibilityOptions = {}) => {
   const { delay = 1000 } = options;
   const [isVisible, setIsVisible] = useState(true);
-  const timeoutRef = useRef<NodeJS.Timeout>();
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const handleScroll = useCallback(() => {
     setIsVisible(false);
-    clearTimeout(timeoutRef.current);
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
     timeoutRef.current = setTimeout(() => setIsVisible(true), delay);
   }, [delay]);
 
@@ -22,7 +22,7 @@ const useScrollVisibility = (options: UseScrollVisibilityOptions = {}) => {
 
   const hide = useCallback(() => {
     setIsVisible(false);
-    clearTimeout(timeoutRef.current);
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
   }, []);
 
   return { isVisible, hide };

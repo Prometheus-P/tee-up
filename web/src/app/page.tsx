@@ -1,7 +1,6 @@
 import Link from 'next/link';
-import { Button } from './components/ui/Button';
-import { Card } from './components/ui/Card';
-import { Tag } from './components/ui/Tag';
+import { Button } from '@/components/ui/Button';
+import { Card } from '@/components/ui/Card';
 
 export default function Home() {
   return (
@@ -121,7 +120,8 @@ export default function Home() {
                     <p className="mb-space-1 text-body font-medium text-tee-accent-secondary">{pro.title}</p>
                     <p className="text-h3 font-bold text-tee-ink-strong">{pro.tours}</p>
                   </div>
-                </Card>
+                </div>
+              </Card>
             ))}
           </div>
 
