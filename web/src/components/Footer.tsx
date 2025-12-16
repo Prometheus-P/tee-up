@@ -22,18 +22,18 @@ export default function Footer() {
             <h4 className="mb-space-4 text-h3 font-semibold">바로가기</h4>
             <ul>
               <li className="mb-space-2">
-                <Link href="/find-pros" className="text-body text-tee-background/70 hover:text-tee-accent-secondary">
+                <Link href="/profile" className="text-body text-tee-background/70 hover:text-tee-accent-secondary">
                   프로 찾기
                 </Link>
               </li>
               <li className="mb-space-2">
-                <Link href="/how-it-works" className="text-body text-tee-background/70 hover:text-tee-accent-secondary">
-                  이용 방법
+                <Link href="/pricing" className="text-body text-tee-background/70 hover:text-tee-accent-secondary">
+                  요금제
                 </Link>
               </li>
               <li className="mb-space-2">
-                <Link href="/community" className="text-body text-tee-background/70 hover:text-tee-accent-secondary">
-                  커뮤니티
+                <Link href="/onboarding/mood" className="text-body text-tee-background/70 hover:text-tee-accent-secondary">
+                  AI 매칭 시작
                 </Link>
               </li>
             </ul>
@@ -44,12 +44,12 @@ export default function Footer() {
             <h4 className="mb-space-4 text-h3 font-semibold">법률</h4>
             <ul>
               <li className="mb-space-2">
-                <Link href="/terms" className="text-body text-tee-background/70 hover:text-tee-accent-secondary">
+                <Link href="/legal/terms" className="text-body text-tee-background/70 hover:text-tee-accent-secondary">
                   이용약관
                 </Link>
               </li>
               <li className="mb-space-2">
-                <Link href="/privacy" className="text-body text-tee-background/70 hover:text-tee-accent-secondary">
+                <Link href="/legal/privacy" className="text-body text-tee-background/70 hover:text-tee-accent-secondary">
                   개인정보처리방침
                 </Link>
               </li>

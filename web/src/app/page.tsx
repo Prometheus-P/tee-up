@@ -26,7 +26,7 @@ export default function Home() {
 
           <div className="flex justify-center">
             <Button asChild variant="primary" size="lg">
-              <Link href="/get-started">
+              <Link href="/onboarding/mood">
                 3분 만에 AI 매칭 시작하기
               </Link>
             </Button>
