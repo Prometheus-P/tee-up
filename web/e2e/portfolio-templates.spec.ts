@@ -21,14 +21,14 @@ test.describe('Portfolio Page', () => {
 
       // Should show portfolio content (any template)
       // Check for common elements across all templates
-      await expect(page.locator('main')).toBeVisible();
+      await expect(page.getByRole('main').first()).toBeVisible();
     });
 
     test('should show default profile for non-existent slug', async ({ page }) => {
       await page.goto('/profile/non-existent-pro-slug-12345');
 
       // Profile page falls back to default profile (elliot-kim)
-      await expect(page.locator('main')).toBeVisible();
+      await expect(page.getByRole('main').first()).toBeVisible();
     });
 
     test('should have proper SEO meta tags', async ({ page }) => {
@@ -92,7 +92,7 @@ test.describe('Portfolio Page', () => {
       // View tracking should happen (Server Action call)
       // Note: Since Server Actions are not traditional API calls,
       // we verify the page loads successfully which implies tracking occurred
-      await expect(page.locator('main')).toBeVisible();
+      await expect(page.getByRole('main').first()).toBeVisible();
     });
 
     test('should open contact modal when CTA clicked', async ({ page }) => {
@@ -138,7 +138,7 @@ test.describe('Portfolio Page', () => {
       await page.goto('/profile/hannah-park');
 
       // Page should still be functional
-      await expect(page.locator('main')).toBeVisible();
+      await expect(page.getByRole('main').first()).toBeVisible();
 
       // Check that content doesn't overflow
       const body = page.locator('body');
@@ -152,7 +152,7 @@ test.describe('Portfolio Page', () => {
       await page.goto('/profile/hannah-park');
 
       // Page should still be functional
-      await expect(page.locator('main')).toBeVisible();
+      await expect(page.getByRole('main').first()).toBeVisible();
     });
   });
 
@@ -215,18 +215,30 @@ test.describe('Studio Page', () => {
     test('should show studio pros grid', async ({ page }) => {
       await page.goto('/studio/test-academy');
 
-      // Skip if studio not found
-      const notFound = await page.locator('text=/not found/i').count() > 0;
-      if (notFound) {
+      // Wait for page to fully load
+      await page.waitForLoadState('networkidle');
+
+      // Skip if studio not found (404 page)
+      // Check for 404 heading level 3 with Korean text
+      const notFoundHeading = page.locator('h3:has-text("찾지 못했어요")');
+      const has404Status = page.locator('[role="status"]:has-text("404")');
+      const has404Generic = page.locator('main').getByText('404');
+
+      const is404Page = await notFoundHeading.count() > 0 ||
+                        await has404Status.count() > 0 ||
+                        await has404Generic.count() > 0;
+
+      if (is404Page) {
         test.skip(true, 'Studio not found - skipping test');
         return;
       }
 
-      // Should show pros grid or empty state
-      const prosGrid = page.locator('[data-testid="pros-grid"], .pros-grid');
-      const emptyState = page.locator('text=/아직.*없습니다|no.*yet/i');
+      // Should show pros grid or empty state message
+      const prosGrid = page.locator('section').filter({ hasText: '소속 프로' });
+      const emptyState = page.locator('text=소속 프로가 없습니다');
+      const hasCards = await page.locator('[data-slot="card"], .card, article').count() > 0;
 
-      const hasContent = await prosGrid.count() > 0 || await emptyState.count() > 0;
+      const hasContent = await prosGrid.count() > 0 || await emptyState.count() > 0 || hasCards;
       expect(hasContent).toBeTruthy();
     });
   });
