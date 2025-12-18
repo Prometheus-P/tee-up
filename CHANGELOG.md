@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- `terms.test.ts` - 도메인 용어 추상화 레이어 단위 테스트 (43개 테스트 케이스)
+  - TERMS 상수 검증 (전문가, 서비스, 고객, 시설 용어)
+  - 헬퍼 함수 테스트 (withExpertName, bookingTitle, premiumBookingTitle 등)
+  - 타입 안전성 검증
+
+### Fixed
+- E2E 테스트 안정성 개선
+  - `navigation.spec.ts`: 푸터 링크 검증 시 중복 요소 문제 해결 (role="contentinfo" 사용)
+  - `portfolio-templates.spec.ts`: 다중 main 요소로 인한 strict mode 위반 수정
+  - 스튜디오 페이지 404 감지 로직 개선 (다중 브라우저 호환)
+
 ### Planned
 - Supabase 실시간 연동
 - KakaoTalk 링크 통합

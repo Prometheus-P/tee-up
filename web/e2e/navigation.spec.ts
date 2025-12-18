@@ -60,12 +60,15 @@ test.describe('Footer Navigation', () => {
     // Scroll to footer
     await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
 
+    // Get footer element specifically (role="contentinfo")
+    const footer = page.getByRole('contentinfo');
+
     // Check footer links exist (matching actual Footer.tsx content)
-    await expect(page.getByRole('link', { name: '프로 찾기' })).toBeVisible();
-    await expect(page.getByRole('link', { name: '요금제' })).toBeVisible();
-    await expect(page.getByRole('link', { name: 'AI 매칭 시작' })).toBeVisible();
-    await expect(page.getByRole('link', { name: '이용약관' })).toBeVisible();
-    await expect(page.getByRole('link', { name: '개인정보처리방침' })).toBeVisible();
+    await expect(footer.getByRole('link', { name: '프로 찾기' })).toBeVisible();
+    await expect(footer.getByRole('link', { name: '요금제' })).toBeVisible();
+    await expect(footer.getByRole('link', { name: 'AI 매칭 시작' })).toBeVisible();
+    await expect(footer.getByRole('link', { name: '이용약관' })).toBeVisible();
+    await expect(footer.getByRole('link', { name: '개인정보처리방침' })).toBeVisible();
   });
 
   test('should navigate to terms page', async ({ page }) => {
