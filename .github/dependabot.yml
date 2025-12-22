@@ -1,0 +1,67 @@
+# Dependabot configuration for automated dependency updates
+# Documentation: https://docs.github.com/en/code-security/dependabot/dependabot-version-updates
+
+version: 2
+updates:
+  # Frontend (Next.js)
+  - package-ecosystem: "npm"
+    directory: "/web"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "Asia/Seoul"
+    open-pull-requests-limit: 5
+    labels:
+      - "type: frontend"
+      - "priority: low"
+    groups:
+      react:
+        patterns:
+          - "react*"
+          - "@types/react*"
+      next:
+        patterns:
+          - "next*"
+      testing:
+        patterns:
+          - "jest*"
+          - "@testing-library/*"
+          - "playwright*"
+
+  # Backend (Express.js)
+  - package-ecosystem: "npm"
+    directory: "/api"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "Asia/Seoul"
+    open-pull-requests-limit: 5
+    labels:
+      - "type: backend"
+      - "priority: low"
+    groups:
+      express:
+        patterns:
+          - "express*"
+      supabase:
+        patterns:
+          - "@supabase/*"
+      testing:
+        patterns:
+          - "jest*"
+          - "@types/jest"
+
+  # GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "Asia/Seoul"
+    open-pull-requests-limit: 3
+    labels:
+      - "type: infra"
+      - "priority: low"
