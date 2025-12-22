@@ -1,21 +1,50 @@
-MIT License
+Copyright (c) 2025 TEE:UP. All rights reserved.
 
-Copyright (c) 2025 TEE:UP
+이 소프트웨어 및 관련 문서 파일("소프트웨어")의 저작권은 TEE:UP에 있습니다.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+이 소프트웨어는 독점 소프트웨어(Proprietary Software)이며,
+TEE:UP의 명시적인 서면 허가 없이는 다음 행위가 금지됩니다:
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+1. 소프트웨어의 복사, 수정, 배포
+2. 소프트웨어의 서브라이선스 부여
+3. 소프트웨어의 판매 또는 상업적 사용
+4. 소프트웨어의 역공학, 디컴파일 또는 분해
+5. 소프트웨어를 기반으로 한 파생 저작물 제작
+
+허가된 기여자의 경우:
+- 승인된 기여자만 이 저장소에 코드를 기여할 수 있습니다
+- 기여된 코드의 저작권은 TEE:UP에 양도됩니다
+- 기여자는 자신의 코드가 이 라이선스 조건에 따르는 것에 동의합니다
+
+면책 조항:
+이 소프트웨어는 "있는 그대로" 제공되며, 명시적이든 묵시적이든 어떠한 종류의
+보증도 하지 않습니다. 상품성, 특정 목적에의 적합성, 비침해에 대한 묵시적
+보증을 포함하되 이에 국한되지 않습니다.
+
+어떠한 경우에도 저작권자 또는 권리 보유자는 소프트웨어 또는 소프트웨어의
+사용 또는 기타 거래에서 발생하는 계약, 불법 행위 또는 기타 모든 형태의
+청구, 손해 또는 기타 책임에 대해 책임을 지지 않습니다.
+
+문의: legal@teeup.kr
+
+---
+
+Copyright (c) 2025 TEE:UP. All rights reserved.
+
+This software and associated documentation files (the "Software") are
+proprietary and confidential.
+
+Unauthorized copying, modification, distribution, sublicensing, selling,
+or any commercial use of this Software, via any medium, is strictly
+prohibited without the prior written permission of TEE:UP.
+
+For authorized contributors:
+- Only approved contributors may contribute code to this repository
+- Copyright of contributed code is assigned to TEE:UP
+- Contributors agree that their code is subject to these license terms
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+
+Contact: legal@teeup.kr
