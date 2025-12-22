@@ -340,6 +340,8 @@ const supabase = createClient()
 - Tailwind CSS 3.4, shadcn/ui (New York style)
 - Supabase (PostgreSQL + Auth + RLS)
 - Playwright for E2E testing
+- TypeScript 5.x, React 18.x + Next.js 14 (App Router), shadcn/ui (Radix-based), Tailwind CSS 3.x (004-design-system-integration)
+- Supabase (PostgreSQL) for theme configurations per pro (004-design-system-integration)
 
 ## Recent Changes
 - Portfolio SaaS Pivot: Migrated from Express.js backend to Next.js Server Actions

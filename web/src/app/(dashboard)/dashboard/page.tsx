@@ -28,19 +28,19 @@ export default async function DashboardPage() {
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-space-6">
       {/* Welcome Header */}
       <div>
-        <h1 className="text-3xl font-bold text-tee-ink-strong">
+        <h1 className="text-h2 font-pretendard text-tee-ink-strong">
           안녕하세요, {profile.title.split(' ')[0]}님
         </h1>
-        <p className="mt-2 text-tee-ink-light">
+        <p className="mt-space-2 text-body text-tee-ink-light">
           오늘도 좋은 하루 되세요!
         </p>
       </div>
 
       {/* Quick Stats */}
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-space-6 sm:grid-cols-2 lg:grid-cols-4">
         <Card>
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium text-tee-ink-light">
@@ -105,7 +105,7 @@ export default async function DashboardPage() {
       </div>
 
       {/* Quick Actions */}
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-space-6 sm:grid-cols-2 lg:grid-cols-3">
         <Card className="transition-all duration-300 hover:shadow-lg">
           <CardHeader>
             <CardTitle>포트폴리오 관리</CardTitle>

@@ -31,8 +31,9 @@
     /* --font-jetbrains-mono: 'JetBrains Mono', monospace; */
   }
 
-  /* Dark Mode */
-  .dark {
+  /* Dark Mode - supports both .dark class and data-theme attribute */
+  .dark,
+  [data-theme="dark"] {
     --tee-background: #1A1A17;
     --tee-surface: #2A2A27;
     --tee-stone: #3A3A37;
@@ -50,6 +51,17 @@
     --tee-info: #42A5F5;
   }
 
+  /* Theme transition - smooth color changes */
+  html {
+    transition: background-color 300ms ease-in-out, color 300ms ease-in-out;
+  }
+
+  /* Disable transitions on theme change to prevent FOUC */
+  html.disable-transitions,
+  html.disable-transitions * {
+    transition: none !important;
+  }
+
   /* Base styles */
   html {
     @apply text-body font-inter text-tee-ink-strong bg-tee-background;
@@ -58,6 +70,7 @@
 
   body {
     @apply antialiased;
+    transition: background-color 300ms ease-in-out;
   }
 
   /* Headings */
@@ -104,6 +117,40 @@
     to {
       opacity: 1;
       transform: translateY(0);
+    }
+  }
+
+  /* Accessibility: Reduced Motion */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  /* Accessibility: High Contrast */
+  @media (prefers-contrast: more) {
+    :root {
+      --tee-stone: #666666;
+      --tee-ink-light: #333333;
+      --tee-ink-muted: #555555;
+    }
+
+    .dark,
+    [data-theme="dark"] {
+      --tee-stone: #888888;
+      --tee-ink-light: #CCCCCC;
+      --tee-ink-muted: #AAAAAA;
+    }
+
+    /* Increase border visibility */
+    *:focus-visible {
+      outline: 3px solid currentColor !important;
+      outline-offset: 2px !important;
     }
   }
 }

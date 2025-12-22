@@ -1,6 +1,6 @@
 import './global.css'
 import type { Metadata, Viewport } from 'next'
-import { ThemeProvider } from 'next-themes'
+import { ThemeProvider } from '@/lib/theme-provider'
 import {
   JsonLd,
   getOrganizationSchema,
@@ -155,12 +155,7 @@ export default function RootLayout({
         <JsonLd data={getServiceSchema()} />
       </head>
       <body className="antialiased min-h-screen flex flex-col">
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
+        <ThemeProvider>
           <Header />
           <main className="flex-grow pt-20">
             {children}
