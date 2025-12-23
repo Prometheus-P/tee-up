@@ -1,4 +1,4 @@
-import { useEffect, RefObject, useCallback } from 'react';
+import { useEffect, useRef, RefObject, useCallback } from 'react';
 
 interface UseFocusTrapOptions {
   onClose?: () => void;
@@ -12,6 +12,7 @@ const useFocusTrap = (
   options: UseFocusTrapOptions = {}
 ) => {
   const { onClose } = options;
+  const previousFocusRef = useRef<HTMLElement | null>(null);
 
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
@@ -44,6 +45,9 @@ const useFocusTrap = (
 
   useEffect(() => {
     if (isActive && containerRef.current) {
+      // Save the currently focused element before trapping
+      previousFocusRef.current = document.activeElement as HTMLElement;
+
       const focusableElements = containerRef.current.querySelectorAll<HTMLElement>(
         FOCUSABLE_SELECTOR
       );
@@ -56,6 +60,12 @@ const useFocusTrap = (
 
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
+
+      // Restore focus when unmounting or deactivating
+      if (previousFocusRef.current) {
+        previousFocusRef.current.focus();
+        previousFocusRef.current = null;
+      }
     };
   }, [isActive, containerRef, handleKeyDown]);
 };
