@@ -41,7 +41,7 @@ export default function PortfolioEditorClient({
   const [selectedSectionId, setSelectedSectionId] = useState<string | null>(
     sections[0]?.id || null
   );
-  const [isPending, startTransition] = useTransition();
+  const [isPending] = useTransition();
 
   const selectedSection = sections.find((s) => s.id === selectedSectionId) || null;
 

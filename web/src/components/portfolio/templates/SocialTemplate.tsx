@@ -32,7 +32,7 @@ interface SocialTemplateProps {
  * Best for: Pros with active social presence, content creators
  * Sections: Hero, Stats, Instagram Feed, YouTube Embed, Testimonials, Contact
  */
-export function SocialTemplate({ profile, themeConfig }: SocialTemplateProps) {
+export function SocialTemplate({ profile, themeConfig: _themeConfig }: SocialTemplateProps) {
   const stats = profile.highlights || [
     { label: '레슨 경력', value: '10년+' },
     { label: '팔로워', value: '10K+' },

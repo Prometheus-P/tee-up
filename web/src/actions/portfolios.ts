@@ -55,7 +55,7 @@ export async function updatePortfolioTheme(
 
     revalidatePath(`/${data.slug}`);
     return { success: true, data };
-  } catch (err) {
+  } catch (_err) {
     return { success: false, error: 'Failed to update theme' };
   }
 }
@@ -80,7 +80,7 @@ export async function getPortfolioSections(
     }
 
     return { success: true, data: data || [] };
-  } catch (err) {
+  } catch (_err) {
     return { success: false, error: 'Failed to fetch portfolio sections' };
   }
 }
@@ -129,7 +129,7 @@ export async function createPortfolioSection(
 
     revalidatePath(`/${profile.slug}`);
     return { success: true, data };
-  } catch (err) {
+  } catch (_err) {
     return { success: false, error: 'Failed to create section' };
   }
 }
@@ -181,7 +181,7 @@ export async function updatePortfolioSection(
 
     revalidatePath(`/${section.pro_profiles.slug}`);
     return { success: true, data };
-  } catch (err) {
+  } catch (_err) {
     return { success: false, error: 'Failed to update section' };
   }
 }
@@ -229,7 +229,7 @@ export async function deletePortfolioSection(
 
     revalidatePath(`/${section.pro_profiles.slug}`);
     return { success: true, data: undefined };
-  } catch (err) {
+  } catch (_err) {
     return { success: false, error: 'Failed to delete section' };
   }
 }
@@ -277,7 +277,7 @@ export async function reorderPortfolioSections(
 
     revalidatePath(`/${profile.slug}`);
     return { success: true, data: undefined };
-  } catch (err) {
+  } catch (_err) {
     return { success: false, error: 'Failed to reorder sections' };
   }
 }
@@ -318,7 +318,7 @@ export async function updatePaymentLink(
     }
 
     return { success: true, data: undefined };
-  } catch (err) {
+  } catch (_err) {
     return { success: false, error: 'Failed to update payment link' };
   }
 }
@@ -357,7 +357,7 @@ export async function updateOpenChatUrl(
     }
 
     return { success: true, data: undefined };
-  } catch (err) {
+  } catch (_err) {
     return { success: false, error: 'Failed to update open chat URL' };
   }
 }
@@ -414,7 +414,7 @@ export async function initializeDefaultSections(
 
     revalidatePath(`/${profile.slug}`);
     return { success: true, data: data || [] };
-  } catch (err) {
+  } catch (_err) {
     return { success: false, error: 'Failed to initialize sections' };
   }
 }

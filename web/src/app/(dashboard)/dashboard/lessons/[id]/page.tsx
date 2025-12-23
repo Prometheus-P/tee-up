@@ -67,7 +67,7 @@ export default function LessonDetailPage({ params }: PageProps) {
         } else {
           setError('error' in result ? result.error : '레슨 일지를 찾을 수 없습니다.');
         }
-      } catch (err) {
+      } catch (_err) {
         setError('레슨 일지를 불러오는데 실패했습니다.');
       } finally {
         setIsLoading(false);
@@ -186,8 +186,8 @@ export default function LessonDetailPage({ params }: PageProps) {
     }
   };
 
-  // Handle media delete
-  const handleMediaDelete = async (mediaId: string) => {
+  // Handle media delete (TODO: connect to UI)
+  const _handleMediaDelete = async (mediaId: string) => {
     const result = await deleteLessonMedia(mediaId);
     if (result.success) {
       setLesson((prev) =>
@@ -516,6 +516,7 @@ export default function LessonDetailPage({ params }: PageProps) {
                     className="relative aspect-square overflow-hidden rounded-lg bg-tee-stone"
                   >
                     {media.media_type === 'image' ? (
+                      /* eslint-disable-next-line @next/next/no-img-element */
                       <img
                         src={media.thumbnail_url || media.url}
                         alt={media.title || 'Lesson media'}

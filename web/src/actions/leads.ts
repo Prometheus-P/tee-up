@@ -65,7 +65,7 @@ export async function trackLead(
     }
 
     return { success: true, data };
-  } catch (err) {
+  } catch (_err) {
     return { success: false, error: 'Failed to track lead' };
   }
 }
@@ -110,7 +110,7 @@ export async function getLeadStats(): Promise<ActionResult<LeadStats>> {
         is_premium: isPremium,
       },
     };
-  } catch (err) {
+  } catch (_err) {
     return { success: false, error: 'Failed to get lead stats' };
   }
 }
@@ -165,7 +165,7 @@ export async function getMyLeads(options?: {
     }
 
     return { success: true, data: data || [] };
-  } catch (err) {
+  } catch (_err) {
     return { success: false, error: 'Failed to fetch leads' };
   }
 }
@@ -188,7 +188,7 @@ export async function checkLeadLimit(proId: string): Promise<ActionResult<{
     const supabase = await createClient();
 
     // Keep query for analytics/monitoring (optional future use)
-    const { data, error } = await supabase
+    const { data: _data, error } = await supabase
       .from('pro_profiles')
       .select('monthly_lead_count, subscription_tier')
       .eq('id', proId)
@@ -205,7 +205,7 @@ export async function checkLeadLimit(proId: string): Promise<ActionResult<{
       success: true,
       data: { can_receive_leads: true },
     };
-  } catch (err) {
+  } catch (_err) {
     // Fail-open: allow leads even on error
     return { success: true, data: { can_receive_leads: true } };
   }

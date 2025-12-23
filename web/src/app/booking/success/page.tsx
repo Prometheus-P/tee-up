@@ -2,10 +2,9 @@
 
 import { useEffect, useState } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
-import { CheckCircle, Loader2, AlertCircle, Calendar, Clock } from 'lucide-react';
+import { CheckCircle, AlertCircle, Calendar, Clock } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { createBooking } from '@/actions/scheduler';
-import { formatKRW } from '@/lib/payments';
 import { format, parseISO } from 'date-fns';
 import { ko } from 'date-fns/locale';
 

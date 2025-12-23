@@ -7,7 +7,7 @@ import { TimeSlotPicker } from './TimeSlotPicker';
 import { BookingSheet } from './BookingSheet';
 import { getAvailableSlots, createBooking, getBookingSettingsByProId } from '@/actions/scheduler';
 import { cn } from '@/lib/utils';
-import type { TimeSlot, BookingRequest, BookingSettings, DEFAULT_SCHEDULE_SETTINGS } from './types';
+import type { TimeSlot, BookingRequest, BookingSettings } from './types';
 
 interface SchedulerProps {
   proId: string;
@@ -74,7 +74,7 @@ export function Scheduler({
           setError(result.error);
           setSlots([]);
         }
-      } catch (err) {
+      } catch (_err) {
         setError('시간 정보를 불러오는데 실패했습니다');
         setSlots([]);
       } finally {
