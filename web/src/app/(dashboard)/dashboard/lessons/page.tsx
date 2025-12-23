@@ -1,9 +1,9 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/Button';
+import LessonLogCard from '@/components/features/LessonLogCard';
 import {
   getMyLessonLogs,
   getLessonStats,
@@ -95,27 +95,6 @@ export default function LessonsPage() {
       filterLessons();
     }
   }, [selectedStudent, students]);
-
-  // Format date
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('ko-KR', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    });
-  };
-
-  // Get lesson type label
-  const getLessonTypeLabel = (type: string | null) => {
-    const types: Record<string, string> = {
-      individual: '개인 레슨',
-      group: '그룹 레슨',
-      online: '온라인 레슨',
-      on_course: '필드 레슨',
-    };
-    return type ? types[type] || type : '레슨';
-  };
 
   if (isLoading) {
     return (
@@ -213,64 +192,7 @@ export default function LessonsPage() {
       ) : (
         <div className="space-y-3">
           {lessons.map((lesson) => (
-            <Link
-              key={lesson.id}
-              href={`/dashboard/lessons/${lesson.id}`}
-              className="block rounded-lg border border-tee-stone bg-tee-surface p-4 transition-colors hover:border-tee-accent-primary"
-            >
-              <div className="flex items-start justify-between">
-                <div className="flex-1">
-                  <div className="flex items-center gap-2">
-                    <span className="font-medium text-tee-ink-strong">
-                      {lesson.student_id ? '회원' : lesson.guest_name || '비회원'}
-                    </span>
-                    <span className="rounded bg-tee-stone px-2 py-0.5 text-xs text-tee-ink-light">
-                      {getLessonTypeLabel(lesson.lesson_type)}
-                    </span>
-                    {lesson.is_shared_with_student && (
-                      <span className="rounded bg-tee-accent-primary/10 px-2 py-0.5 text-xs text-tee-accent-primary">
-                        공유됨
-                      </span>
-                    )}
-                  </div>
-                  {lesson.topic && (
-                    <p className="mt-1 text-sm text-tee-ink-light">{lesson.topic}</p>
-                  )}
-                  {lesson.notes && (
-                    <p className="mt-1 line-clamp-2 text-sm text-tee-ink-muted">
-                      {lesson.notes}
-                    </p>
-                  )}
-                </div>
-                <div className="ml-4 text-right">
-                  <p className="text-sm font-medium text-tee-ink-strong">
-                    {formatDate(lesson.lesson_date)}
-                  </p>
-                  <p className="text-xs text-tee-ink-muted">
-                    {lesson.duration_minutes}분
-                  </p>
-                </div>
-              </div>
-
-              {/* Metrics preview */}
-              {Object.keys(lesson.metrics || {}).length > 0 && (
-                <div className="mt-3 flex flex-wrap gap-2 border-t border-tee-stone pt-3">
-                  {Object.entries(lesson.metrics).slice(0, 3).map(([key, value]) => (
-                    <span
-                      key={key}
-                      className="rounded bg-tee-background px-2 py-1 text-xs text-tee-ink-light"
-                    >
-                      {key}: {value}
-                    </span>
-                  ))}
-                  {Object.keys(lesson.metrics).length > 3 && (
-                    <span className="text-xs text-tee-ink-muted">
-                      +{Object.keys(lesson.metrics).length - 3}개 더
-                    </span>
-                  )}
-                </div>
-              )}
-            </Link>
+            <LessonLogCard key={lesson.id} lesson={lesson} />
           ))}
         </div>
       )}

@@ -317,7 +317,29 @@ const supabase = createClient()
 ## Git Workflow
 
 **Main Branch:** `main`
-**Feature Branch:** `feature/portfolio-saas-pivot`
+
+### 필수 규칙
+1. **main 브랜치에 직접 push 금지** - 항상 PR을 통해 머지
+2. **외부 설정/수동 작업은 GitHub Issue로 등록**
+
+### PR 생성 절차
+```bash
+# 1. feature 브랜치 생성
+git checkout -b feat/feature-name
+
+# 2. 변경사항 커밋
+git add -A && git commit -m "feat: description"
+
+# 3. 브랜치 push 및 PR 생성
+git push -u origin feat/feature-name
+gh pr create --title "feat: title" --body "## Summary\n..."
+```
+
+### 외부 설정 Issue 등록
+Dashboard 설정이나 수동 작업이 필요한 경우 GitHub Issue로 등록:
+- Vercel 환경 변수 설정
+- Supabase Dashboard 설정 (Storage 버킷 등)
+- 카카오/Toss 등 외부 서비스 설정
 
 **Never Commit:**
 - `.env`, `.env.local` (credentials)
