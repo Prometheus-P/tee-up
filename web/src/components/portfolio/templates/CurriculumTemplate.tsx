@@ -36,7 +36,7 @@ interface CurriculumTemplateProps {
  * Best for: Pros with structured programs, methodology-driven
  * Sections: Hero, Stats, Curriculum, Pricing, FAQ, Contact
  */
-export function CurriculumTemplate({ profile, themeConfig }: CurriculumTemplateProps) {
+export function CurriculumTemplate({ profile, themeConfig: _themeConfig }: CurriculumTemplateProps) {
   const [expandedFaq, setExpandedFaq] = useState<number | null>(null);
 
   const stats = profile.highlights || [

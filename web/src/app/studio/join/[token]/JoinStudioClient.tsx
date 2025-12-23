@@ -18,7 +18,7 @@ interface JoinStudioClientProps {
 
 export function JoinStudioClient({
   studio,
-  invite,
+  invite: _invite,
   token,
 }: JoinStudioClientProps) {
   const router = useRouter();
@@ -69,6 +69,7 @@ export function JoinStudioClient({
         {/* Studio Info */}
         <div className="text-center mb-8">
           {studio.logo_url ? (
+            /* eslint-disable-next-line @next/next/no-img-element */
             <img
               src={studio.logo_url}
               alt={studio.name}

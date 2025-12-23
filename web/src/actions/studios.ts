@@ -69,7 +69,7 @@ export async function createStudio(
 
     revalidatePath('/dashboard/studio');
     return { success: true, data };
-  } catch (err) {
+  } catch (_err) {
     return { success: false, error: 'Failed to create studio' };
   }
 }
@@ -98,7 +98,7 @@ export async function getPublicStudio(
     }
 
     return { success: true, data };
-  } catch (err) {
+  } catch (_err) {
     return { success: false, error: 'Failed to fetch studio' };
   }
 }
@@ -129,7 +129,7 @@ export async function getMyStudios(): Promise<ActionResult<Studio[]>> {
     }
 
     return { success: true, data: data || [] };
-  } catch (err) {
+  } catch (_err) {
     return { success: false, error: 'Failed to fetch studios' };
   }
 }
@@ -168,7 +168,7 @@ export async function updateStudio(
     revalidatePath('/dashboard/studio');
 
     return { success: true, data };
-  } catch (err) {
+  } catch (_err) {
     return { success: false, error: 'Failed to update studio' };
   }
 }
@@ -215,7 +215,7 @@ export async function addProToStudio(
 
     revalidatePath(`/studio/${studio.slug}`);
     return { success: true, data: undefined };
-  } catch (err) {
+  } catch (_err) {
     return { success: false, error: 'Failed to add pro to studio' };
   }
 }
@@ -240,7 +240,7 @@ export async function getStudioPros(
     }
 
     return { success: true, data: data || [] };
-  } catch (err) {
+  } catch (_err) {
     return { success: false, error: 'Failed to fetch studio pros' };
   }
 }
@@ -325,7 +325,7 @@ export async function getStudioById(
     }
 
     return { success: true, data };
-  } catch (err) {
+  } catch (_err) {
     return { success: false, error: 'Failed to fetch studio' };
   }
 }
@@ -369,7 +369,7 @@ export async function getStudioDashboardStats(
         members: data.members || [],
       },
     };
-  } catch (err) {
+  } catch (_err) {
     return { success: false, error: 'Failed to fetch dashboard stats' };
   }
 }
@@ -398,7 +398,7 @@ export async function getStudioMembers(
     }
 
     return { success: true, data: data || [] };
-  } catch (err) {
+  } catch (_err) {
     return { success: false, error: 'Failed to fetch studio members' };
   }
 }
@@ -467,7 +467,7 @@ export async function removeStudioMember(
 
     revalidatePath(`/studio/${studio.slug}/dashboard`);
     return { success: true, data: undefined };
-  } catch (err) {
+  } catch (_err) {
     return { success: false, error: 'Failed to remove member' };
   }
 }
@@ -540,7 +540,7 @@ export async function createStudioInvite(
     }
 
     return { success: true, data };
-  } catch (err) {
+  } catch (_err) {
     return { success: false, error: 'Failed to create invite' };
   }
 }
@@ -565,7 +565,7 @@ export async function getStudioInvites(
     }
 
     return { success: true, data: data || [] };
-  } catch (err) {
+  } catch (_err) {
     return { success: false, error: 'Failed to fetch invites' };
   }
 }
@@ -597,7 +597,7 @@ export async function revokeStudioInvite(
     }
 
     return { success: true, data: undefined };
-  } catch (err) {
+  } catch (_err) {
     return { success: false, error: 'Failed to revoke invite' };
   }
 }
@@ -646,7 +646,7 @@ export async function validateStudioInvite(
         },
       },
     };
-  } catch (err) {
+  } catch (_err) {
     return { success: false, error: 'Failed to validate invite' };
   }
 }
@@ -721,7 +721,7 @@ export async function getMyStudioAffiliations(): Promise<ActionResult<StudioAffi
     }));
 
     return { success: true, data: affiliations };
-  } catch (err) {
+  } catch (_err) {
     return { success: false, error: 'Failed to fetch studio affiliations' };
   }
 }
@@ -766,7 +766,7 @@ export async function setPrimaryStudio(
 
     revalidatePath('/dashboard/studios');
     return { success: true, data: undefined };
-  } catch (err) {
+  } catch (_err) {
     return { success: false, error: 'Failed to set primary studio' };
   }
 }
@@ -825,7 +825,7 @@ export async function leaveStudio(studioId: string): Promise<ActionResult<void>>
 
     revalidatePath('/dashboard/studios');
     return { success: true, data: undefined };
-  } catch (err) {
+  } catch (_err) {
     return { success: false, error: 'Failed to leave studio' };
   }
 }
@@ -874,7 +874,7 @@ export async function acceptStudioInvite(
 
     revalidatePath('/dashboard');
     return { success: true, data: { studioId: data.studio_id } };
-  } catch (err) {
+  } catch (_err) {
     return { success: false, error: 'Failed to accept invite' };
   }
 }

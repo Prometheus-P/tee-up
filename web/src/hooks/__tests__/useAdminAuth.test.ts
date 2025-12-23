@@ -141,7 +141,7 @@ describe('useAdminAuth', () => {
       await act(async () => {
         try {
           await result.current.login('admin@teeup.com', 'wrongpassword')
-        } catch (e) {
+        } catch (_e) {
           // Expected to throw
         }
       })

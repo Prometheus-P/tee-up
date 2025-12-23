@@ -2,7 +2,6 @@
 
 import { useState, useRef, useCallback } from 'react';
 import Image from 'next/image';
-import { Button } from '@/components/ui/Button';
 import {
   uploadMedia,
   deleteMedia,
@@ -12,7 +11,6 @@ import {
   ALLOWED_IMAGE_TYPES,
   ALLOWED_VIDEO_TYPES,
   MAX_FILE_SIZES,
-  type UploadResult,
 } from '@/lib/storage';
 
 // ============================================

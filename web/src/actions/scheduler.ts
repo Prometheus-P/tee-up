@@ -31,7 +31,7 @@ export async function getProAvailability(
     }
 
     return { success: true, data: data || [] };
-  } catch (err) {
+  } catch (_err) {
     return { success: false, error: 'Failed to fetch availability' };
   }
 }
@@ -59,7 +59,7 @@ export async function getBlockedSlots(
     }
 
     return { success: true, data: data || [] };
-  } catch (err) {
+  } catch (_err) {
     return { success: false, error: 'Failed to fetch blocked slots' };
   }
 }
@@ -88,7 +88,7 @@ export async function getProBookings(
     }
 
     return { success: true, data: data || [] };
-  } catch (err) {
+  } catch (_err) {
     return { success: false, error: 'Failed to fetch bookings' };
   }
 }
@@ -173,8 +173,8 @@ export async function createBooking(
     }
 
     return { success: true, data };
-  } catch (err) {
-    console.error('createBooking error:', err);
+  } catch (_err) {
+    console.error('createBooking error:', _err);
     return { success: false, error: 'Failed to create booking' };
   }
 }
@@ -211,7 +211,7 @@ export async function getAvailableSlots(
     );
 
     return { success: true, data: slots };
-  } catch (err) {
+  } catch (_err) {
     return { success: false, error: 'Failed to fetch available slots' };
   }
 }
@@ -271,7 +271,7 @@ export async function getAvailableSlotsWithCalendar(
     });
 
     return { success: true, data: filteredSlots };
-  } catch (err) {
+  } catch (_err) {
     return { success: false, error: 'Failed to fetch available slots' };
   }
 }
@@ -298,7 +298,7 @@ export async function checkSlotAvailability(
     }
 
     return { success: true, data: data as boolean };
-  } catch (err) {
+  } catch (_err) {
     return { success: false, error: 'Failed to check slot availability' };
   }
 }
@@ -329,7 +329,7 @@ export async function getMyBookings(): Promise<ActionResult<Booking[]>> {
     }
 
     return { success: true, data: data || [] };
-  } catch (err) {
+  } catch (_err) {
     return { success: false, error: 'Failed to fetch bookings' };
   }
 }
@@ -369,7 +369,7 @@ export async function cancelBooking(
     }
 
     return { success: true, data };
-  } catch (err) {
+  } catch (_err) {
     return { success: false, error: 'Failed to cancel booking' };
   }
 }
@@ -422,8 +422,8 @@ export async function getBookingSettingsByProId(
         deposit_amount: settings?.deposit_amount ?? 30000,
       },
     };
-  } catch (err) {
-    console.error('getBookingSettingsByProId error:', err);
+  } catch (_err) {
+    console.error('getBookingSettingsByProId error:', _err);
     return {
       success: true,
       data: { deposit_enabled: false, deposit_amount: 30000 },

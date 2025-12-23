@@ -25,7 +25,7 @@ interface VisualTemplateProps {
  * Best for: Pros with great photography, visual storytellers
  * Sections: Hero, Stats, Gallery, Testimonials, Contact
  */
-export function VisualTemplate({ profile, themeConfig }: VisualTemplateProps) {
+export function VisualTemplate({ profile, themeConfig: _themeConfig }: VisualTemplateProps) {
   const [_isContactOpen, setIsContactOpen] = useState(false);
 
   // Default stats if not provided

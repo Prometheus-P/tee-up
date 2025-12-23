@@ -79,7 +79,7 @@ export async function getCurrentUserProfile(): Promise<ActionResult<ProProfile |
     }
 
     return { success: true, data };
-  } catch (err) {
+  } catch (_err) {
     return { success: false, error: 'Failed to fetch profile' };
   }
 }
@@ -108,7 +108,7 @@ export async function getPublicProfile(
     }
 
     return { success: true, data };
-  } catch (err) {
+  } catch (_err) {
     return { success: false, error: 'Failed to fetch profile' };
   }
 }
@@ -132,7 +132,7 @@ export async function getApprovedProfiles(): Promise<ActionResult<ProProfile[]>>
     }
 
     return { success: true, data: data || [] };
-  } catch (err) {
+  } catch (_err) {
     return { success: false, error: 'Failed to fetch profiles' };
   }
 }
@@ -172,7 +172,7 @@ export async function updateProProfile(
     revalidatePath('/dashboard/portfolio');
 
     return { success: true, data };
-  } catch (err) {
+  } catch (_err) {
     return { success: false, error: 'Failed to update profile' };
   }
 }
@@ -218,7 +218,7 @@ export async function createProProfile(
 
     revalidatePath('/dashboard');
     return { success: true, data };
-  } catch (err) {
+  } catch (_err) {
     return { success: false, error: 'Failed to create profile' };
   }
 }
@@ -241,7 +241,7 @@ export async function incrementProfileViews(
     }
 
     return { success: true, data: undefined };
-  } catch (err) {
+  } catch (_err) {
     return { success: false, error: 'Failed to increment views' };
   }
 }

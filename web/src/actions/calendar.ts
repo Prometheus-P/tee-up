@@ -6,7 +6,6 @@ import {
   listEvents,
   deleteEvent,
   getFreeBusy,
-  eventsToBlockedSlots,
   GoogleCalendarAuthError,
   type BookingData,
   type GoogleCalendarEvent,
