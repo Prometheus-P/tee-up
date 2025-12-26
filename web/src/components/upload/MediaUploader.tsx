@@ -300,7 +300,7 @@ export function MediaUploader({
 
               {file.status === 'error' && (
                 <>
-                  <span className="text-xs text-red-600">{file.error}</span>
+                  <span className="text-xs text-tee-error">{file.error}</span>
                   <button
                     onClick={() => handleRemoveUpload(file.id)}
                     className="text-tee-ink-muted hover:text-tee-ink-strong"
@@ -313,7 +313,7 @@ export function MediaUploader({
               )}
 
               {file.status === 'complete' && (
-                <svg className="h-5 w-5 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg className="h-5 w-5 text-tee-success" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
               )}

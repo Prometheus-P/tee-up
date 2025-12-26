@@ -173,8 +173,8 @@ export function WeekView({
                     ? 'text-white/80'
                     : isWeekend
                     ? dayOfWeek === 0
-                      ? 'text-red-500'
-                      : 'text-blue-500'
+                      ? 'text-tee-error'
+                      : 'text-tee-info'
                     : 'text-tee-ink-light'
                 )}
               >

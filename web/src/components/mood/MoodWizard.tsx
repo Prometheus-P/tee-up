@@ -150,13 +150,13 @@ export function MoodWizard({
       {/* Progress Bar */}
       {step === 'questions' && (
         <div className="mb-8">
-          <div className="h-1 bg-gray-200 rounded-full overflow-hidden">
+          <div className="h-1 bg-tee-stone rounded-full overflow-hidden">
             <div
-              className="h-full bg-blue-500 transition-all duration-300 ease-out"
+              className="h-full bg-tee-accent-primary transition-all duration-300 ease-out"
               style={{ width: `${progress}%` }}
             />
           </div>
-          <p className="mt-2 text-sm text-gray-500 text-center">
+          <p className="mt-2 text-sm text-tee-ink-muted text-center">
             {currentQuestionIndex + 1} / {ONBOARDING_QUESTIONS.length}
           </p>
         </div>
@@ -226,10 +226,10 @@ function QuestionStep({
             onClick={() => onSelect(option)}
             className={cn(
               'w-full p-4 rounded-xl border-2 text-left transition-all duration-200',
-              'hover:border-blue-400 hover:bg-blue-50',
+              'hover:border-tee-accent-primary hover:bg-tee-accent-primary/5',
               selectedOption === option.id
-                ? 'border-blue-500 bg-blue-50'
-                : 'border-gray-200 bg-white'
+                ? 'border-tee-accent-primary bg-tee-accent-primary/5'
+                : 'border-tee-stone bg-tee-surface'
             )}
           >
             <div className="flex items-center gap-3">
@@ -239,7 +239,7 @@ function QuestionStep({
               <div>
                 <p className="font-medium">{option.label}</p>
                 {option.description && (
-                  <p className="text-sm text-gray-500">{option.description}</p>
+                  <p className="text-sm text-tee-ink-muted">{option.description}</p>
                 )}
               </div>
             </div>
@@ -251,7 +251,7 @@ function QuestionStep({
       {onBack && (
         <button
           onClick={onBack}
-          className="mt-6 text-gray-500 hover:text-gray-700 text-sm"
+          className="mt-6 text-tee-ink-muted hover:text-tee-ink-light text-sm"
         >
           ← 이전
         </button>
@@ -286,7 +286,7 @@ function ResultsStep({
         <h2 className="text-2xl font-semibold mb-2">
           추천 스타일이 준비되었어요!
         </h2>
-        <p className="text-gray-500">
+        <p className="text-tee-ink-muted">
           마음에 드는 스타일을 선택해주세요
         </p>
       </div>
@@ -299,10 +299,10 @@ function ResultsStep({
             onClick={() => onSelectPreset(preset)}
             className={cn(
               'w-full p-5 rounded-xl border-2 text-left transition-all duration-200',
-              'hover:border-blue-400',
+              'hover:border-tee-accent-primary',
               selectedPreset === preset
-                ? 'border-blue-500 bg-blue-50 ring-2 ring-blue-200'
-                : 'border-gray-200 bg-white'
+                ? 'border-tee-accent-primary bg-tee-accent-primary/5 ring-2 ring-tee-accent-primary/20'
+                : 'border-tee-stone bg-tee-surface'
             )}
           >
             <div className="flex items-start justify-between">
@@ -312,12 +312,12 @@ function ResultsStep({
                     {PRESET_NAMES[preset]}
                   </span>
                   {index === 0 && (
-                    <span className="px-2 py-0.5 text-xs bg-blue-100 text-blue-700 rounded-full">
+                    <span className="px-2 py-0.5 text-xs bg-tee-accent-primary/10 text-tee-accent-primary rounded-full">
                       추천
                     </span>
                   )}
                 </div>
-                <p className="text-sm text-gray-500">
+                <p className="text-sm text-tee-ink-muted">
                   {PRESET_DESCRIPTIONS[preset]}
                 </p>
               </div>
@@ -340,7 +340,7 @@ function ResultsStep({
       <div className="mt-8 flex gap-3">
         <button
           onClick={onBack}
-          className="flex-1 py-3 px-4 border border-gray-300 rounded-xl text-gray-700 hover:bg-gray-50 transition-colors"
+          className="flex-1 py-3 px-4 border border-tee-stone rounded-xl text-tee-ink-light hover:bg-tee-stone/50 transition-colors"
         >
           다시 선택
         </button>
@@ -350,8 +350,8 @@ function ResultsStep({
           className={cn(
             'flex-1 py-3 px-4 rounded-xl font-medium transition-colors',
             selectedPreset
-              ? 'bg-blue-500 text-white hover:bg-blue-600'
-              : 'bg-gray-200 text-gray-400 cursor-not-allowed'
+              ? 'bg-tee-accent-primary text-tee-surface hover:bg-tee-accent-primary/90'
+              : 'bg-tee-stone text-tee-ink-muted cursor-not-allowed'
           )}
         >
           이 스타일로 시작

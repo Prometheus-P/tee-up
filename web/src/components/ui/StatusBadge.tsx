@@ -17,6 +17,22 @@ const statusBadgeVariants = cva(
         rejected: 'bg-tee-error/10 text-tee-error',
         pro: 'bg-tee-accent-primary/10 text-tee-accent-primary',
         golfer: 'bg-tee-surface text-tee-ink-light',
+        // Booking/Dispute statuses
+        disputed: 'bg-tee-warning/10 text-tee-warning',
+        escalated: 'bg-tee-warning/10 text-tee-warning',
+        refunded: 'bg-tee-accent-secondary/10 text-tee-accent-secondary',
+        completed: 'bg-tee-info/10 text-tee-info',
+        cancelled: 'bg-tee-stone text-tee-ink-light',
+        confirmed: 'bg-tee-success/10 text-tee-success',
+        // Role badges
+        customer: 'bg-tee-info/10 text-tee-info',
+        admin: 'bg-tee-accent-secondary/10 text-tee-accent-secondary',
+        owner: 'bg-tee-accent-secondary/10 text-tee-accent-secondary',
+        member: 'bg-tee-stone text-tee-ink-light',
+        // Invite status badges
+        expired: 'bg-tee-warning/10 text-tee-warning',
+        revoked: 'bg-tee-stone text-tee-ink-muted',
+        accepted: 'bg-tee-success/10 text-tee-success',
       },
       size: {
         sm: 'px-2 py-0.5 text-xs',

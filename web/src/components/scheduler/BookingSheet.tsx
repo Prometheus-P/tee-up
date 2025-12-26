@@ -187,7 +187,7 @@ export function BookingSheet({
 
               {/* Error message */}
               {error && (
-                <div className="p-3 bg-red-50 text-red-600 text-sm rounded-lg">
+                <div className="p-3 bg-tee-error/10 text-tee-error text-sm rounded-lg">
                   {error}
                 </div>
               )}
@@ -322,7 +322,7 @@ function FormField({ icon, label, required, children }: FormFieldProps) {
       <label className="flex items-center gap-1.5 text-sm font-medium text-tee-ink-light">
         {icon}
         {label}
-        {required && <span className="text-red-500">*</span>}
+        {required && <span className="text-tee-error">*</span>}
       </label>
       {children}
     </div>
@@ -340,11 +340,11 @@ function SuccessContent({ onClose, proName, isDeposit }: SuccessContentProps) {
     <div className="flex flex-col items-center justify-center py-8 px-4 text-center">
       <div className={cn(
         'w-16 h-16 rounded-full flex items-center justify-center mb-4',
-        isDeposit ? 'bg-tee-accent-primary/10' : 'bg-green-100'
+        isDeposit ? 'bg-tee-accent-primary/10' : 'bg-tee-success/10'
       )}>
         <CheckCircle className={cn(
           'h-8 w-8',
-          isDeposit ? 'text-tee-accent-primary' : 'text-green-600'
+          isDeposit ? 'text-tee-accent-primary' : 'text-tee-success'
         )} />
       </div>
       <h3 className="text-xl font-semibold text-tee-ink-strong mb-2">

@@ -40,8 +40,8 @@ export default function BookingFailPage() {
   return (
     <div className="min-h-screen bg-tee-background flex items-center justify-center p-4">
       <div className="w-full max-w-md bg-tee-surface rounded-2xl shadow-lg p-8 text-center">
-        <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-red-100 flex items-center justify-center">
-          <XCircle className="h-8 w-8 text-red-600" />
+        <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-tee-error/10 flex items-center justify-center">
+          <XCircle className="h-8 w-8 text-tee-error" />
         </div>
 
         <h1 className="text-xl font-semibold text-tee-ink-strong mb-2">

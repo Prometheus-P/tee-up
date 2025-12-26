@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
+import { StatusBadge } from '@/components/ui/StatusBadge';
 import { getMyBookings } from '@/actions';
 import { formatKRW } from '@/lib/payments';
 
@@ -57,51 +58,23 @@ export default function BookingsPage() {
 
   const getStatusBadge = (booking: Booking) => {
     if (booking.dispute_status) {
-      return (
-        <span className="rounded-full bg-orange-100 px-2 py-1 text-xs font-medium text-orange-700">
-          분쟁 진행중
-        </span>
-      );
+      return <StatusBadge variant="disputed">분쟁 진행중</StatusBadge>;
     }
     if (booking.refund_requested_at && booking.payment_status !== 'refunded') {
-      return (
-        <span className="rounded-full bg-yellow-100 px-2 py-1 text-xs font-medium text-yellow-700">
-          환불 요청됨
-        </span>
-      );
+      return <StatusBadge variant="pending">환불 요청됨</StatusBadge>;
     }
     if (booking.payment_status === 'refunded') {
-      return (
-        <span className="rounded-full bg-purple-100 px-2 py-1 text-xs font-medium text-purple-700">
-          환불 완료
-        </span>
-      );
+      return <StatusBadge variant="refunded">환불 완료</StatusBadge>;
     }
     switch (booking.status) {
       case 'confirmed':
-        return (
-          <span className="rounded-full bg-green-100 px-2 py-1 text-xs font-medium text-green-700">
-            확정됨
-          </span>
-        );
+        return <StatusBadge variant="confirmed">확정됨</StatusBadge>;
       case 'pending':
-        return (
-          <span className="rounded-full bg-yellow-100 px-2 py-1 text-xs font-medium text-yellow-700">
-            대기중
-          </span>
-        );
+        return <StatusBadge variant="pending">대기중</StatusBadge>;
       case 'completed':
-        return (
-          <span className="rounded-full bg-blue-100 px-2 py-1 text-xs font-medium text-blue-700">
-            완료됨
-          </span>
-        );
+        return <StatusBadge variant="completed">완료됨</StatusBadge>;
       case 'cancelled':
-        return (
-          <span className="rounded-full bg-gray-100 px-2 py-1 text-xs font-medium text-gray-700">
-            취소됨
-          </span>
-        );
+        return <StatusBadge variant="cancelled">취소됨</StatusBadge>;
       default:
         return null;
     }

@@ -47,8 +47,8 @@ export function JoinStudioClient({
     return (
       <div className="min-h-screen bg-tee-background flex items-center justify-center px-4">
         <div className="max-w-md w-full bg-tee-surface rounded-2xl border border-tee-stone p-8 text-center">
-          <div className="w-16 h-16 mx-auto rounded-full bg-green-100 flex items-center justify-center mb-6">
-            <CheckCircle className="w-8 h-8 text-green-600" />
+          <div className="w-16 h-16 mx-auto rounded-full bg-tee-success/10 flex items-center justify-center mb-6">
+            <CheckCircle className="w-8 h-8 text-tee-success" />
           </div>
           <h1 className="text-2xl font-bold text-tee-ink-strong mb-2">
             환영합니다!
@@ -104,9 +104,9 @@ export function JoinStudioClient({
         </div>
 
         {error && (
-          <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg flex items-start gap-3">
-            <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
-            <div className="text-sm text-red-700">{error}</div>
+          <div className="mb-6 p-4 bg-tee-error/10 border border-tee-error/30 rounded-lg flex items-start gap-3">
+            <AlertCircle className="w-5 h-5 text-tee-error flex-shrink-0 mt-0.5" />
+            <div className="text-sm text-tee-error">{error}</div>
           </div>
         )}
 

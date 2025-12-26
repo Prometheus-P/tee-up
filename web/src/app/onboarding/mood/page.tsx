@@ -52,14 +52,14 @@ export default function MoodOnboardingPage() {
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-white to-gray-50 flex flex-col">
+    <div className="min-h-screen bg-gradient-to-b from-tee-surface to-tee-background flex flex-col">
       {/* Header */}
       <header className="py-6 px-4">
         <div className="max-w-lg mx-auto">
-          <h1 className="text-xl font-semibold text-center text-gray-900">
+          <h1 className="text-xl font-semibold text-center text-tee-ink-strong">
             TEE:UP
           </h1>
-          <p className="text-sm text-center text-gray-500 mt-1">
+          <p className="text-sm text-center text-tee-ink-muted mt-1">
             나만의 골프 포트폴리오
           </p>
         </div>
@@ -69,7 +69,7 @@ export default function MoodOnboardingPage() {
       <main className="flex-1 flex items-center justify-center p-4">
         <div className="w-full">
           {error && (
-            <div className="max-w-lg mx-auto mb-6 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm">
+            <div className="max-w-lg mx-auto mb-6 p-4 bg-tee-error/10 border border-tee-error/30 rounded-lg text-tee-error text-sm">
               {error}
             </div>
           )}
@@ -81,7 +81,7 @@ export default function MoodOnboardingPage() {
 
           {isSubmitting && (
             <div className="max-w-lg mx-auto mt-6 text-center">
-              <div className="inline-flex items-center gap-2 text-gray-500">
+              <div className="inline-flex items-center gap-2 text-tee-ink-muted">
                 <svg
                   className="animate-spin h-4 w-4"
                   fill="none"
@@ -110,7 +110,7 @@ export default function MoodOnboardingPage() {
 
       {/* Footer */}
       <footer className="py-4 px-4">
-        <p className="text-xs text-center text-gray-400">
+        <p className="text-xs text-center text-tee-ink-muted">
           60초 안에 완료됩니다
         </p>
       </footer>

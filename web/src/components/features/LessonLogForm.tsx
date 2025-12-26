@@ -84,7 +84,7 @@ export function LessonLogForm({ initialData }: LessonLogFormProps) {
       )}
       {success && (
         <Alert variant="default">
-          <CheckCircle className="h-4 w-4 text-green-500" />
+          <CheckCircle className="h-4 w-4 text-tee-success" />
           <AlertTitle>성공</AlertTitle>
           <AlertDescription>{success}</AlertDescription>
         </Alert>

@@ -529,7 +529,7 @@ function StatusBadge({
 
   if (status === 'revoked') {
     return (
-      <span className="px-2 py-0.5 text-xs rounded-full bg-gray-100 text-gray-600">
+      <span className="px-2 py-0.5 text-xs rounded-full bg-tee-stone text-tee-ink-muted">
         취소됨
       </span>
     );
@@ -537,7 +537,7 @@ function StatusBadge({
 
   if (status === 'accepted') {
     return (
-      <span className="px-2 py-0.5 text-xs rounded-full bg-green-100 text-green-700">
+      <span className="px-2 py-0.5 text-xs rounded-full bg-tee-success/10 text-tee-success">
         사용됨
       </span>
     );
@@ -545,14 +545,14 @@ function StatusBadge({
 
   if (isExpired || status === 'expired') {
     return (
-      <span className="px-2 py-0.5 text-xs rounded-full bg-orange-100 text-orange-700">
+      <span className="px-2 py-0.5 text-xs rounded-full bg-tee-warning/10 text-tee-warning">
         만료됨
       </span>
     );
   }
 
   return (
-    <span className="px-2 py-0.5 text-xs rounded-full bg-blue-100 text-blue-700">
+    <span className="px-2 py-0.5 text-xs rounded-full bg-tee-info/10 text-tee-info">
       활성
     </span>
   );

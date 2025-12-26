@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/Card';
+import { StatusBadge } from '@/components/ui/StatusBadge';
 import { getAllDisputes, getPendingRefunds } from '@/actions';
 import { formatKRW } from '@/lib/payments';
 import type { BookingWithRefund, DisputeStatus } from '@/actions/refunds';
@@ -45,35 +46,15 @@ export default function AdminDisputesPage() {
   const getStatusBadge = (status: DisputeStatus | null) => {
     switch (status) {
       case 'opened':
-        return (
-          <span className="rounded-full bg-yellow-100 px-2 py-1 text-xs font-medium text-yellow-700">
-            접수됨
-          </span>
-        );
+        return <StatusBadge variant="pending">접수됨</StatusBadge>;
       case 'pro_responded':
-        return (
-          <span className="rounded-full bg-blue-100 px-2 py-1 text-xs font-medium text-blue-700">
-            프로 응답
-          </span>
-        );
+        return <StatusBadge variant="active">프로 응답</StatusBadge>;
       case 'escalated':
-        return (
-          <span className="rounded-full bg-orange-100 px-2 py-1 text-xs font-medium text-orange-700">
-            에스컬레이션
-          </span>
-        );
+        return <StatusBadge variant="escalated">에스컬레이션</StatusBadge>;
       case 'resolved_pro':
-        return (
-          <span className="rounded-full bg-green-100 px-2 py-1 text-xs font-medium text-green-700">
-            프로 승
-          </span>
-        );
+        return <StatusBadge variant="success">프로 승</StatusBadge>;
       case 'resolved_customer':
-        return (
-          <span className="rounded-full bg-purple-100 px-2 py-1 text-xs font-medium text-purple-700">
-            고객 승
-          </span>
-        );
+        return <StatusBadge variant="refunded">고객 승</StatusBadge>;
       default:
         return null;
     }
@@ -272,7 +253,7 @@ export default function AdminDisputesPage() {
                             결제: {formatKRW(refund.price_amount)}원
                           </p>
                         )}
-                        <p className="font-medium text-purple-600">
+                        <p className="font-medium text-tee-accent-secondary">
                           환불: {formatKRW(refund.refund_amount)}원
                         </p>
                       </div>

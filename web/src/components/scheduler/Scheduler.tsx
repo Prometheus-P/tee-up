@@ -120,7 +120,7 @@ export function Scheduler({
       {/* Step 2: Select Time (Click 2 - opens BookingSheet) */}
       <section aria-label="시간 선택">
         {error ? (
-          <div className="p-4 bg-red-50 text-red-600 rounded-lg text-sm">
+          <div className="p-4 bg-tee-error/10 text-tee-error rounded-lg text-sm">
             {error}
           </div>
         ) : (

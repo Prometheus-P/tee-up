@@ -6,8 +6,8 @@ export default function InvalidInvitePage() {
   return (
     <div className="min-h-screen bg-tee-background flex items-center justify-center px-4">
       <div className="max-w-md w-full bg-tee-surface rounded-2xl border border-tee-stone p-8 text-center">
-        <div className="w-16 h-16 mx-auto rounded-full bg-red-100 flex items-center justify-center mb-6">
-          <XCircle className="w-8 h-8 text-red-500" />
+        <div className="w-16 h-16 mx-auto rounded-full bg-tee-error/10 flex items-center justify-center mb-6">
+          <XCircle className="w-8 h-8 text-tee-error" />
         </div>
         <h1 className="text-2xl font-bold text-tee-ink-strong mb-2">
           유효하지 않은 초대

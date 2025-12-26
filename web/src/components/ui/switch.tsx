@@ -13,7 +13,7 @@ const Switch = React.forwardRef<
       'peer inline-flex h-7 w-14 shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent shadow-sm transition-colors',
       'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tee-accent-primary focus-visible:ring-offset-2 focus-visible:ring-offset-tee-background',
       'disabled:cursor-not-allowed disabled:opacity-50',
-      'data-[state=checked]:bg-[#1A4D2E] data-[state=unchecked]:bg-tee-stone',
+      'data-[state=checked]:bg-tee-accent-primary data-[state=unchecked]:bg-tee-stone',
       className
     )}
     {...props}
