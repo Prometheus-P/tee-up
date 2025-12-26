@@ -17,28 +17,28 @@ const config: Config = {
     },
     extend: {
       colors: {
-        // Core Palette
-        'tee-background': '#F7F4F0', // Neutral Background
-        'tee-surface': '#FFFFFF',    // UI Surface / Card Background
-        'tee-stone': '#E8E8E5',      // Border / Divider
-        'tee-ink-strong': '#1A1A1A', // Primary Text / Headings
-        'tee-ink-light': '#52524E',  // Secondary Text / Subheadings
-        'tee-ink-muted': '#8A8A87',  // Tertiary Text / Placeholder
-        'tee-accent-primary': '#0A362B', // Primary Brand Accent (e.g., CTA, active states)
-        'tee-accent-secondary': '#B39A68', // Secondary Accent (e.g., Highlights, badges)
+        // Core Palette - Using CSS variables for dark mode support
+        'tee-background': 'var(--tee-background)',
+        'tee-surface': 'var(--tee-surface)',
+        'tee-stone': 'var(--tee-stone)',
+        'tee-ink-strong': 'var(--tee-ink-strong)',
+        'tee-ink-light': 'var(--tee-ink-light)',
+        'tee-ink-muted': 'var(--tee-ink-muted)',
+        'tee-accent-primary': 'var(--tee-accent-primary)',
+        'tee-accent-secondary': 'var(--tee-accent-secondary)',
 
-        // State Colors (Derived from primary/secondary or standard)
-        'tee-accent-primary-hover': '#072A21', // Darker primary for hover
-        'tee-accent-primary-active': '#051E18', // Even darker for active
-        'tee-accent-primary-disabled': '#B4C6BF', // Lighter, desaturated for disabled
-        'tee-error': '#D32F2F',      // Error messages/states
-        'tee-success': '#388E3C',    // Success messages/states
-        'tee-warning': '#FBC02D',    // Warning messages/states
-        'tee-info': '#1976D2',       // Informational messages/states
+        // State Colors - Using CSS variables for dark mode support
+        'tee-accent-primary-hover': 'var(--tee-accent-primary-hover)',
+        'tee-accent-primary-active': 'var(--tee-accent-primary-active)',
+        'tee-accent-primary-disabled': 'var(--tee-accent-primary-disabled)',
+        'tee-error': 'var(--tee-error)',
+        'tee-success': 'var(--tee-success)',
+        'tee-warning': 'var(--tee-warning)',
+        'tee-info': 'var(--tee-info)',
 
         // Brand Colors (Social Media)
-        'tee-kakao': '#FEE500',      // KakaoTalk
-        'tee-kakao-text': '#3C1E1E', // KakaoTalk text
+        'tee-kakao': 'var(--tee-kakao)',
+        'tee-kakao-text': 'var(--tee-kakao-text)',
       },
       fontFamily: {
         pretendard: ['var(--font-pretendard)'],
