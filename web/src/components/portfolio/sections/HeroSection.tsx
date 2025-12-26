@@ -11,6 +11,8 @@ interface HeroSectionProps {
   location?: string;
   languages?: string[];
   className?: string;
+  contactUrl?: string; // Early CTA - scroll to contact section or external link
+  ctaText?: string; // Custom CTA text (default: "문의하기")
 }
 
 export function HeroSection({
@@ -21,6 +23,8 @@ export function HeroSection({
   location,
   languages,
   className,
+  contactUrl,
+  ctaText = '문의하기',
 }: HeroSectionProps) {
   return (
     <header className={cn('relative h-screen overflow-hidden', className)}>
@@ -50,7 +54,7 @@ export function HeroSection({
           )}
 
           {/* Name & Title */}
-          <h1 className="mb-4 font-pretendard text-6xl font-bold leading-tight text-white lg:text-7xl">
+          <h1 className="mb-4 font-pretendard text-4xl font-bold leading-tight text-white sm:text-5xl md:text-6xl lg:text-7xl">
             {name}
           </h1>
           <p className="mb-8 text-xl font-medium text-white/80 lg:text-2xl">
@@ -77,6 +81,21 @@ export function HeroSection({
               </div>
             )}
           </div>
+
+          {/* Early CTA Button */}
+          {contactUrl && (
+            <div className="mt-8">
+              <a
+                href={contactUrl}
+                className="inline-flex items-center gap-2 rounded-full bg-white px-8 py-4 text-lg font-semibold text-tee-ink-strong shadow-lg transition-all hover:bg-white/90 hover:shadow-xl"
+              >
+                {ctaText}
+                <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                </svg>
+              </a>
+            </div>
+          )}
         </div>
       </div>
 
