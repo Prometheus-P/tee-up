@@ -87,12 +87,19 @@ const config: Config = {
         'lg': '0 8px 16px rgba(26, 26, 26, 0.10)',          // Modals, dialogs
         'xl': '0 12px 24px rgba(26, 26, 26, 0.12)',         // Floating elements
         '2xl': '0 16px 32px rgba(26, 26, 26, 0.14)',        // Hero overlays
-        // Semantic shadows
-        'card': '0 2px 8px rgba(26, 26, 26, 0.05)',         // Default card shadow
-        'card-hover': '0 4px 12px rgba(26, 26, 26, 0.08)', // Card hover state
-        'dropdown': '0 4px 12px rgba(26, 26, 26, 0.10)',   // Dropdown menus
-        'modal': '0 8px 24px rgba(26, 26, 26, 0.12)',      // Modal dialogs
-        'toast': '0 4px 16px rgba(26, 26, 26, 0.15)',      // Toast notifications
+
+        // ===== Elevation System (3 levels) =====
+        // Use these for consistent elevation across the app
+        'elevation-1': '0 2px 8px rgba(26, 26, 26, 0.05)',  // Cards, panels
+        'elevation-2': '0 4px 12px rgba(26, 26, 26, 0.08)', // Hover, dropdowns
+        'elevation-3': '0 8px 24px rgba(26, 26, 26, 0.12)', // Modals, overlays
+
+        // Semantic shadows (legacy - use elevation-* for new code)
+        'card': '0 2px 8px rgba(26, 26, 26, 0.05)',         // = elevation-1
+        'card-hover': '0 4px 12px rgba(26, 26, 26, 0.08)',  // = elevation-2
+        'dropdown': '0 4px 12px rgba(26, 26, 26, 0.10)',    // Dropdown menus
+        'modal': '0 8px 24px rgba(26, 26, 26, 0.12)',       // = elevation-3
+        'toast': '0 4px 16px rgba(26, 26, 26, 0.15)',       // Toast notifications
         // Inner shadow for inputs
         'inner': 'inset 0 1px 2px rgba(26, 26, 26, 0.06)',
       },

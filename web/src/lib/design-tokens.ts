@@ -57,6 +57,48 @@ export const tokens = {
   shadows: {
     card: '0px 2px 8px rgba(0, 0, 0, 0.05)',
   },
+  /**
+   * Elevation System (3 levels)
+   * Use these for consistent depth across the app
+   * - elevation-1: Cards, panels (shadow-elevation-1)
+   * - elevation-2: Hover states, dropdowns (shadow-elevation-2)
+   * - elevation-3: Modals, overlays (shadow-elevation-3)
+   */
+  elevation: {
+    1: '0 2px 8px rgba(26, 26, 26, 0.05)',
+    2: '0 4px 12px rgba(26, 26, 26, 0.08)',
+    3: '0 8px 24px rgba(26, 26, 26, 0.12)',
+  },
+  /**
+   * StatusBadge Variants Guide
+   *
+   * Core Semantic (use these for new code):
+   * - neutral: Default, inactive states
+   * - success: Positive outcomes (approved, confirmed)
+   * - warning: Pending, attention needed
+   * - error: Negative outcomes (rejected)
+   * - info: Informational, active states
+   * - accent: Primary emphasis (pro status)
+   * - accent-gold: Secondary emphasis (admin, refunded)
+   *
+   * Specific aliases (backward compatible):
+   * pending, disputed, escalated → warning
+   * approved, confirmed, accepted → success
+   * rejected → error
+   * active, completed, customer → info
+   * cancelled, member, golfer → neutral
+   * pro → accent
+   * admin, owner, refunded → accent-gold
+   */
+  statusBadgeVariants: [
+    'neutral',
+    'success',
+    'warning',
+    'error',
+    'info',
+    'accent',
+    'accent-gold',
+  ],
 } as const
 
 /**
