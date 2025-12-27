@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useCallback } from 'react';
-import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { Check, ArrowRight, ArrowLeft, Copy, ExternalLink } from 'lucide-react';
@@ -285,7 +284,7 @@ function ContactStep({
   );
 }
 
-function CompletionStep({ slug, profileUrl }: { slug: string; profileUrl: string }) {
+function CompletionStep({ profileUrl }: { profileUrl: string }) {
   const [copied, setCopied] = useState(false);
 
   const handleCopy = async () => {
@@ -355,7 +354,6 @@ function CompletionStep({ slug, profileUrl }: { slug: string; profileUrl: string
 // ============================================
 
 export default function QuickSetupWizard({ onComplete, initialData }: QuickSetupWizardProps) {
-  const router = useRouter();
   const [step, setStep] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -425,7 +423,7 @@ export default function QuickSetupWizard({ onComplete, initialData }: QuickSetup
     const profileUrl = `${typeof window !== 'undefined' ? window.location.origin : ''}/profile/${completedSlug}`;
     return (
       <Card className="mx-auto max-w-md p-8">
-        <CompletionStep slug={completedSlug} profileUrl={profileUrl} />
+        <CompletionStep profileUrl={profileUrl} />
       </Card>
     );
   }

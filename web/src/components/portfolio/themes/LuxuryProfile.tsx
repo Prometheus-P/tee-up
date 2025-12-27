@@ -1,6 +1,7 @@
 'use client'
 
 import { useMemo } from 'react'
+import Image from 'next/image'
 import { BRAND_THEMES, getThemeCSSVariables, type BrandThemeId } from './brand-themes'
 import type { ProProfile } from '@/actions/profiles'
 
@@ -107,10 +108,12 @@ function DiorProfile({
         {/* 프로필 이미지 */}
         {profile.hero_image_url && (
           <div className="absolute inset-0 z-0">
-            <img 
-              src={profile.hero_image_url} 
+            <Image
+              src={profile.hero_image_url}
               alt={proName}
-              className="w-full h-full object-cover opacity-20 grayscale"
+              fill
+              className="object-cover opacity-20 grayscale"
+              sizes="100vw"
             />
             <div className="absolute inset-0 bg-gradient-to-b from-white via-white/80 to-white" />
           </div>
@@ -362,10 +365,12 @@ function LouisVuittonProfile({
         {/* 배경 이미지 */}
         <div className="absolute inset-0">
           {profile.hero_image_url ? (
-            <img 
-              src={profile.hero_image_url} 
+            <Image
+              src={profile.hero_image_url}
               alt={proName}
-              className="w-full h-full object-cover"
+              fill
+              className="object-cover"
+              sizes="100vw"
             />
           ) : (
             <div style={{ backgroundColor: theme.colors.bgSecondary }} className="w-full h-full" />
@@ -651,11 +656,13 @@ function ChromeHeartsProfile({
         {/* 배경 이미지 (어둡게) */}
         {profile.hero_image_url && (
           <div className="absolute inset-0">
-            <img 
-              src={profile.hero_image_url} 
+            <Image
+              src={profile.hero_image_url}
               alt={proName}
-              className="w-full h-full object-cover opacity-30"
+              fill
+              className="object-cover opacity-30"
               style={{ filter: 'grayscale(100%) contrast(1.2)' }}
+              sizes="100vw"
             />
             <div 
               className="absolute inset-0"
@@ -957,10 +964,12 @@ function NikeProfile({
         {/* 배경 */}
         <div className="absolute inset-0">
           {profile.hero_image_url ? (
-            <img 
-              src={profile.hero_image_url} 
+            <Image
+              src={profile.hero_image_url}
               alt={proName}
-              className="w-full h-full object-cover"
+              fill
+              className="object-cover"
+              sizes="100vw"
             />
           ) : (
             <div style={{ backgroundColor: theme.colors.bgSecondary }} className="w-full h-full" />

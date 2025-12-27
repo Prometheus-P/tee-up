@@ -678,13 +678,42 @@ export interface RefundResult {
   }>;
 }
 
+// Type for Toss cancel request body
+interface TossCancelRequestBody {
+  cancelReason: string;
+  cancelAmount?: number;
+  refundReceiveAccount?: {
+    bank: string;
+    accountNumber: string;
+    holderName: string;
+  };
+}
+
+// Type for Toss payment response
+export interface TossPaymentResponse {
+  paymentKey: string;
+  status: 'READY' | 'IN_PROGRESS' | 'WAITING_FOR_DEPOSIT' | 'DONE' | 'CANCELED' | 'PARTIAL_CANCELED' | 'ABORTED' | 'EXPIRED';
+  balanceAmount: number;
+  totalAmount: number;
+  method?: string;
+  orderId?: string;
+  orderName?: string;
+  approvedAt?: string;
+  cancels?: Array<{
+    cancelAmount: number;
+    cancelReason: string;
+    canceledAt: string;
+    transactionKey: string;
+  }>;
+}
+
 export async function requestRefund(request: RefundRequest): Promise<RefundResult> {
   try {
     if (!TOSS_SECRET_KEY) {
       return { success: false, error: 'Toss Secret Key not configured' };
     }
 
-    const body: Record<string, any> = { cancelReason: request.cancelReason };
+    const body: TossCancelRequestBody = { cancelReason: request.cancelReason };
     if (request.cancelAmount !== undefined) body.cancelAmount = request.cancelAmount;
     if (request.refundReceiveAccount) body.refundReceiveAccount = request.refundReceiveAccount;
 
@@ -714,7 +743,7 @@ export async function requestRefund(request: RefundRequest): Promise<RefundResul
 export async function getPaymentByKey(paymentKey: string): Promise<{
   success: boolean;
   error?: string;
-  payment?: any;
+  payment?: TossPaymentResponse;
 }> {
   try {
     if (!TOSS_SECRET_KEY) {

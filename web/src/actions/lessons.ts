@@ -3,7 +3,6 @@
 import { createClient } from '@/lib/supabase/server';
 import type { ActionResult } from './types';
 import { revalidatePath } from 'next/cache';
-import { redirect } from 'next/navigation';
 
 // Based on supabase/migrations/015_add_lesson_logs.sql
 // This defines the core data structure for a lesson log.
@@ -96,7 +95,10 @@ export async function getMyLessonLogs(options?: {
     }
 
     // Map the data to the LessonLog type, flattening the student info.
-    const lessonLogs: LessonLog[] = data.map((log: any) => ({
+    type LessonLogWithStudent = LessonLog & {
+      student?: { full_name?: string; avatar_url?: string } | null;
+    };
+    const lessonLogs: LessonLog[] = (data as LessonLogWithStudent[]).map((log) => ({
       ...log,
       student_name: log.student?.full_name,
       student_avatar_url: log.student?.avatar_url,
