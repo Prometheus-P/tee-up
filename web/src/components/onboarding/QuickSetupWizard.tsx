@@ -1,9 +1,15 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { Check, ArrowRight, ArrowLeft, Copy, ExternalLink } from 'lucide-react';
+import {
+  GolfProgress,
+  GolfSpinner,
+  HoleInOne,
+  StepTransition,
+} from '@/components/animations/GolfAnimations';
 
 // ============================================
 // Types
@@ -26,6 +32,8 @@ export interface QuickSetupData {
 interface QuickSetupWizardProps {
   onComplete: (data: QuickSetupData) => Promise<{ success: boolean; slug?: string; error?: string }>;
   initialData?: Partial<QuickSetupData>;
+  autoSubmit?: boolean;
+  isAuthenticated?: boolean;
 }
 
 // ============================================
@@ -55,41 +63,7 @@ const PRICE_RANGES = [
 // Step Components
 // ============================================
 
-function StepIndicator({ currentStep, totalSteps }: { currentStep: number; totalSteps: number }) {
-  return (
-    <div className="mb-8">
-      <div className="flex items-center justify-center gap-2">
-        {Array.from({ length: totalSteps }).map((_, index) => (
-          <div key={index} className="flex items-center">
-            <div
-              className={`flex h-8 w-8 items-center justify-center rounded-full text-sm font-medium transition-colors ${
-                index < currentStep
-                  ? 'bg-tee-accent-primary text-white'
-                  : index === currentStep
-                    ? 'border-2 border-tee-accent-primary bg-white text-tee-accent-primary'
-                    : 'border-2 border-tee-stone bg-white text-tee-ink-muted'
-              }`}
-            >
-              {index < currentStep ? <Check className="h-4 w-4" /> : index + 1}
-            </div>
-            {index < totalSteps - 1 && (
-              <div
-                className={`mx-2 h-0.5 w-8 transition-colors ${
-                  index < currentStep ? 'bg-tee-accent-primary' : 'bg-tee-stone'
-                }`}
-              />
-            )}
-          </div>
-        ))}
-      </div>
-      <p className="mt-4 text-center text-sm text-tee-ink-muted">
-        {currentStep === 0 && '기본 정보'}
-        {currentStep === 1 && '레슨 정보'}
-        {currentStep === 2 && '연락처 설정'}
-      </p>
-    </div>
-  );
-}
+const STEP_LABELS = ['기본 정보', '레슨 정보', '연락처'];
 
 function BasicInfoStep({
   data,
@@ -353,11 +327,17 @@ function CompletionStep({ profileUrl }: { profileUrl: string }) {
 // Main Component
 // ============================================
 
-export default function QuickSetupWizard({ onComplete, initialData }: QuickSetupWizardProps) {
+export default function QuickSetupWizard({
+  onComplete,
+  initialData,
+  autoSubmit = false,
+  isAuthenticated = false
+}: QuickSetupWizardProps) {
   const [step, setStep] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [completedSlug, setCompletedSlug] = useState<string | null>(null);
+  const autoSubmitTriggered = useRef(false);
 
   const [data, setData] = useState<QuickSetupData>({
     name: initialData?.name || '',
@@ -369,6 +349,45 @@ export default function QuickSetupWizard({ onComplete, initialData }: QuickSetup
     contactType: initialData?.contactType || 'kakao',
     contactValue: initialData?.contactValue || '',
   });
+
+  // 로그인 후 자동 제출
+  useEffect(() => {
+    if (autoSubmit && isAuthenticated && !autoSubmitTriggered.current && initialData) {
+      autoSubmitTriggered.current = true;
+      // 데이터가 완전히 로드된 후 제출
+      const submitData: QuickSetupData = {
+        name: initialData.name || '',
+        profileImageUrl: initialData.profileImageUrl,
+        bio: initialData.bio || '',
+        specialty: initialData.specialty || '',
+        location: initialData.location || '',
+        priceRange: initialData.priceRange || '',
+        contactType: initialData.contactType || 'kakao',
+        contactValue: initialData.contactValue || '',
+      };
+
+      setData(submitData);
+      setStep(2); // 마지막 스텝으로 이동
+
+      // 약간의 딜레이 후 자동 제출
+      setTimeout(async () => {
+        setIsSubmitting(true);
+        try {
+          const result = await onComplete(submitData);
+          if (result.success && result.slug) {
+            setCompletedSlug(result.slug);
+            setStep(3);
+          } else {
+            setError(result.error || '프로필 생성 중 오류가 발생했습니다.');
+          }
+        } catch {
+          setError('예상치 못한 오류가 발생했습니다.');
+        } finally {
+          setIsSubmitting(false);
+        }
+      }, 500);
+    }
+  }, [autoSubmit, isAuthenticated, initialData, onComplete]);
 
   const handleChange = useCallback((updates: Partial<QuickSetupData>) => {
     setData((prev) => ({ ...prev, ...updates }));
@@ -418,19 +437,35 @@ export default function QuickSetupWizard({ onComplete, initialData }: QuickSetup
     }
   };
 
-  // Completion view
+  // Completion view with HoleInOne animation
   if (step === 3 && completedSlug) {
     const profileUrl = `${typeof window !== 'undefined' ? window.location.origin : ''}/profile/${completedSlug}`;
     return (
       <Card className="mx-auto max-w-md p-8">
-        <CompletionStep profileUrl={profileUrl} />
+        <HoleInOne show={true} />
+        <div className="mt-8">
+          <CompletionStep profileUrl={profileUrl} />
+        </div>
+      </Card>
+    );
+  }
+
+  // Loading state with golf spinner
+  if (isSubmitting) {
+    return (
+      <Card className="mx-auto max-w-md p-8">
+        <GolfProgress currentStep={step} totalSteps={3} labels={STEP_LABELS} />
+        <div className="flex items-center justify-center min-h-[300px]">
+          <GolfSpinner message="프로필을 생성하고 있어요..." />
+        </div>
       </Card>
     );
   }
 
   return (
     <Card className="mx-auto max-w-md p-8">
-      <StepIndicator currentStep={step} totalSteps={3} />
+      {/* 골프공 프로그레스 바 */}
+      <GolfProgress currentStep={step} totalSteps={3} labels={STEP_LABELS} />
 
       {error && (
         <div className="mb-6 rounded-lg border border-tee-error/20 bg-tee-error/5 p-4 text-sm text-tee-error">
@@ -438,10 +473,13 @@ export default function QuickSetupWizard({ onComplete, initialData }: QuickSetup
         </div>
       )}
 
+      {/* 스텝 전환 애니메이션 */}
       <div className="min-h-[300px]">
-        {step === 0 && <BasicInfoStep data={data} onChange={handleChange} />}
-        {step === 1 && <LessonInfoStep data={data} onChange={handleChange} />}
-        {step === 2 && <ContactStep data={data} onChange={handleChange} />}
+        <StepTransition step={step}>
+          {step === 0 && <BasicInfoStep data={data} onChange={handleChange} />}
+          {step === 1 && <LessonInfoStep data={data} onChange={handleChange} />}
+          {step === 2 && <ContactStep data={data} onChange={handleChange} />}
+        </StepTransition>
       </div>
 
       <div className="mt-8 flex justify-between">
@@ -459,16 +497,8 @@ export default function QuickSetupWizard({ onComplete, initialData }: QuickSetup
           onClick={handleNext}
           disabled={!canProceed() || isSubmitting}
         >
-          {isSubmitting ? (
-            <>
-              <svg className="mr-2 h-4 w-4 animate-spin" viewBox="0 0 24 24">
-                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
-                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-              </svg>
-              저장 중...
-            </>
-          ) : step === 2 ? (
-            '완료'
+          {step === 2 ? (
+            isAuthenticated ? '완료 ⛳' : '로그인하고 저장'
           ) : (
             <>
               다음

@@ -1,33 +1,51 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import Link from 'next/link';
 import QuickSetupWizard, { type QuickSetupData } from '@/components/onboarding/QuickSetupWizard';
 import { createQuickProfile } from '@/actions/profiles';
 import { useAuth } from '@/hooks/useAuth';
 import { LoadingSpinner } from '@/app/components/LoadingSpinner';
 
+const STORAGE_KEY = 'teeup_onboarding_data';
+
 export default function QuickSetupPage() {
   const router = useRouter();
   const { user, isAuthenticated, isLoading } = useAuth();
-  const [isReady, setIsReady] = useState(false);
+  const [initialData, setInitialData] = useState<Partial<QuickSetupData> | undefined>();
+  const [autoSubmit, setAutoSubmit] = useState(false);
 
+  // 로그인 후 돌아왔을 때 저장된 데이터 복원
   useEffect(() => {
-    if (!isLoading) {
-      if (!isAuthenticated) {
-        router.push('/auth/login?redirect=/onboarding/quick-setup');
-        return;
+    if (!isLoading && isAuthenticated) {
+      const saved = sessionStorage.getItem(STORAGE_KEY);
+      if (saved) {
+        try {
+          const parsed = JSON.parse(saved);
+          setInitialData(parsed);
+          setAutoSubmit(true); // 자동 제출 트리거
+          sessionStorage.removeItem(STORAGE_KEY);
+        } catch {
+          sessionStorage.removeItem(STORAGE_KEY);
+        }
       }
-      if (user?.role !== 'pro') {
-        router.push('/dashboard');
-        return;
-      }
-      setIsReady(true);
     }
-  }, [isLoading, isAuthenticated, user, router]);
+  }, [isLoading, isAuthenticated]);
+
+  // 비로그인 상태에서 완료 시 → 데이터 저장 후 로그인 페이지로
+  const handleLoginRequired = useCallback((data: QuickSetupData) => {
+    sessionStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    router.push('/auth/login?redirect=/onboarding/quick-setup&message=save');
+  }, [router]);
 
   const handleComplete = async (data: QuickSetupData) => {
+    // 로그인 안 된 상태면 저장 후 로그인 페이지로
+    if (!isAuthenticated) {
+      handleLoginRequired(data);
+      return { success: false, error: 'login_required' };
+    }
+
     const result = await createQuickProfile({
       name: data.name,
       bio: data.bio,
@@ -41,7 +59,7 @@ export default function QuickSetupPage() {
     return result;
   };
 
-  if (isLoading || !isReady) {
+  if (isLoading) {
     return <LoadingSpinner message="로딩 중..." />;
   }
 
@@ -73,7 +91,12 @@ export default function QuickSetupPage() {
             </p>
           </div>
 
-          <QuickSetupWizard onComplete={handleComplete} />
+          <QuickSetupWizard
+            onComplete={handleComplete}
+            initialData={initialData}
+            autoSubmit={autoSubmit}
+            isAuthenticated={isAuthenticated}
+          />
         </div>
       </main>
 
